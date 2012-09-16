@@ -1,0 +1,22 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/zone.css';
+	$js_list[0] = './tpl/js/zone.js';
+?>
+<!--{template inc/header}-->
+<!--{template inc/u/u_menu}-->
+<div class="wrapper">
+	<div class="zone_head clearfix">
+		<div class="fleft zh_cat">
+			<a href="{u u/message}">我的信件</a><span>|</span> <a href="{u u/notic}">我的通知</a><span>|</span> <a href="{u u/sysmsg}" class="c">系统消息</a>
+		</div>
+		<div class="fright">
+			<a href="{u u/sendmsg uid=$_FANWE['uid']}" class="zone_btn" >发送信件</a>
+		</div>
+	</div>
+</div>
+<div class="mt20 zone_wrapper clearfix">
+	<div class="msg_info">
+		{$msg['message']}
+	</div>
+</div>
+<!--{template inc/footer}-->

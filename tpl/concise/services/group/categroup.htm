@@ -1,0 +1,7 @@
+<!--{loop $groups['list'] $group_item}-->
+<li>
+	<a class="fl" href="{u group/detail fid=$group_item['fid']}" target="_blank"><img class="r5" height="50" src="{getimg $group_item['icon']['img'] 100 100 1}" /></a>
+	<h4 class="ag_t"><a class="glink" href="{u group/detail fid=$group_item['fid']}" target="_blank">{cutstr $group_item['name'] 26}</a></h4>
+	<p class="ag_i" > <span><b>{$group_item['user_count']}人</b></span> </p>
+</li>
+<!--{/loop}-->

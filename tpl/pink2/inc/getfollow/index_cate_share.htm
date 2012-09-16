@@ -1,0 +1,7 @@
+<!--{if $is_follow > -1}-->
+<!--{if $is_follow == 0}-->
+<a onclick="$.User_Follow({$uid},this,CateUpdateUserFollow);" href="javascript:;" class="addfollow"><img src="./tpl/images/to_flow.gif" /></a>
+<!--{else}-->
+<a onclick="$.User_Follow({$uid},this,CateUpdateUserFollow);" href="javascript:;"><img src="./tpl/images/flow_ok.gif" /></a>
+<!--{/if}-->
+<!--{/if}-->

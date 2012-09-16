@@ -1,0 +1,34 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="editShare" name="editShare" value="{$Think.lang.EDIT}" click="editData(this,'checkList','share_id')" />
+	<fanwe:imageBtn id="removeShare" name="removeShare" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<fanwe:imageBtn id="BatchDelete" name="BatchDelete" value="{$Think.lang.BATCH_DELETE}" click="BatchDelete()" />
+	<fanwe:linkBtn text="{$Think.lang.DAPEI_BEST_ALL}" href="{:U('Share/dapei',array('is_best'=>1))}" />
+</div>
+<div class="search-box">
+    <form action="__APP__">
+		<span>{$Think.lang.SHARE_CONTENT}</span>
+		<input class="textinput" type="text" value="{$keyword}" name="keyword" size="12" />
+		<small></small>
+		<span>{$Think.lang.USER_NAME}</span>
+		<input class="textinput" type="text" value="{$uname}" name="uname" id="user_name" size="8" />
+		<small></small>
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="dapei" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="share" 
+	pk="share_id" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="share_id:{$Think.lang.ID}|80,content:{$Think.lang.SHARE_CONTENT}|~left,user_name:{$Think.lang.USER_NAME}|100,create_time|toDate:{$Think.lang.CREATE_TIME}|100,collect_count:{$Think.lang.COLLECT_COUNT}|50,relay_count:{$Think.lang.RELAY_COUNT}|50,comment_count|getCommentCount=$share['share_id']:{$Think.lang.COMMENT_COUNT}|90,is_dapei_best|getStatusImg:{$Think.lang.DAPEI_BEST}|60:toggleStatus|share_id,status|getStatusImg:{$Think.lang.STATUS}|60:toggleStatus|share_id,sort:{$Think.lang.SORT}|80:numberEdit|share_id" 
+	actionlist="editData:{$Think.lang.EDIT}:share_id,removeData:{$Think.lang.REMOVE}:share_id" action_width="80" nosort="content,cate_name,user_name,create_time,relay_count,comment_count,status,is_dapei_best"/>
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

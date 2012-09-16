@@ -1,0 +1,90 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/club.css';
+	$js_list[0][] = './tpl/js/group.js';
+	$js_list[0][] = './public/js/jquery.slides.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+	<div class="bar_title">
+		<div class="piece_bd" style="background:url('{getimg $group_detail['img'] 960 150 1}') no-repeat ;">
+			<div class="b_info r5">
+				<img src="{getimg $group_detail['icon'] 100 100 1}" alt="" class="fl forum_logo" height="48"  >
+				<div class="b_n">
+					<h1 class="bar_title">{$group_detail['name']}</h1>
+					{lang caeate_yu}：{date $group_detail['create_time'] 'Y-m-d'}
+				</div>
+			</div>
+			<ul class="b_tab">
+				<li><a href="{u group/detail fid=$group_detail['fid']}" class="f_b">小组首页</a></li>
+				<li><a href="{u group/detail fid=$group_detail['fid'],type=best}" class="f_b">{lang editor_best}</a></li>
+                <li><a href="{u group/users fid=$group_detail['fid']}" class="f_b">成员列表</a></li>
+				<li><a href="{u group/apply fid=$group_detail['fid']}" class="f_b c">申请列表</a></li>
+			</ul>
+		</div>
+	</div>
+	<div style="background-color:#fff;" class="clearfix pb40">
+		<div class="gr_mana">
+			<div class="member_box" id="member_list">
+				<h3>
+					<div class="search_box">
+						<form id="search_group" action="{u group/apply fid=$group_detail['fid']}" method="post" style="margin:0;">
+							<input class="search_txt" name="keywords" tooltip="搜索会员" type="text" value="{$keywords}" style="font-size:12px;">
+							<input type="hidden" value="{$group_detail['fid']}" name="fid" />
+							<input type="hidden" value="apply" name="action" />
+							<input class="search_btn" value="" type="submit">
+						</form> 
+					</div>
+				</h3>
+				<div class="blank20"></div>
+				<ul class="member_list">
+					<!--{loop $user_list $user}-->
+					<li class="userItem" id="userItem_{$user['uid']}" uid="{$user['uid']}"><!--{getuser $user['uid'] 0 '' '' 'inc/getuser/group_user1'}--></li>
+					<!--{/loop}-->
+				</ul>
+				<div class="pagination mt40"> 
+					<!--{subtemplate inc/pages}--> 
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="piece1_ft"></div>
+</div>
+<script type="text/javascript">
+var GROUP_ID = {$group_detail['fid']};
+var APPLY_HTML = '<div class="manage_menu"><strong>操作</strong><span class="mm_jg">&nbsp;|&nbsp;</span><a class="mm_action" onclick="applyUserGroup(GROUP_ID,#uid#,0,applyResultFunc)" href="javascript:;">通过</a><span class="mm_jg">&nbsp;|&nbsp;</span><a class="mm_action" onclick="if(confirm(\'你确定要删除此会员吗？\')){applyUserGroup(GROUP_ID,#uid#,1,applyResultFunc);}" href="javascript:;">删除</a></div>';
+jQuery(function($){
+	$("#search_group").submit(function(){
+		if(this.keywords.value == '搜索会员' || $.trim(this.keywords.value) == '')
+		{
+			alert("请输入要搜索的会员名称");
+			return false;
+		}
+	});
+	
+	$(".userItem").hover(function(){
+		var uid = this.getAttribute('uid');
+		if($('#MANAGE_MENU_BOX').length == 0)
+			$("body").append('<div id="MANAGE_MENU_BOX"></div>');
+		
+		$("#MANAGE_MENU_BOX").html(APPLY_HTML.replace(/#uid#/g,uid));
+		$("#MANAGE_MENU_BOX").show();
+		var obj = this;
+		var offset = $(obj).offset();
+		var my = offset.top - 10 + $(obj).height();
+		var mx = offset.left + 10;
+		$("#MANAGE_MENU_BOX").css({"top":my,"left":mx});
+		$("body").one("click",function(event){
+			if(!$.getClickIsElement($("#MANAGE_MENU_BOX"),event) && !$.getClickIsElement($(obj),event))
+				$("#MANAGE_MENU_BOX").hide();
+		});
+	},function(){});
+});
+
+function applyResultFunc(uid,result)
+{
+	if(result)
+		$("#userItem_"+uid).remove();
+	$("#MANAGE_MENU_BOX").hide();
+}
+</script>
+<!--{template inc/footer}-->

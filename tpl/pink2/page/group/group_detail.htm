@@ -1,0 +1,230 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/club.css';
+	$js_list[0][] = './tpl/js/group.js';
+	$js_list[0][] = './public/js/jquery.slides.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+	<div class="bar_title">
+		<div class="piece_bd" style="background:url('{getimg $group_detail['img'] 960 150 1}') no-repeat ;">
+			<div class="b_info r5">
+				<img src="{getimg $group_detail['icon'] 100 100 1}" alt="" class="fl forum_logo" height="48"  >
+				<div class="b_n">
+					<h1 class="bar_title">{$group_detail['name']}</h1>
+					{lang caeate_yu}：{date $group_detail['create_time'] 'Y-m-d'}
+				</div>
+			</div>
+			<ul class="b_tab">
+				<li><a href="{u group/detail fid=$group_detail['fid']}" class="f_b{if $page_type == 0} c{/if}">小组首页</a></li>
+				<li><a href="{u group/detail fid=$group_detail['fid'],type=best}" class="f_b{if $page_type == 1} c{/if}">{lang editor_best}</a></li>
+                <li><a href="{u group/users fid=$group_detail['fid']}" class="f_b">成员列表</a></li>
+				<!--{if $group_detail['join_way'] == 1 && $is_group_admin == 1}-->
+				<li><a href="{u group/apply fid=$group_detail['fid']}" class="f_b">申请列表</a></li>
+				<!--{/if}-->
+			</ul>
+		</div>
+	</div>
+	<div style="background-color:#fff;" class="clearfix pb40">
+		<div id="content" class="fl">
+			<div class="bar_c r10" > 
+				<!--{if !empty($group_detail['content'])}-->
+				<pre class="bar_intro r5">{$group_detail['content']}</pre>
+				<!--{/if}--> 
+				<div class="gr_intro_bar">
+					<!--{if $is_join_group == 1}-->
+					<!--已加入小组--> 
+					<span>已有 <b style="color:#FF81B2;">{$group_detail['user_count']}</b> 位成员，我是小组{$group_user_type_name}。</span>
+					<!--{if $group_user_type != 1}-->
+					<a class="forumout" href="javascript:;" onclick="joinUserGroup($group_detail['fid'],1,joinUserGroupResult);">退出小组</a>
+					<!--{/if}--> 
+					<!--{elseif $is_join_group == 2}-->
+					<span>已有 <b style="color:#FF81B2;">{$group_detail['user_count']}</b> 位成员，我已提交小组加入申请。</span>
+					<!--{else}-->
+					<!--未加入小组  直接接入--> 
+					<a href="javascript:;" class="join_btn" onclick="joinUserGroup($group_detail['fid'],0,joinUserGroupResult);"></a> <span>已有 <b style="color:#FF81B2;">{$group_detail['user_count']}</b> 位成员</span>
+					<!--{/if}-->
+				</div>
+			</div>
+			<div class="gr_tab">
+				<!--{if $is_join_group == 1}-->
+				<a class="newtopic_btn" href="{u topic/create fid=$group_detail['fid']}"></a>
+				<!--{/if}-->
+				<!--{if $group_detail['uid'] == $_FANWE['uid']}-->
+				<a class="editgroup_btn" href="{u group/edit fid=$group_detail['fid']}"></a>
+				<!--{/if}-->
+				<a{if $sort == 'post'} class="c"{else} href="{u group/detail fid=$group_detail['fid'],sort=post,type=$type}"{/if}>最后回应</a> / <a{if $sort != 'post'} class="c"{else} href="{u group/detail fid=$group_detail['fid'],type=$type}"{/if}>创建时间 </a>
+			</div>
+			<ul id="topic_cate_nav" class="set_nav topic_cate_nav">
+				<li{if $page_type == 0} class="c"{/if} style="margin-left:20px;">
+					<a{if $page_type != 0} href="{u group/detail fid=$group_detail['fid']}"{/if}>全部</a>
+				</li>
+				<li{if $page_type != 0} class="c"{/if}>
+					<a{if $page_type == 0} href="{u group/detail fid=$group_detail['fid'],type=best}"{/if}>推荐</a>
+				</li>
+			</ul>
+			<ul class="topic_list">
+				<!--{loop $topic_list $topic}-->
+				<li class="tl_f" topicID="{$topic['tid']}" id="TOPIC_ID_{$topic['tid']}">
+					<div class="tl_c"> 
+						<!--{if $topic['is_best'] == 1}-->
+						<div class="img_tj"></div>
+						<!--{/if}--> 
+						<!--{getuser $topic['uid'] 0 '3,32' ',pic'}-->
+						<!--{if isset($topic['imgs'])}-->
+						<div class="show_big_img"> 
+							<!--{loop $topic['imgs'] $img}--> 
+							<img timgsrc="{getimg $img['img'] 100 100}" class="show"> 
+							<!--{/loop}--> 
+						</div>
+						<!--{/if}-->
+						<p class="ct"> <a class="tit fl" target="_blank" href="{$topic['url']}"> 
+							<!--{if $topic['is_top'] == 1}--> 
+							<span class="top fl">[{lang topic_top}]</span> 
+							<!--{/if}--> 
+							{cutstr $topic['title'] 60} </a><br />
+							<!--{getuser $topic['uid'] 0 '' 'n'}--> 
+							<span class="p_time"> 
+							<!--{if !empty($topic['lastposter'])}--> 
+							{lang last_post} : <!--{getuser $topic['lastposter'] 0 '' 'n'}--> 
+							{$topic['last_time']} 
+							<!--{/if}--> 
+							</span>
+						</p>
+					</div>
+					<div class="count">{$topic['post_count']}</div>
+					<a class="all" target="_blank"  href="{$topic['url']}">{lang view_full_text}</a>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<div class="pagination mt40"> 
+				<!--{subtemplate inc/pages}--> 
+			</div>
+		</div>
+		<div id="sidebar" class="fr" style="width:260px;background-color:#fff;padding-right:30px;"> 
+			<!--{dynamic getBestFlashs args=$group_detail['fid']}-->
+			<div class="gr_left_box">
+				<h3>小组管理员</h3>
+				<ul class="admin-list">
+					<li>
+						<!--{getuser $group_detail['uid'] 0 'm,48' ',fl r3'}-->
+						<div class="user_info">
+							<!--{getuser $group_detail['uid'] 0 '' 'uname icard'}-->
+							<b class="leader"></b>		
+							<div type="group" class="followdiv">
+								<!--{getfollow $group_detail['uid'] inc/getfollow/group_follow}-->
+							</div>
+						</div>
+				   </li>
+				   <!--{loop $group_admins $user_id}-->
+				   <li>
+						<!--{getuser $user_id 0 'm,48' ',fl r3'}-->
+						<div class="user_info">
+							<!--{getuser $user_id 0 '' 'uname icard'}-->
+							<div type="group" class="followdiv">
+								<!--{getfollow $user_id inc/getfollow/group_follow}-->
+							</div>
+						</div>
+				   </li>
+				   <!--{/loop}-->
+				</ul>
+			</div>
+			<!--{if $user_count > 0}--> 
+			<div class="gr_left_box">
+				<h3>
+					最新加入的成员
+					<a class="link" href="{u group/users fid=$group_detail['fid']}">(查看所有{$user_count}个)</a>
+				</h3>
+				<ul class="guser-list">
+					<!--{loop $group_users $user_id}-->
+					<li>
+						<!--{getuser $user_id 0 's,20' ',fl r3'}-->
+						<!--{getuser $user_id 0 '' 'uname icard'}-->
+					</li>
+					 <!--{/loop}-->
+				</ul>
+			</div>
+			<!--{/if}-->
+			<!--{if $like_groups}--> 
+			<div class="gr_left_box mb20">
+				<h3>这个小组的人也喜欢去</h3>
+				<ul class="like_list">
+					<!--{eval $like_style = ' style="margin-left:0;"';}-->
+					<!--{loop $like_groups $like_group}-->
+					<li{$like_style}>
+						<a href="{u group/detail fid=$like_group['fid']}" target="_blank"><img class="r3" src="{getimg $like_group['icon']['img'] 100 100 1}" height="50" /></a>
+						<p>
+							<a href="{u group/detail fid=$like_group['fid']}" target="_blank">{cutstr $like_group['name'] 12}</a>
+							<span>({$like_group['user_count']})</span>
+						</p>
+					</li>
+					<!--{eval $like_style = '';}-->
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<!--{/if}-->
+			<div class="gr_left_box">
+				<h3>搜索小组相关主题</h3>
+				<form id="search_group" method="post" action="{u search/topic}" style="margin-left:0;">
+					<input class="search_txt fl" type="text" tooltip="搜小组主题" autocomplete="off" name="keyword">
+					<input class="search_btn" type="submit" value=" ">
+					<input type="hidden" value="topic" name="action"/>
+					<input type="hidden" value="{$group_detail['fid']}" name="fid"/>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="piece1_ft"></div>
+</div>
+<script type="text/javascript">
+jQuery(function($){
+<!--{if getIsManage('club')}-->
+	$('.topic_list .tl_f').hover(function(){
+		var topicID = this.getAttribute('topicID');
+		$.GetManageMenu('club',topicID,this);
+	},function(){});
+<!--{/if}-->
+	
+	$(".topic_list li").hover(function(){
+		$(this).addClass('h');
+        $(this).find('.del_topic').addClass('del_css');
+	},function(){
+		$(this).removeClass('h');
+        $(this).find('.del_topic').removeClass('del_css');
+	});
+
+	$(".topic_list .tl_c .pic").hover(function(){
+		var li = $(this).parent().parent();
+		if($('.show_big_img',li).length > 0)
+		{
+			var html = $('.show_big_img',li).html();
+			html = html.replace(/timgsrc/g,'src');
+			html = '<div class="tl_pic_float">'+ html +'<i></i></div>';
+			var offset = $(this).offset();
+			var left = offset.left;
+			var top = offset.top;
+			$("body").append(html);
+			$(".tl_pic_float").css({"top":top-128,"left":left-42,"width":$('.show_big_img img',li).length * 110 + 5});
+		}
+	},function(){
+		$(".tl_pic_float").remove();
+	});
+});
+
+function joinUserGroupResult(result)
+{
+	if(result)
+	{
+		$(".gr_intro_bar").html(result.html);
+	}
+}
+
+function GroupUpdateUserFollow(obj,result)
+{
+	var parent = $(obj).parent();
+	if(result.status == 1)
+	{
+		parent.html('<span class="followed">已关注</span>');
+	}
+}
+</script> 
+<!--{template inc/footer}-->

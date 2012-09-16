@@ -1,0 +1,121 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/iColorPicker.js"></script>
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:Cookie::get('returnUrl')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.NAME}</th>
+		<td><input type="text" class="textinput requireinput" name="name" size="60" value="{$vo.name}" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CID}</th>
+		<td>
+			<fanwe:select name='cid' first='{$Think.lang.ROOT_ID}' selected="vo['cid']" textfield='cate_name' valuefield='cate_id' options='cate_list' />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.BG}</th>
+		<td>
+			<input type="file" class="fileinput" name="bg" size="30" />
+			<if condition="$vo['bg'] neq ''">
+				<a href="__ROOT__/{$vo.bg}" target="_blank" >{$Think.lang.VIEW}</a>
+			</if>
+		</td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td>
+			<p>{$Think.lang.BG_TIPS}</p>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.TAGS}</th>
+		<td>
+			<a href="javascript:;" onclick="addTag(this);">{$Think.lang.ADD}</a>
+		</td>
+	</tr>
+	<?php $tag_index = 0; ?>
+	<foreach name="vo.tags" item="tags">
+	<tr>
+		<th>&nbsp;</th>
+		<td>
+			<foreach name="tags" item="tag">
+			<if condition="$key gt 0">
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			</if>
+			<input type="text" id="TAG_{$tag_index}" class="textinput taginput" name="tag[]" size="10" value="{$tag.tag}" <if condition="$tag['color'] neq ''">style="color:{$tag.color}"</if>/>
+			<input type="hidden" id="TAG_{$tag_index}_COLOR" name="tagcolor[]" rel="TAG_{$tag_index}" value="{$tag.color}" />
+			<img id="icp_TAG_{$tag_index}_COLOR" onclick="iColorShow('TAG_{$tag_index}_COLOR','icp_TAG_{$tag_index}_COLOR');" src="__TMPL__Static/Images/color.png" style="margin:5px 0 0 0;cursor:pointer;" />
+			<?php $tag_index++; ?>
+			</foreach>
+			<if condition="$key eq 0">
+			<?php $tag_index++; ?>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" id="TAG_{$tag_index}" class="textinput taginput" name="tag[]" size="10" value=""/>
+			<input type="hidden" id="TAG_{$tag_index}_COLOR" name="tagcolor[]" rel="TAG_{$tag_index}" value="" />
+			<img id="icp_TAG_{$tag_index}_COLOR" onclick="iColorShow('TAG_{$tag_index}_COLOR','icp_TAG_{$tag_index}_COLOR');" src="__TMPL__Static/Images/color.png" style="margin:5px 0 0 0;cursor:pointer;" />
+			<?php $tag_index++; ?>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" id="TAG_{$tag_index}" class="textinput taginput" name="tag[]" size="10" value=""/>
+			<input type="hidden" id="TAG_{$tag_index}_COLOR" name="tagcolor[]" rel="TAG_{$tag_index}" value="" />
+			<img id="icp_TAG_{$tag_index}_COLOR" onclick="iColorShow('TAG_{$tag_index}_COLOR','icp_TAG_{$tag_index}_COLOR');" src="__TMPL__Static/Images/color.png" style="margin:5px 0 0 0;cursor:pointer;" />
+			</if>
+			<if condition="$key eq 1">
+			<?php $tag_index++; ?>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" id="TAG_{$tag_index}" class="textinput taginput" name="tag[]" size="10" value=""/>
+			<input type="hidden" id="TAG_{$tag_index}_COLOR" name="tagcolor[]" rel="TAG_{$tag_index}" value="" />
+			<img id="icp_TAG_{$tag_index}_COLOR" onclick="iColorShow('TAG_{$tag_index}_COLOR','icp_TAG_{$tag_index}_COLOR');" src="__TMPL__Static/Images/color.png" style="margin:5px 0 0 0;cursor:pointer;" />
+			</if>
+		</td>
+	</tr>
+	</foreach>
+	<tr id="tagLast">
+		<th>{$Think.lang.SORT}</th>
+		<td>
+			<input type="text" class="textinput" name="sort" value="{$vo.sort}" />
+		</td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="hidden" value="{$vo.id}" name="id" />
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<textarea id="tagHtml" style="display:none;">
+<tr>
+	<th>&nbsp;</th>
+	<td>
+		<input type="text" id="#0#" class="textinput taginput" name="tag[]" size="10" value="" />
+		<input type="hidden" id="#0#_COLOR" name="tagcolor[]" rel="#0#" />
+		<img id="icp_#0#_COLOR" onclick="iColorShow('#0#_COLOR','icp_#0#_COLOR');" src="__TMPL__Static/Images/color.png" style="margin:5px 0 0 0;cursor:pointer;" />
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="text" id="#1#" class="textinput taginput" name="tag[]" size="10" value="" />
+		<input type="hidden" id="#1#_COLOR" name="tagcolor[]" rel="#1#" />
+		<img id="icp_#1#_COLOR" onclick="iColorShow('#1#_COLOR','icp_#1#_COLOR');" src="__TMPL__Static/Images/color.png" style="margin:5px 0 0 0;cursor:pointer;" />
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="text" id="#2#" class="textinput taginput" name="tag[]" size="10" value="" />
+		<input type="hidden" id="#2#_COLOR" name="tagcolor[]" rel="#2#" />
+		<img id="icp_#2#_COLOR" onclick="iColorShow('#2#_COLOR','icp_#2#_COLOR');" src="__TMPL__Static/Images/color.png" style="margin:5px 0 0 0;cursor:pointer;" />
+	</td>
+</tr>
+</textarea>
+<script type="text/javascript">
+function addTag(obj)
+{
+	var count = $(".taginput").length;
+	var html = $("#tagHtml").val();
+	html = html.replace(/#0#/g,'TAG_'+count);
+	html = html.replace(/#1#/g,'TAG_'+(count + 1));
+	html = html.replace(/#2#/g,'TAG_'+(count + 2));
+	$("#tagLast").before(html);
+}
+</script>
+<include file="Public:footer" />

@@ -1,0 +1,30 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<form action="__APP__">
+		<span>话题名称</span>
+		<input class="textinput" type="text" value="{$keyword}" name="keyword" size="12">
+		<input class="submit_btn" type="submit" value="搜索">
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<script>
+	function ViewThread(obj,id,field){
+		window.location.href = "__APP__?"+VAR_MODULE+"=EventShare&"+VAR_ACTION+"=index&id="+id;
+	}
+</script>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="event" 
+	pk="id" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{$Think.lang.ID}|50,title:{$Think.lang.EVENT_NAME}|~left,user_name:{$Think.lang.USER_NAME}|100,create_time|toDate:{$Think.lang.CREATE_TIME}|140,thread_count:{$Think.lang.THREAD_COUNT}|100:ViewThread|id,last_time|toDate:{$Think.lang.LAST_TIME}|140,is_event|getStatusImg:{$Think.lang.IS_EVENT}|50:toggleStatus|id,is_hot|getStatusImg:{$Think.lang.IS_HOT}|50:toggleStatus|id" 
+	actionlist="removeData:{$Think.lang.REMOVE}:id" action_width="80" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

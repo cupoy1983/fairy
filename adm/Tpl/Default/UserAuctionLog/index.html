@@ -1,0 +1,49 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<link href="__TMPL__Static/Js/DatePicker/jquery.ui.all.css" rel="stylesheet" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/lang/jquery.ui.datepicker-{$default_lang}.js"></script>
+<div class="handle-btns">
+	<form action="__APP__">
+		<span>{$Think.lang.USER_NANE}</span>
+		<input class="textinput" type="text" value="{$uname}" name="uname" size="10" />
+		<small></small>
+		<select name="status">
+			<option value="-1" <if condition="$status eq -1">selected</if>>{$Think.lang.STATUS}</option>
+			<option value="0" <if condition="$status eq 0">selected</if>>{$Think.lang.STATUS_0}</option> 
+			<option value="1" <if condition="$status eq 1">selected</if>>{$Think.lang.STATUS_1}</option>
+			<option value="2" <if condition="$status eq 2">selected</if>>{$Think.lang.STATUS_2}</option>
+		</select>
+		<span>{$Think.lang.CREATE_TIME}</span>
+		<input class="textinput" type="text" value="{$begin_time}" name="begin_time" id="begin_time" size="10" />
+		<span>-</span>
+		<input class="textinput" type="text" value="{$end_time}" name="end_time" id="end_time" size="10" />
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="order" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{$Think.lang.ID}|100,user_name:{$Think.lang.USER_NANE}|100,money:{$Think.lang.MONEY}|70,user_money:{$Think.lang.USER_MONEY}|90,status|getHandlerStatus:{$Think.lang.STATUS}|70,is_pay|getStatusImg:{$Think.lang.IS_PAY}|60:toggleStatus|id,pay_time|toDate:{$Think.lang.PAY_TIME},create_time|toDate:{$Think.lang.CREATE_TIME}" actionlist="id|getIsEdit=$order['status']" action_width="80" />
+<div class="pager">{$page}</div>
+<script type="text/javascript">
+FANWE.IS_TOGGLE_STATUS_RELOAD = true;
+function showMoneyLog(id)
+{
+	window.open("__APP__?m=UserAuctionLog&a=show&id=" + id);
+}
+
+jQuery(function($){
+	$("#begin_time").datepicker();
+	$("#end_time").datepicker();
+});
+</script>
+<include file="Public:footer" />

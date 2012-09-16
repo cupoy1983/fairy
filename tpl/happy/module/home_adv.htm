@@ -1,0 +1,70 @@
+<div class="pop">
+	<div id="xmFocus">
+		<div class="xmFocus_main">
+			<div id="slides">
+				<ul class="slides_container"
+					style="height: 300px; width: 2880px; left: -78px;">
+					<li style="display: block" rel="1"><a target="_blank" href="/invite"><img width="443" height="300" src="http://www.yaojingmao.com/public/upload/adv/201206/12/1.jpg"></a></li>
+					<li rel="2"><a target="_blank" href="/book/shopping"><img width="443" height="300"	src="http://www.yaojingmao.com/public/upload/adv/201206/12/2.jpg"></a></li>
+					<li rel="3"><a target="_blank" href="/book/shopping"><img width="443" height="300" src="http://www.yaojingmao.com/public/upload/adv/201206/12/3.jpg"></a></li>
+				</ul>
+				<ul id="pagination" class="pop-link">
+					<li class="current" rel="1"><a href="javascript:;">呼朋唤友[妖精猫]</a></li>
+					<li rel="2" class=""><a href="javascript:;">六月的新娘最幸福[妖精猫]</a></li>
+					<li rel="3" class=""><a href="javascript:;">盛放季节绚烂印花大爆发[妖精猫]</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="/tpl/happy/js/xmEB_focus.js"></script>
+	<script type="text/javascript">
+		var xmSlider = new xmfocus.slider();
+		xmSlider.init({
+			gallery : 'slides',
+			control : "pagination",
+			dir : false,
+			index : 0,
+			speed : 20,
+			interval : 5000,
+			type : 'click'
+		});
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$.post(SITE_URL+"checkin.php?action=checkin_ajax&XDEBUG_SESSION_START=ECLIPSE_DBGP&KEY=13472003514561",{type:1}, function(msg) {
+				var stdata = jQuery.parseJSON(msg);
+				if(stdata.ret == 'success'){
+					$("#ischeckid").html("<a href=\"javascript:;\" onclick=\"$.Show_qiandao_Form();\" class=\"pop-right-reg pop-right-qiandao\">签到</a>");
+				}else{
+					$("#ischeckid").html("<a href=\"/u/me\" class=\"pop-right-reg pop-right-shareform\">分享</a>");
+				}
+			});
+		});
+</script>
+	<div class="pop-right">
+		<div class="pop-right-shadow"></div>
+		<div class="pop-right-btn">
+			<span id="ischeckid"><a class="pop-right-reg pop-right-qiandao" onclick="$.Show_qiandao_Form();" href="javascript:;">签到</a></span> 
+			<a class="pop-right-login pop-right-share" href="/invite" target="share">邀请</a>
+		</div>
+		<ul class="pop-today">
+			<h3>大家今天都在分享什么！</h3>
+			<div style="height: 150px; overflow: hidden;">
+				<div class="newshare" style="margin-top: 0px;">
+					<!--{loop $new_list $newShare}-->
+					<li class="item">
+						<span>$newShare[collect_count]</span>
+						<!--{getuser $newShare[uid] 0 's,24' ','}-->
+						<a target="share" href="$newShare[url]">$newShare[imgs][0][name]</a>
+					</li>
+					<!--{/loop}-->
+				</div>
+			</div>
+		</ul>
+		<div class="pop-ios">
+			<a title="iPhone客户端" class="pop-ios-iphone" href="/about/iphone.html">iPhone客户端</a>
+			<a title="安卓客户端" class="pop-ios-android" href="/about/android.html">安卓客户端</a>
+		</div>
+	</div>
+</div>

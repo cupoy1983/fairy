@@ -1,0 +1,98 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="tabs-title">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:U(MODULE_NAME.'/index')}" />
+	<div class="tt-item active" rel="1"><p><a href="javascript:;">{$Think.lang.TAB_1}</a></p></div>
+	<div class="tt-item" rel="2"><p><a href="javascript:;">{$Think.lang.TAB_2}</a></p></div>
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/insert')}" enctype="multipart/form-data">
+<div class="tabs-body">
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form tabs-item tabs-active" rel="1">
+		<tr>
+			<th width="200">{$Think.lang.NAME}</th>
+			<td><input type="text" class="textinput requireinput" name="name" /></td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.IS_SPECIAL}</th>
+			<td>
+				<input type="checkbox" name="is_special" value="1" id="is_special" />&nbsp;{$Think.lang.IS_SPECIAL_TIP}
+			</td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.IS_ADMIN}</th>
+			<td>
+				<input type="checkbox" name="is_admin" value="1" />&nbsp;{$Think.lang.IS_ADMIN}
+			</td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.ICON}</th>
+			<td><input type="text" class="textinput" name="icon" value="" size="60" /></td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.ICON_TIP}</p></td>
+		</tr>
+		<tr class="scoreRate">
+			<th>{$Think.lang.CREDITS_RANGE}</th>
+			<td><input type="text" class="textinput" name="credits_lower" size="8" />&nbsp;积分&nbsp;～&nbsp;<input type="text" class="textinput" name="credits_higher" size="8" />&nbsp;积分</td>
+		</tr>
+		<tr class="scoreRate">
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.CREDITS_RANGE_TIP}</p></td>
+		</tr>
+		<tr class="scoreRate">
+			<th>{$Think.lang.COMMISSION_RATE}</th>
+			<td><input type="text" class="textinput" name="commission_rate" size="6" />&nbsp;%</td>
+		</tr>
+		<tr class="scoreRate">
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.COMMISSION_RATE_TIP}</p></td>
+		</tr>
+		<tr class="scoreRate">
+			<th>{$Think.lang.BUY_RATE}</th>
+			<td><input type="text" class="textinput" name="buy_rate" size="6" />&nbsp;%</td>
+		</tr>
+		<tr class="scoreRate">
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.BUY_RATE_TIP}</p></td>
+		</tr>
+	</table>
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form tabs-item" rel="2">
+		<tbody id="user_authoritys">
+			<foreach name="authoritys" key='mkey' item="module" >
+			<tr class="access-item">
+				<th class="first tr" width="150">
+					<p><span>&nbsp;{$module.name}&nbsp;</span></p>
+				</th>
+				<td>
+					<p>
+						<foreach name="module.actions" item="action">
+						<label><input class="action-item" type="checkbox" name="access_node[{$mkey}][]" value="{$action}" /><span>&nbsp;{:L('ACTION_'.$action)}</span></label>&nbsp;&nbsp;
+						</foreach>&nbsp;
+					</p>
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+</div>
+<table cellpadding="4" cellspacing="0" border="0" class="table-form" style="border-top:none;">
+	<tr class="act">
+		<th width="200">&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+jQuery(function($){
+	$("#is_special").change(function(){
+		if(this.checked)
+			$(".scoreRate").hide();
+		else
+			$(".scoreRate").show();
+	});
+});
+</script>
+<include file="Public:footer" />

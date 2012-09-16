@@ -1,0 +1,33 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="addData" name="addData" value="{$Think.lang.ADD}" click="addData(this,'checkList')" />
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList')" />
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<form action="__APP__">
+		<span>{$Think.lang.NAME}</span>
+		<input class="textinput" type="text" value="{$name}" name="name" size="20" />
+		<small></small>
+		<span>{$Think.lang.ADV_PAGE}</span>
+		<select name="page">
+			<option value="0">{$Think.lang.PAGE_ALL}</option>
+			<option value="index" <if condition="$page eq 'index'">selected="selected"</if>>{$Think.lang.PAGE_INDEX}</option>
+			<option value="sharelist" <if condition="$page eq 'sharelist'">selected="selected"</if>>{$Think.lang.PAGE_SHARELIST}</option>
+		</select>
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="item" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{$Think.lang.ID}|50,name:{$Think.lang.NAME}|~left:textEdit|id,page|getPageName:{$Think.lang.ADV_PAGE}|120,type|getTypeName:{$Think.lang.TYPE}|120,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|id,sort:{$Think.lang.SORT}|100:textEdit|id" 
+	actionlist="editData:{$Think.lang.EDIT}:id,removeData:{$Think.lang.REMOVE}:id" action_width="80" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

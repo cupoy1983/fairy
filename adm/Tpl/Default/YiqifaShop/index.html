@@ -1,0 +1,26 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:U('SharegoodsModule/index')}" />
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList')" />
+	<form action="__APP__">
+		<span>{$Think.lang.NAME}</span>
+		<input class="textinput" type="text" value="{$Think.get.name}" name="name" size="10" />
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+		<input type="hidden" name="SEARCH_TYPE" value="like" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="item" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{$Think.lang.ID}|80,name:{$Think.lang.NAME}|~left:textEdit|id,url:{$Think.lang.URL}|~left,sort:{$Think.lang.SORT}|100:textEdit|id,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|id" 
+	actionlist="editData:{$Think.lang.EDIT}:id" action_width="60" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

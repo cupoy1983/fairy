@@ -1,0 +1,84 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<load href="__TMPL__Static/Js/share.js" />
+<link href="__TMPL__Static/Js/DatePicker/jquery.ui.all.css" rel="stylesheet" />
+<script type="text/javascript" src="__TMPL__Static/Js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/lang/jquery.ui.datepicker-{$default_lang}.js"></script>
+<script type="text/javascript">
+var CONFIRM_ERROR = "{$Think.lang.CONFIRM_ERROR}";
+var CONFIRM_DELETE = "{$Think.lang.CONFIRM_DELETE}";
+</script>
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:Cookie::get('returnUrl')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/doBatchDelte')}" onsubmit="return BatchDeleteSubmit()">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.USER_NAME}</th>
+		<td>
+			<input type="text" class="textinput" name="user_name" id="user_name" value="" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CREATE_TIME}</th>
+		<td>
+			<input type="text" class="textinput" name="start_time" id="start_time" value="" />
+			&nbsp;{$Think.lang.TO}&nbsp;
+			<input type="text" class="textinput" name="end_time" id="end_time" value="" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.STATUS}</th>
+		<td>
+			<select name="status">
+				<option value="">不限</option>
+				<option value="0">否</option>
+				<option value="1">是</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_CATEGORY}</th>
+		<td>
+			<table class="fl">
+				<tr>
+					<td>
+						<select multiple="multiple" class="selectmul" name="cate" style="width:260px; height:200px;">
+							<foreach name="category" item="cate">
+								<option value="{$cate.cate_id}">{$cate.cate_name}</option>
+							</foreach>
+						</select>
+					</td>
+					<td width=30>
+						<input type="button" value=">>" name="add" class="formbutton" />
+						<div class="blank9"></div>
+						<input type="button" value="<<" name="remove" class="formbutton" />
+					</td>
+					<td>
+						<select multiple="multiple" class="selectmul" name="share_cate" style="width:260px; height:200px;">
+							
+						</select>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="hidden" name="share_id" value="{$share_id}" />
+			<input type="hidden" value="" name="share_cates" id="shareCates" />
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+jQuery(function($){
+	$("#start_time").datepicker();
+	$("#end_time").datepicker();
+});
+</script>
+<include file="Public:footer" />

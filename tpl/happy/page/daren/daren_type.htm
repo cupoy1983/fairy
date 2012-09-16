@@ -1,0 +1,94 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/daren.css';
+?>
+<!--{subtemplate inc/header}-->
+<div id="body" class="fm960">
+	<div class="piece1 daren_hd mt20">
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd">
+			<h1 class="user_daren_title">
+				<a class="c" href="{u daren/index}">达人频道</a>/<a>全部{$daren_cate['name']}</a>
+				<a class="btn fr"  href="{u daren/index}"><img src="./tpl/images/arrow-right.png"/>返回达人频道</a>
+			</h1>
+			<ul class="user_show">
+				<!--{loop $daren_list $daren}-->
+				<li class="r5">
+					<a class="r3 user_pic" href="{u u/index uid=$daren['uid']}" target="_blank">
+						<img class="r5 icard" src="{getimg $daren['img'] 180 239 1}">
+					</a>
+					<div class="user_name">
+						<div class="user_addfollow">
+						<a class="leader_n icard" target="_blank" href="{u u/index uid=$daren['uid']}">{$daren['user']['user_name']}</a>
+							<div class="followdiv">
+								<!--{getfollow {$daren['uid']} inc/getfollow/daren}-->
+							</div>
+						</div>
+						<div class="user_detail_info">
+							<p>{$daren['city']}</p>
+							<p>
+								粉丝：<a target="_blank" href="{u u/fans uid=$daren['uid']}">{$daren['user']['fans']}</a>
+								分享：<a target="_blank" href="{u u/index uid=$daren['uid']}">{$daren['user']['shares']}</a>
+								被喜欢：<a>{$daren['user']['collects']}</a>
+							</p>
+							<span>{$daren['content']}</span>
+							<div class="else_pic">
+								<!--{eval $index = 1;}-->
+								<!--{if $daren_type == 'look'}-->
+								<!--{loop $daren['cache_data']['looks'] $img}-->
+								<a target="_blank" href="{u note/m id=$img['id'],sid=$img['share_id']}"><img alt="" class="r5" src="{getimg $img['img'] 100 100 1}"></a>
+								<!--{eval $index++;}-->
+								<!--{if $index > 3}-->
+								<!--{eval break;}-->
+								<!--{/if}-->
+								<!--{/loop}-->
+								<!--{elseif $daren_type == 'dapei'}-->
+								<!--{loop $daren['cache_data']['dapeis'] $img}-->
+								<a target="_blank" href="{u note/m id=$img['id'],sid=$img['share_id']}"><img alt="" class="r5" src="{getimg $img['img'] 100 100 1}"></a>
+								<!--{eval $index++;}-->
+								<!--{if $index > 3}-->
+								<!--{eval break;}-->
+								<!--{/if}-->
+								<!--{/loop}-->
+								<!--{elseif $daren_type == 'group'}-->
+								<!--{loop $daren['cache_data']['groups'] $img}-->
+								<a target="_blank" href="{u group/detail fid=$img['fid']}"><img alt="" class="r5" src="{getimg $img['img'] 100 100 1}"></a>
+								<!--{eval $index++;}-->
+								<!--{if $index > 3}-->
+								<!--{eval break;}-->
+								<!--{/if}-->
+								<!--{/loop}-->
+								<!--{elseif $daren_type == 'album'}-->
+								<!--{loop $daren['cache_data']['albums'] $img}-->
+								<a target="_blank" href="{u album/show id=$img['id']}"><img alt="" class="r5" src="{getimg $img['img'] 100 100 1}"></a>
+								<!--{eval $index++;}-->
+								<!--{if $index > 3}-->
+								<!--{eval break;}-->
+								<!--{/if}-->
+								<!--{/loop}-->
+								<!--{/if}-->
+							</div>
+						</div>
+					</div>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<!--{if $pager['page_count'] > 1}-->
+			<div class="pagination"> 
+				<!--{subtemplate inc/pages}--> 
+			</div>
+			<!--{/if}-->
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+</div>
+<script type="text/javascript">
+function DarenUpdateUserFollow(obj,result)
+{
+	var parent = $(obj).parent();
+	if(result.status == 1)
+	{
+		parent.html('<span class="followed">已关注</span>');
+	}
+}
+</script>
+<!--{subtemplate inc/footer}-->

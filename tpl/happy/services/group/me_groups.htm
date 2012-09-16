@@ -1,0 +1,6 @@
+<!--{loop $groups['list'] $group_item}-->
+<li>
+	<a target="_blank" href="{u group/detail fid=$group_item['fid']}"><img class="tg_cover" src="{getimg $group_item['icon']['img'] 100 100 1}" width="53" /></a>
+	<a target="_blank" href="{u group/detail fid=$group_item['fid']}">{$group_item['name']}</a>
+</li>
+<!--{/loop}-->

@@ -1,0 +1,162 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/welcome.css';
+	$js_list[0] = './tpl/js/welcome.js';
+	$js_list[1] = './public/js/jquery.slides.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+	<div class="piece1 mb20">
+		<div class="piece1_left"></div>
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd">
+			{advlayout name='首页轮播广告位' tmpl='adv/indexlflashadv'}
+			<div class="index-active-list fr">
+				<!--{dynamic getIndexUserInfo}-->
+				{advlayout name='首页右侧用户信息底部广告位' tmpl='adv/user_info_bottom_adv'}
+				<div class="mobile">
+					<a class="mbtn iphone" href="{$_FANWE['setting']['app_down_url']}" target="_blank" title="iPhone客户端">iphone客户端</a>
+					<a class="mbtn android" href="{$_FANWE['setting']['apk_down_url']}" target="_blank" title="Android客户端">Andioid客户端</a>
+				</div>
+			</div>
+			<div class="blank3"></div>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+	<div class="piece1 mb20" >
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd clearfix">
+			<div class="index_ddl_nav" >
+				<h2>MM们的搭配和晒货</h2>
+				<ul>
+					<li><a href="{u dapei/index}" class="style">全部搭配</a></li>
+					<li><a href="{u look/index}">全部晒货</a></li>
+					<li><a href="{u daren/apply}">申请达人</a></li>
+				</ul>
+			</div>
+			<div class="index_ddl_box">
+				<ul class="index_dapei_look fl">
+					<!--{loop $look_bests $share}-->
+					<li>
+						<a href="{$share['look_imgs'][0]['url']}" target="_blank" style="display:block;width:150px;height:170px;overflow:hidden;"><img class="dr lazyload" src="./tpl/images/lazyload.gif" original="{getimg $share['look_imgs'][0]['img'] 200 999}" title="{$share['best_desc']}" src="./tpl/images/lazyload.gif" scaleType="3" scaleWidth="150" scaleHeight="170"/></a>
+						<span></span>
+						<!--{getuser $share['uid'] 0 '' 'n'}-->
+					</li>
+					<!--{/loop}-->
+				</ul>
+				<div class="index_today_daren fl" >
+					<a href="{u daren/index}" style="display:block;width:300px;height:345px;overflow:hidden;"><img original="{getimg $today_daren['index_img'] 0 0}" src="./tpl/images/lazyload.gif" class="lazyload" scaleType="3" scaleWidth="300" scaleHeight="345"/></a> 
+					<span></span>
+					<div class="daren_item_info" >
+						<div class="clear_in" >
+							<p>每日达人： <a href="{u daren/index}">{$today_daren['user']['user_name']}</a></p>
+						</div>
+						<i>{$today_daren['reason']}</i>
+					</div>
+				</div>
+				<ul class="index_dapei_look fl">
+					<!--{loop $dapei_bests $share}-->
+					<li>
+						<a href="{$share['dapei_imgs'][0]['url']}" target="_blank" style="display:block;width:150px;height:170px;overflow:hidden;"><img class="dr lazyload" src="./tpl/images/lazyload.gif" original="{getimg $share['dapei_imgs'][0]['img'] 200 999}" title="{$share['best_desc']}" src="./tpl/images/lazyload.gif" scaleType="3" scaleWidth="150" scaleHeight="170"/></a>
+						<span></span>
+						<!--{getuser $share['uid'] 0 '' 'n'}-->
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="blank9"></div>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+	<div class="piece1 mb20" >
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd clearfix">
+			<div class="index_ddl_nav" >
+				<h2>MM们扎堆的小组</h2>
+			</div>
+			<div class="blank9"></div>
+			<div class="index_group_box fl" >
+				<div class="active_group_slide" >
+					<!--{loop $group_list $groups}-->
+					<ul class="active_group_list">
+						<!--{loop $groups $group_item}-->
+						<li>
+							<a target="_blank" href="{u group/detail fid=$group_item['fid']}" class="fl"><img src="{getimg $group_item['icon']['img'] 100 100 1}" class="r5" alt="{$group_item['name']}"></a>
+							<h3 class="ag_t"><a target="_blank" href="{u group/detail fid=$group_item['fid']}" class="glink">{$group_item['name']}</a></h3>
+							<p class="ag_i"><span><b>{$group_item['user_count']}</b>成员</span><span><b>{$group_item['thread_count']}</b>分享</span></p>
+							<p class="ag_d">{cutstr $group_item['content'] 60}</p>
+						</li>
+						<!--{/loop}-->
+
+					</ul>
+					<!--{/loop}-->
+				</div>
+				<div class="active_group_slide_link" >
+					<div class="active_group_slide_btn" >
+						
+					</div>
+					<a href="{u group/index}" target="_blank" class="more" ><div class="arrows" ></div>查看更多小组</a>
+				</div>
+				<script type="text/javascript">
+					jQuery(function($){
+						$(".active_group_slide").carouFredSel({
+							items:1, 
+							auto : true,
+							pauseDuration:3000,
+							pagination: ".active_group_slide_btn",
+							scroll: {
+								fx: "crossfade",
+								pauseOnHover: true
+							}
+						});
+					});
+				</script>
+				<ul class="reco_topic_list clear_in">
+					<!--{loop $topic_list $topic}-->
+					<li>
+						<a target="_blank" href="{u u/index uid=$topic['uid']}"> <img height="32" src="{getimg $topic['group']['icon']['img'] 100 100 1}" alt="{$topic['title']}" class="fl r3"></a>
+						<p class="rt_tt"><a target="_blank" href="{$topic['url']}" class="tlink">{$topic['title']}</a></p>
+						<p class="rt_gt"><a target="_blank" href="{u group/detail fid=$topic['fid']}" class="glink">{$topic['group']['name']}</a></p>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="index_album_box fr" >
+				<div class="index_ddl_nav" >
+					<h2>最新推荐专辑</h2>
+				</div>
+				<ul class="index_album_list" >
+					<!--{loop $best_albums $album}-->
+					<li class="index_album_item" >
+						<ul class="album_img clearfix fl">
+							<!--{eval $img_index = 0;}-->
+							<!--{loop $album['imgs'] $img}-->
+							<!--{if $img_index < 3}-->
+							<li>
+								<a href="{$album['url']}" class="rl5" target="_blank"><img src="{getimg $img['img'] 100 100 1}"/></a>
+							</li>
+							<!--{eval $img_index++;}-->
+							<!--{/if}-->
+							<!--{/loop}-->
+						</ul>
+						<div class="album_info fl">
+							<h4><a target="_blank" href="{$album['url']}" title="{$album['title']}">{cutstr $album['title'] 12}</a></h4>
+							<div class="album_likenum">{$album['collect_count']}</div>
+						</div>
+					</li>
+					<!--{/loop}-->
+				</ul>
+				<h3 class="index_album_title" >MM们心水的专辑</h3>
+				<ul class="album_more_list" >
+					<li><a href="{u album/index}" title="全部">全部</a></li>
+					<!--{loop $_FANWE['cache']['albums']['category'] $category}-->
+					<li><a href="{$category['url']}" title="{$category['name']}">{$category['name']}</a></li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+	<!--{dynamic getIndexCateShare}-->
+	<!--{dynamic getIndexShops}-->
+</div>
+<!--{template inc/footer}-->

@@ -1,0 +1,78 @@
+	<div class="clear"></div>
+	<div id="footer">
+		<div id="foot" class="wrapper">
+			<div class="foot_left">
+				<!--{loop $_FANWE['cache']['navs']['all'][2]['childs'] $navcate_id}-->
+				<?php
+					$nav_cate = $_FANWE['cache']['navs']['all'][$navcate_id];
+				?>
+				<div>
+					<!--{eval $first_nav_cate = '';}-->
+					<b>{$nav_cate['name']}</b>
+					<ul>
+						<!--{loop $nav_cate['navs'] $nav_id}-->
+						<!--{eval $nav = $_FANWE['cache']['navs']['navs'][$nav_id];}-->
+						<li><a href="{$nav['url']}"{if $nav['target'] == 1} target="_blank"{/if}>{$nav['name']}</a></li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<!--{/loop}-->
+			</div>
+			<div class="foot_right">     
+				 <a href="{u index}"><img src="{$_FANWE['site_root']}{$_FANWE['setting']['foot_logo']}" height="54" /></a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		<!--{if MODULE_NAME == 'Index'}-->
+		<div class="foot_links wrapper">
+			友情链接：
+			<!--{eval $link_index = 1;}-->
+			<!--{loop $_FANWE['cache']['links']['all'] $link}-->
+			<!--{if $link_index > 12}-->
+			<!--{eval break;}-->
+			<!--{/if}-->
+			<a href="{$link['url']}" target="_blank">{$link['name']}</a>&nbsp;&nbsp;
+			<!--{eval $link_index++;}-->
+			<!--{/loop}-->
+			<!--{if count($_FANWE['cache']['links']['all']) > 12}-->
+			<a href="{u link}" target="_blank" class="fr">更多...</a>
+			<!--{/if}-->
+		</div>
+		<!--{/if}-->
+		<div class="copyright wrapper">$_FANWE['setting']['footer_html']</div>
+	</div>
+	<div id="USER_INFO_TIP" style="display:none;">
+		<div class="tip_info">
+			<img class="avatar" alt="" src="./tpl/images/loading_60.gif">
+			<div>
+				<p><a href="#">&nbsp;</a></p>
+				<p>获取用户信息...</p>
+				<p>&nbsp;</p>
+			</div>
+		</div>
+		<div class="tip_toolbar">&nbsp;</div>
+		<div class="tip_arrow"></div>
+	</div>
+</body>
+<?php
+    $default_js = array();
+	$default_js[] = './public/js/lang.js';
+	$default_js[] = './public/js/setting.js';
+	$default_js[] = './public/js/jquery.bgiframe.js';
+	$default_js[] = './public/js/jquery.weebox.js';
+	$default_js[] = './public/js/ajaxfileupload.js';
+	$default_js[] = './public/js/jquery.dragsort.js';
+	$default_js[] = './public/js/swfobject.js';
+?>
+<script type="text/javascript" src="{script $default_js}" defer="true"></script>
+<!--{loop $js_list $js}-->
+<script type="text/javascript" src="{script $js}"></script>
+<!--{/loop}-->
+<!--{dynamic getScript}-->
+<script type="text/javascript">
+jQuery(function($){
+	$(".lazyload").lazyload({"placeholder":"./tpl/images/lazyload.gif"});
+});
+</script>
+</html>

@@ -1,0 +1,93 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<form action="__APP__">
+		<span>{$Think.lang.ORDER_ID}</span>
+		<input class="textinput" type="text" value="{$order_id}" name="order_id" size="10" />
+		<small></small>
+		<span>{$Think.lang.USER_NAME}</span>
+		<input class="textinput" type="text" value="{$uname}" name="uname" size="10" />
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<table id="checkList" class="table-list list" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+        <tr>
+            <th width="30" class="first"><input type="checkbox" onclick="checkAll('checkList')"></th>
+            <th width="80">{$Think.lang.ORDER_ID}</th>
+            <th>{$Think.lang.USER_NAME}</th>
+			<th width="60">{$Think.lang.TYPE}</th>
+            <th width="60">{$Think.lang.COMMISSION}</th>
+			<th width="60">{$Think.lang.COMMISSION_RATE}</th>
+            <th width="60">{$Think.lang.IS_PAY}</th>
+			<th width="156">{$Think.lang.PAY_TIME}</th>
+            <th width="80">{$Think.lang.CREATE_TIME}</th>
+            <th width="80">{$Think.lang.SETTLEMENT_TIME}</th>
+            <th width="80">{$Think.lang.STATUS}</th>
+            <th width="50">{$Think.lang.HANDLE}</th>
+        </tr>
+    </thead>
+	<?php
+		$index = -1;
+	?>
+    <tbody>
+		<foreach name="list" item="item">
+		<?php
+			$index++;
+			$row_count = ' rowspan="2"';
+			if(isset($item['user']) && isset($item['cuser']))
+				$row_count = ' rowspan="3"';
+
+			if($index % 2 == 0)
+				$tr_class = ' class="tr'.$item['order_id'].'"';
+			else
+				$tr_class = ' class="tr'.$item['order_id'].' even"';
+
+			if(!isset($item['user']))
+			{
+				$item['user'] = $item['cuser'];
+				unset($item['cuser']);
+			}
+			$args = '{"uid":'.$item['user']['uid'].'}';
+		?>
+        <tr{$tr_class}>
+            <td class="first"{$row_count}><input type="checkbox" name="key" value="{$item.order_id}"></td>
+            <td {$row_count}>o{$item.order_id}</td>
+            <td align="left">{$item.user.name}</td>
+            <td>{$item.user.type}</td>
+            <td>{$item.user.commission}</td>
+			<td>{$item.user.commission_rate}</td>
+			<td style="width:50px;"><if condition="$item['user']['is_commission']"><span class="pointer" module="GoodsOrder" href="javascript:;" onclick='toggleStatus(this,{$item.order_id},"is_pay",{$args})'>{:getStatusImg($item['user']['is_pay'])}</span><else/>&nbsp;</if></td>
+			<td style="width:90px;">{$item.user.pay_time}</td>
+			<td{$row_count}>{$item.create_time}</td>
+			<td{$row_count}>{$item.settlement_time}</td>
+			<td{$row_count}>{$item.status}</td>
+			<td{$row_count}><a href="javascript:;" onclick="removeData(this,'{$item.order_id}','order_id')">{$Think.lang.REMOVE}</a></td>
+        </tr>
+		<if condition="$item['cuser']">
+		<?php
+			$args = '{"uid":'.$item['cuser']['uid'].'}';
+		?>
+		<tr{$tr_class}>
+            <td align="left" class="torder">{$item.cuser.name}</td>
+            <td class="torder">{$item.cuser.type}</td>
+            <td class="torder">{$item.cuser.commission}</td>
+			<td class="torder">{$item.cuser.commission_rate}</td>
+			<td width="50" class="torder"><if condition="$item['cuser']['is_commission']"><span class="pointer" module="GoodsOrder" href="javascript:;" onclick='toggleStatus(this,{$item.order_id},"is_pay",{$args})'>{:getStatusImg($item['cuser']['is_pay'])}</span><else/>&nbsp;</if></td>
+			<td class="torder">{$item.cuser.pay_time}</td>
+        </tr>
+		</if>
+		<tr{$tr_class} align="left">
+			<td colspan="6" class="torder">
+				{$Think.lang.GOODS}：{$item.goods_name}
+			</td>
+		</tr>
+		</foreach>
+    </tbody>
+</table>
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

@@ -1,0 +1,124 @@
+<?php
+$css_list[0]['url'] = './tpl/css/club.css';
+$js_list[0][] = './tpl/js/club.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+    <div id="content_body">
+        <div class="piece piece_w960">
+            <div class="piece_hd">
+                <b class="hl"></b>
+                <b class="hr"></b>
+            </div>
+            <div class="piece_bd clearfix gr_set gr_create">
+                <div class="gr_set_top">
+                    <h2>编辑小组</h2>
+                </div>
+                <div class="gr_set_form">
+                    <form action="{u group/update}" method="post" id="groupForm" enctype="multipart/form-data">
+                        <dl>
+                            <dt>小组名称：</dt>
+                            <dd>
+                                <input class="form_text" type="text" name="name" value="{$group['name']}">
+                                <span id="nameDesc" class="desc"></span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>小组介绍：</dt>
+                            <dd>
+                                <textarea class="form_text" name="content">{$group['content']}</textarea>
+                                <span id="contentDesc" class="desc"></span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>图标：</dt>
+                            <dd>
+                                <input type="file"  name="icon" size="30" class="input_file" /><span class="desc"><b>图片大小为100*100</b></span>
+                            </dd>
+                        </dl>
+						<!--{if !empty($group['icon'])}-->
+						<dl>
+                            <dt>&nbsp;</dt>
+                            <dd><img src="{getimg $group['icon'] 0 0}" height="24" /></dd>
+                        </dl>
+						<!--{/if}-->
+                        <dl>
+                            <dt>背景：</dt>
+                            <dd>
+                                <input type="file" name="img" size="30" class="input_file" /><span class="desc"><b>图片大小为960*150</b></span>
+                            </dd>
+                        </dl>
+						<!--{if $group['img_id'] > 0}-->
+						<dl>
+                            <dt>&nbsp;</dt>
+                            <dd><img src="{getimgbyid $group['img_id']}" height="30" /></dd>
+                        </dl>
+						<!--{/if}-->
+                        <dl>
+                            <dt>小组标签：</dt>
+                            <dd>
+                                <input class="form_text" type="text" name="tags" value="{$group['tags']}"><span class="desc"><b>以空格分隔</b></span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>加入方式：</dt>
+                            <dd>
+                                <label><input type="radio" name="join_way" value="1" class="form_radio">需要小组管理员批准才能加入小组</label><br>
+                                <label><input type="radio" name="join_way" value="0" class="form_radio" checked="true">允许任何人加入小组</label><br>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                                <input type="submit" class="form_sub" id="subApply" value="提交修改">
+								<input type="hidden" name="action" value="update" />
+								<input type="hidden" name="fid" value="{$group['fid']}" />
+								<a href="{u group/detail fid=$group['fid']}" class="form_cancel">取消</a>
+                            </dd>
+                        </dl>
+                    </form>
+                </div>
+            </div>
+			<script type="text/javascript">
+			jQuery(function($){
+				$("#agreement").change(function(){
+					$("#subApply").attr("disabled",!this.checked);
+				});
+				
+				$("#groupForm").submit(function(){
+					if($.trim(this.name.value) == '' || $.trim(this.name.value) == this.name.getAttribute('tooltip'))
+					{
+						$("#nameDesc").html('<b class="error">长度不能为空</b>');
+						return false;
+					}
+					else if($.getStringLength(this.name.value) > 100)
+					{
+						$("#nameDesc").html('<b class="error">最多50个字</b>');
+						return false;
+					}
+					else
+						$("#nameDesc").html('');
+						
+					if($.trim(this.content.value) == '' || $.trim(this.content.value) == this.content.getAttribute('tooltip'))
+					{
+						$("#contentDesc").html('<b class="error">长度不能为空</b>');
+						return false;
+					}
+					else if($.getStringLength(this.content.value) > 2000)
+					{
+						$("#contentDesc").html('<b class="error">最多1000个字</b>');
+						return false;
+					}
+					else
+						$("#contentDesc").html('');
+				});
+			});
+			</script>
+            <div class="piece_ft">
+                <b class="fl"></b>
+                <b class="fr"></b>
+            </div>
+        </div>
+    </div>
+</div>
+<!--{template inc/footer}-->

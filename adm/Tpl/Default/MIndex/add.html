@@ -1,0 +1,94 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:U(MODULE_NAME.'/index')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/insert')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.NAME}</th>
+		<td><input type="text" class="textinput requireinput" name="name" size="60" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.VICE_NAME}</th>
+		<td><input type="text" class="textinput" name="vice_name" size="60" value="" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.DESC}</th>
+		<td><input type="text" class="textinput" name="desc" size="60" value="" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.IMG}</th>
+		<td>
+			<input type="file" class="fileinput" name="img" size="30" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.TYPE}</th>
+		<td>
+			<select name="type" id='typeSelect'>
+				<option value="1">{$Think.lang.TYPE_1}</option>
+				<option value="2">{$Think.lang.TYPE_2}</option>
+				<option value="3">{$Think.lang.TYPE_3}</option>
+				<option value="4">{$Think.lang.TYPE_4}</option>
+				<option value="5">{$Think.lang.TYPE_5}</option>
+				<option value="6">{$Think.lang.TYPE_6}</option>
+				<option value="7">{$Think.lang.TYPE_7}</option>
+				<option value="8">{$Think.lang.TYPE_8}</option>
+			</select>
+		</td>
+	</tr>
+	<tr class="TYPE TYPE_1">
+		<th>{$Think.lang.CID}</th>
+		<td>
+			<fanwe:select name='cid' first='{$Think.lang.ROOT_ID}' textfield='cate_name' valuefield='cate_id' options='cate_list' />
+		</td>
+	</tr>
+	<tr class="TYPE TYPE_1">
+		<th>{$Think.lang.TAGS}</th>
+		<td>
+			<textarea name="tags" class="textinput areainput" rows="3"></textarea>
+		</td>
+	</tr>
+	<tr class="TYPE TYPE_1">
+		<th>&nbsp;</th>
+		<td>
+			<p>{$Think.lang.TAGS_TIPS}</p>
+		</td>
+	</tr>
+	<tr class="TYPE TYPE_2 hidden">
+		<th>{$Think.lang.URL}</th>
+		<td>
+			<input type="text" class="textinput" name="url" size="60" value="" />
+		</td>
+	</tr>
+	<tr class="TYPE TYPE_8 hidden">
+		<th>{$Think.lang.SHARE_ID}</th>
+		<td>
+			<input type="text" class="textinput" name="share_id" size="10" value="" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SORT}</th>
+		<td>
+			<input type="text" class="textinput" name="sort" value="10" />
+		</td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+jQuery(function($){
+	$("#typeSelect").change(function(){
+		$(".TYPE").hide();
+		$(".TYPE_" + this.value).show();
+	});
+});
+</script>
+<include file="Public:footer" />

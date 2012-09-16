@@ -1,0 +1,38 @@
+<!--{loop $share_list $share}-->
+<div class="book_item" shareID="{$share['share_id']}" id="share_item_{$share['share_id']}">
+	<div class="bi_body">
+		<ul class="pic">
+			<!--{loop $share['imgs'] $share_img}-->
+			<li>
+				<a style="width:200px;" href="{u album/show id=$share['rec_id'],sid=$share['share_id']}" target="_blank">
+					<img class="book_img" src="{getimg $share_img['img'] 200 999}" width="200" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+				</a>
+				<!--{if $share_img['type'] == 'g'}-->
+				<p>{$share_img['price_format']}</p>
+				<a class="add_to_album_btn" href="javascript:;" style="display:none;" onclick="$.Show_Rel_Album($share_img['id'],'goods');"></a>
+				<!--{else}-->
+				<a class="add_to_album_btn" href="javascript:;" style="display:none;" onclick="$.Show_Rel_Album($share_img['id'],'photo');"></a>
+				<!--{/if}-->
+				
+			</li>
+			<!--{/loop}-->
+		</ul>
+		<div class="content">
+			{cutstr $share['content'] 96}
+		</div>
+		<div class="favorite">
+			<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+			<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+			<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+		</div>
+		<div class="user">
+			<!--{getuser $share['uid'] 0 's,30' ',lazyload'}-->
+			<p>
+				<span class="u"><!--{getuser $share['uid'] 0 '' ''}--></span>
+				<span class="t"><a target="_blank" href="{u album/show id=$share['rec_id']}">《{cutstr $share['title'] 16}》</a></span>
+			</p>
+		</div>
+	</div>
+	<div class="bi_foot"></div>
+</div>
+<!--{/loop}-->

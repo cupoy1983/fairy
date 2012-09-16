@@ -1,0 +1,80 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/user.js"></script>
+<div class="tabs-title">
+	<div class="tt-item active" rel="1"><p><a href="javascript:;">{$Think.lang.TAB_1}</a></p></div>
+	<div class="tt-item" rel="2"><p><a href="javascript:;">{$Think.lang.TAB_2}</a></p></div>
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+<div class="tabs-body">
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form tabs-item tabs-active" rel="1">
+		<tr>
+			<td><fanwe:editor id="GROUP_AGREEMENT" name="settings[GROUP_AGREEMENT]" type="CKEDITOR" width="96%" height="130px" content="{$settings.GROUP_AGREEMENT}" /></td>
+		</tr>
+	</table>
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form tabs-item" rel="2">
+		<tr>
+			<th width="200">{$Think.lang.GROUP_IS_OPEN}</th>
+			<td>
+				<label><input type="radio" name="settings[GROUP_IS_OPEN]" value="1" <if condition='$settings.GROUP_IS_OPEN eq 1'>checked="checked"</if> /><span>{$Think.lang.YES}</span></label>&nbsp;&nbsp;
+			<label><input type="radio" name="settings[GROUP_IS_OPEN]" value="0" <if condition='$settings.GROUP_IS_OPEN eq 0'>checked="checked"</if> /><span>{$Think.lang.NO}</span></label>
+			</td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.GROUP_ADMIN_UID}</th>
+			<td>
+				<select name="settings[GROUP_ADMIN_UID]" id="userSelect">
+					<option value="{$settings.GROUP_ADMIN_UID}">{$user_name}</option>
+				</select>&nbsp;
+				<input type="text" class="textinput" size="8" id="userName" />&nbsp;
+				<input class="submit_btn" type="button" value="{$Think.lang.SEARCH}" onclick="searchUser('#userSelect','#userName');" />
+			</td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.GROUP_ADMIN_FID}</th>
+			<td><input type="text" class="textinput" name="settings[GROUP_ADMIN_FID]" value="{$settings.GROUP_ADMIN_FID}" /></td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.GROUP_ADMIN_FID_TIP}</p></td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.GROUP_FANS_COUNT}</th>
+			<td><input type="text" class="textinput" name="settings[GROUP_FANS_COUNT]" value="{$settings.GROUP_FANS_COUNT}" /></td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.GROUP_SHARE_COUNT}</th>
+			<td><input type="text" class="textinput" name="settings[GROUP_SHARE_COUNT]" value="{$settings.GROUP_SHARE_COUNT}" /></td>
+		</tr>
+		<!--<tr>
+			<th>{$Think.lang.GROUP_GROUP_IDS}</th>
+			<td>
+				<foreach name="group_list" item="item">
+				<label><input type="checkbox" name="settings[GROUP_GROUP_IDS][]" value="{$item.gid}" <if condition="$item['check']">checked="checked"</if> /><span>{$item.name}</span></label>&nbsp;&nbsp;
+				</foreach>
+			</td>
+		</tr>-->
+		<tr>
+			<th>{$Think.lang.GROUP_IS_CHECK}</th>
+			<td>
+				<label><input type="radio" name="settings[GROUP_IS_CHECK]" value="1" <if condition='$settings.GROUP_IS_CHECK eq 1'>checked="checked"</if> /><span>{$Think.lang.YES}</span></label>&nbsp;&nbsp;
+			<label><input type="radio" name="settings[GROUP_IS_CHECK]" value="0" <if condition='$settings.GROUP_IS_CHECK eq 0'>checked="checked"</if> /><span>{$Think.lang.NO}</span></label>
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.GROUP_IS_CHECK_TIP}</p></td>
+		</tr>
+	</table>
+</div>
+<table cellpadding="4" cellspacing="0" border="0" class="table-form" style="border-top:none;">
+	<tr class="act">
+		<th width="200">&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<include file="Public:footer" />

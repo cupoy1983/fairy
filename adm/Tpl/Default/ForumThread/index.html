@@ -1,0 +1,32 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList','tid')" />
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<form action="__APP__">
+		<span>{$Think.lang.TITLE}</span>
+		<input class="textinput" type="text" value="{$keyword}" name="keyword" size="12" />
+		<small></small>
+		<span>{$Think.lang.USER_NAME}</span>
+		<input class="textinput" type="text" value="{$uname}" name="uname" size="12" />
+		<small></small>
+		<span>{$Think.lang.FORUM_ID}</span>
+		<input class="textinput" type="text" value="{$gname}" name="gname" size="12" />
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="thread" 
+	pk="tid" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="tid:{$Think.lang.ID}|50,title:{$Think.lang.TITLE}|~left,fname:{$Think.lang.FORUM_ID}|100,user_name:{$Think.lang.USER_NAME}|100,share_id|getRelateShare:{$Think.lang.CHECK_RELATE_SHARE}|150,is_top|getStatusImg:{$Think.lang.IS_TOP}|50:toggleStatus|tid,is_best|getStatusImg:{$Think.lang.IS_BEST}|50:toggleStatus|tid,post_count|getPostCount=$thread['tid']:{$Think.lang.POST_COUNT}|100,create_time|toDate:{$Think.lang.POST_TIME}|150" 
+	actionlist="editData:{$Think.lang.EDIT}:tid,removeData:{$Think.lang.REMOVE}:tid" action_width="80" nosort="share_id,title" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

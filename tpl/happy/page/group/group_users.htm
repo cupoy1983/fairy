@@ -1,0 +1,168 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/club.css';
+	$js_list[0][] = './tpl/js/group.js';
+	$js_list[0][] = './public/js/jquery.slides.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+	<div class="bar_title">
+		<div class="piece_bd" style="background:url('{getimg $group_detail['img'] 960 150 1}') no-repeat ;">
+			<div class="b_info r5">
+				<img src="{getimg $group_detail['icon'] 100 100 1}" alt="" class="fl forum_logo" height="48"  >
+				<div class="b_n">
+					<h1 class="bar_title">{$group_detail['name']}</h1>
+					{lang caeate_yu}：{date $group_detail['create_time'] 'Y-m-d'}
+				</div>
+			</div>
+			<ul class="b_tab">
+				<li><a href="{u group/detail fid=$group_detail['fid']}" class="f_b">小组首页</a></li>
+				<li><a href="{u group/detail fid=$group_detail['fid'],type=best}" class="f_b">{lang editor_best}</a></li>
+                <li><a href="{u group/users fid=$group_detail['fid']}" class="f_b c">成员列表</a></li>
+				<!--{if $group_detail['join_way'] == 1 && $is_group_admin == 1}-->
+				<li><a href="{u group/apply fid=$group_detail['fid']}" class="f_b">申请列表</a></li>
+				<!--{/if}-->
+			</ul>
+		</div>
+	</div>
+	<div style="background-color:#fff;" class="clearfix pb40">
+		<div class="gr_mana">
+			<ul class="set_nav">
+				<li class="c"><a href="/group/129u8/member">成员列表</a></li>
+			</ul>
+			<div class="clearfix"></div>
+			<div class="member_box mt10 mb30">
+				<h3>组长</h3>
+				<div class="user_info">
+					<div class="clear_in">
+						<!--{getuser $group_detail['uid'] 0 '' '' 'inc/getuser/group_zz'}-->
+					</div>
+					<div type="all" class="followdiv">
+						<!--{getfollow $group_detail['uid'] inc/getfollow/group_follow}-->
+					</div>
+				</div>
+			</div>
+    		<div class="member_box" id="manager_list">
+				<h3>管理员</h3>
+				<ul class="member_list" id="adminList">
+					<!--{loop $group_admins $user_id}-->
+					<li id="amindItem_{$user_id}" class="adminItem" uid="{$user_id}"><!--{getuser $user_id 0 '' '' 'inc/getuser/group_user'}--></li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<!--{if count($user_list) > 0 || $user_count > 0}--> 
+			<div class="member_box" id="member_list">
+				<h3>
+					<span>成员</span>
+					<div class="search_box">
+						<form id="search_group" action="{u group/users fid=$group_detail['fid']}" method="post" style="margin:0;">
+							<input class="search_txt" name="keywords" tooltip="搜索成员" value="{$keywords}" type="text" style="font-size:12px;">
+							<input type="hidden" value="{$group_detail['fid']}" name="fid" />
+							<input type="hidden" value="users" name="action" />
+							<input class="search_btn" value="" type="submit">
+						</form> 
+					</div>
+				</h3>
+				<div class="blank20"></div>
+				<ul class="member_list">
+					<!--{loop $user_list $user}-->
+					<li class="userItem" id="userItem_{$user['uid']}" uid="{$user['uid']}"><!--{getuser $user['uid'] 0 '' '' 'inc/getuser/group_user1'}--></li>
+					<!--{/loop}-->
+				</ul>
+				<div class="pagination mt40"> 
+					<!--{subtemplate inc/pages}--> 
+				</div>
+			</div>
+			<!--{/if}-->
+		</div>
+	</div>
+	<div class="piece1_ft"></div>
+</div>
+<script type="text/javascript">
+var GROUP_ID = {$group_detail['fid']};
+<!--{if $group_detail['uid'] == $_FANWE['uid']}--> 
+var ADMIN_HTML = '<div class="manage_menu"><strong>操作</strong><span class="mm_jg">&nbsp;|&nbsp;</span><a class="mm_action" onclick="adminUserGroup(GROUP_ID,#uid#,1,adminResultFunc)" href="javascript:;">取消管理员</a><span class="mm_jg">&nbsp;|&nbsp;</span><a class="mm_action" onclick="if(confirm(\'你确定要删除此会员吗？\')){removeUserGroup(GROUP_ID,#uid#,removeResultFunc);}" href="javascript:;">删除</a></div>';
+var ADMIN_ITEM = '<li id="amindItem_#uid#" class="adminItem" uid="#uid#">#html#</li>';
+
+var USER_HTML = '<div class="manage_menu"><strong>操作</strong><span class="mm_jg">&nbsp;|&nbsp;</span><a class="mm_action" onclick="adminUserGroup(GROUP_ID,#uid#,0,adminResultFunc)" href="javascript:;">设为管理员</a><span class="mm_jg">&nbsp;|&nbsp;</span><a class="mm_action" onclick="if(confirm(\'你确定要删除此会员吗？\')){removeUserGroup(GROUP_ID,#uid#,removeResultFunc);}" href="javascript:;">删除</a></div>';
+<!--{elseif $is_group_admin == 1}-->
+var USER_HTML = '<div class="manage_menu"><strong>操作</strong><span class="mm_jg">&nbsp;|&nbsp;</span><a class="mm_action" onclick="if(confirm(\'你确定要删除此会员吗？\')){removeUserGroup(GROUP_ID,#uid#,removeResultFunc);}" href="javascript:;">删除</a></div>';
+<!--{/if}-->
+
+jQuery(function($){
+	$("#search_group").submit(function(){
+		if(this.keywords.value == '搜索成员' || $.trim(this.keywords.value) == '')
+		{
+			alert("请输入要搜索的会员名称");
+			return false;
+		}
+	});
+	
+	<!--{if $is_group_admin == 1}-->
+	<!--{if $group_detail['uid'] == $_FANWE['uid']}--> 
+	$(".userItem,.adminItem").live('mouseover',function(){
+	<!--{else}-->
+	$(".userItem").live('mouseover',function(){
+	<!--{/if}-->
+		var uid = this.getAttribute('uid');
+		if($('#MANAGE_MENU_BOX').length == 0)
+			$("body").append('<div id="MANAGE_MENU_BOX"></div>');
+		
+		<!--{if $group_detail['uid'] == $_FANWE['uid']}--> 
+		if($(this).hasClass("adminItem"))
+			$("#MANAGE_MENU_BOX").html(ADMIN_HTML.replace(/#uid#/g,uid));
+		else
+			$("#MANAGE_MENU_BOX").html(USER_HTML.replace(/#uid#/g,uid));
+		<!--{else}-->
+		$("#MANAGE_MENU_BOX").html(USER_HTML.replace(/#uid#/g,uid));
+		<!--{/if}-->
+		$("#MANAGE_MENU_BOX").show();
+		var obj = this;
+		var offset = $(obj).offset();
+		var my = offset.top - 10 + $(obj).height();
+		var mx = offset.left + 10;
+		$("#MANAGE_MENU_BOX").css({"top":my,"left":mx});
+		$("body").one("click",function(event){
+			if(!$.getClickIsElement($("#MANAGE_MENU_BOX"),event) && !$.getClickIsElement($(obj),event))
+				$("#MANAGE_MENU_BOX").hide();
+		});
+	});
+	<!--{/if}-->
+});
+<!--{if $is_group_admin == 1}-->
+<!--{if $group_detail['uid'] == $_FANWE['uid']}--> 
+function adminResultFunc(uid,result)
+{
+	if(result)
+	{
+		if(result.status == 1)
+		{
+			var html = ADMIN_ITEM.replace(/#uid#/g,uid);
+			html = html.replace(/#html#/g,$("#userItem_"+uid).html());
+			$("#adminList").append(html);
+			$("#userItem_"+uid).remove();
+		}
+		else
+		{
+			$("#amindItem_"+uid).remove();
+		}
+	}
+	$("#MANAGE_MENU_BOX").hide();
+}
+<!--{/if}-->
+function removeResultFunc(uid,result)
+{
+	if(result)
+		$("#userItem_"+uid).remove();
+	$("#MANAGE_MENU_BOX").hide();
+}
+<!--{/if}-->
+function GroupUpdateUserFollow(obj,result)
+{
+	var parent = $(obj).parent();
+	if(result.status == 1)
+	{
+		parent.html('<span class="followed">已关注</span>');
+	}
+}
+</script>
+<!--{template inc/footer}-->

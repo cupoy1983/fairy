@@ -1,0 +1,180 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<load href="__TMPL__Static/Js/share.js" />
+<script type="text/javascript">
+var CONFIRM_ERROR = "{$Think.lang.CONFIRM_ERROR}";
+var CONFIRM_DELETE = "{$Think.lang.CONFIRM_DELETE}";
+</script>
+<style type="text/css">
+#cateTags{}
+#cateTags div{padding:5px; line-height:20px; float:left; width:90%;}
+#cateTags div *{float:left;}
+#cateTags div a{margin:0 10px 0 0;white-space:nowrap;word-wrap:normal; cursor:pointer;}
+#cateTags div a.checked{background:#069; color:#fff;}
+</style>
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:Cookie::get('returnUrl')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<if condition="$share['type'] eq 'bar_post'">
+	<tr>
+		<th width="150">{$Think.lang.SHARE_BAR_REC}</th>
+		<td><p><a href="{:U('ForumThread/edit',array('tid'=>$share['rec_id']))}" target="_blank">{$share.title}</a></p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_CONTENT}</th>
+		<td>
+			<textarea class="areainput" name="content" rows="8">{$share.content}</textarea>
+		</td>
+	</tr>
+	<elseif condition="$share['type'] eq 'ask_post'"/>
+	<tr>
+		<th width="150">{$Think.lang.SHARE_ASK_REC}</th>
+		<td><p><a href="{:U('AskThread/edit',array('tid'=>$share['rec_id']))}" target="_blank">{$share.title}</a></p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_CONTENT}</th>
+		<td>
+			<textarea class="areainput" name="content" rows="8">{$share.content}</textarea>
+		</td>
+	</tr>
+	<else/>
+	<tr>
+		<th width="150">{$Think.lang.SHARE_TITLE}</th>
+		<td><input type="text" class="textinput" name="title" id="title" value="{$share.title}" style="width:90%"/></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_CONTENT}</th>
+		<td>
+			<textarea class="textinput areainput" name="content" rows="8">{$share.content}</textarea>
+		</td>
+	</tr>
+	</if>
+	<tr>
+		<th>{$Think.lang.SHARE_TYPE}</th>
+		<td>
+			{$share.type|getTypeName}
+		</td>
+	</tr>
+	<if condition="$share['share_data'] neq 'default'">
+	<tr>
+		<th>{$Think.lang.BEST_DESC}</th>
+		<td>
+			<textarea class="textinput areainput" name="best_desc" rows="3">{$share.best_desc}</textarea>
+		</td>
+	</tr>
+	</if>
+	<if condition="$share['share_photo']">
+	<tr>
+		<th>{$Think.lang.SHARE_PHOTO}</th>
+		<td>
+			<foreach name="share.share_photo" item="photo">		
+			<div class="img_list">		
+				<img src="{$photo.img}" height="100"/>
+			</div>
+			</foreach>
+		</td>
+	</tr>	
+	</if>
+	<if condition="$share['share_goods']">
+	<tr>
+		<th>{$Think.lang.SHARE_GOODS}</th>
+		<td>
+			<foreach name="share.share_goods" item="goods">		
+			<div class="img_list">		
+				<img src="{$goods.img}" height="100" title="{$goods.name} {$goods.price|priceFormat}" alt="{$goods.name} {$goods.price|priceFormat}" />
+				<div class="blank9"></div>
+				<span title="{$goods.name} {$goods.price|priceFormat}">{$goods.name|msubstr=0,6}</span>
+				<div class="blank9"></div>
+				<a href="{:u("Goods/edit",array('id'=>$goods['goods_id']))}">{$Think.lang.EDIT}</a>
+			</div>
+			</foreach>
+		</td>
+	</tr>
+	</if>
+	<if condition="$share['share_data'] neq 'default'">
+	<tr>
+		<th>{$Think.lang.SHARE_TAGS}</th>
+		<td>
+			<input type="text" class="textinput" name="tags" id="shareTags" value="{$share.share_tags}" style="width:90%" />
+		</td>
+	</tr>	
+	<tr>
+		<th>&nbsp;</th>
+		<td>
+			{$Think.lang.SP_BY_QUOTE}
+		</td>
+	</tr>
+	<tr id="cateTagsTr" style="display:none;">
+		<th>{$Think.lang.CATE_TAGS}</th>
+		<td id="cateTags"></td>
+	</tr>
+	</if>
+	<if condition="$share['share_data'] neq 'default'">
+	<tr>
+		<th>{$Think.lang.SHARE_CATEGORY}</th>
+		<td>
+			<table class="fl">
+				<tr>
+					<td>
+						<select multiple="multiple" class="selectmul" name="cate" style="width:260px; height:200px;">
+							<foreach name="category" item="cate">
+								<option value="{$cate.cate_id}">{$cate.cate_name}</option>
+							</foreach>
+						</select>
+					</td>
+					<td width=30>
+						<input type="button" value=">>" name="add" class="formbutton" />
+						<div class="blank9"></div>
+						<input type="button" value="<<" name="remove" class="formbutton" />
+					</td>
+					<td>
+						<select multiple="multiple" class="selectmul" name="share_cate" style="width:260px; height:200px;">
+							<foreach name="share_category" item="cate">
+								<option value="{$cate.cate_id}">{$cate.cate_name}</option>
+							</foreach>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	</if>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="hidden" name="share_cates" id="shareCates" value="<foreach name="share_category" item="cate" key="key"><if condition="$key gt 0">,</if>{$cate.cate_id}</foreach>" />
+			<input type="hidden" name="share_id" value="{$share.share_id}" />
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+jQuery(function($){
+	$("#cateTags a").live("click",function(){
+		var tagValue = $("#shareTags").val();
+		tagValue = tagValue.replace('　',' ');
+		tagValue = tagValue.replace(/ +/g,' ');
+		tagValue = ' ' + $.trim(tagValue) + ' ';
+		var tag = $(this).html();
+		if($(this).hasClass('checked'))
+		{
+			tagValue = tagValue.replace(' ' + tag + ' ',' ');
+			$("#cateTags a[rel='"+ tag +"']").removeClass('checked');
+		}
+		else
+		{
+			tagValue += tag;
+			$("#cateTags a[rel='"+ tag +"']").addClass('checked');
+		}
+
+		tagValue = $.trim(tagValue);
+		$("#shareTags").val(tagValue);
+	});
+	updateCateTags();
+});
+</script>
+<include file="Public:footer" />

@@ -1,0 +1,268 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/general.css';
+	$css_list[0]['url'][] = './tpl/css/book.css';
+	$css_list[0]['url'][] = './tpl/css/search.css';
+	$js_list[0] = './public/js/jquery.masonry.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="container_16">
+	<div class="blank20"></div>
+	<div class="piece1">
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd">
+			<div class="clearfix">
+				<div class="search_navi_left " id="searchbox">
+					<div class="search_tab clearfix">
+						<a{if ACTION_NAME == 'all'} class="current"{else} href="{$search_navs['all']}"{/if}>全部</a>
+						<a{if ACTION_NAME == 'bao'} class="current"{else} href="{$search_navs['bao']}"{/if}>宝贝</a>
+						<a{if ACTION_NAME == 'photo'} class="current"{else} href="{$search_navs['photo']}"{/if}>图片</a>
+						<a href="{$search_navs['album']}">杂志社</a>
+						<a href="{$search_navs['user']}">找人</a>
+						<a href="{$search_navs['group']}">小组</a>
+						<a href="{$search_navs['topic']}">主题</a>
+					</div>
+					<form method="get" action="{u search/index}" id="search_form_box" class="search_form_box">
+						<input type="text" value="{$keyword}" name="keyword" class="search_input" tooltip="{lang search_share}">
+						<input type="hidden" name="action" value="{ACTION_NAME}" />
+						<input type="submit" value="搜  索" class="search_btn">
+					</form>
+					<div class="blank15"></div>
+					多个字词可以用空格分隔后搜索
+				</div>
+			</div>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+	<div class="imagewall_nav">
+		<div class="imagewall_sort">
+			<h1 class="fl">{cutstr $keyword 30}</h1>
+			<div style="margin-left:20px;" class="fl">
+				<a>{lang sort_by}：</a>
+				<a {if $hot1_url['act'] == 1}class="cc"{/if} href="$hot1_url['url']" style="width:68px;">{lang sort_1hot}</a>
+				<a {if $hot7_url['act'] == 1}class="cc"{/if} href="$hot7_url['url']" style="width:68px;">{lang sort_7hot}</a>
+				<a {if $new_url['act'] == 1}class="c"{/if} href="$new_url['url']">{lang sort_new}</a>
+			</div>
+		</div>
+		<div class="imagewall" id="imagewall_container">
+			<!--{loop $share_list $share}-->
+			<div class="i_w_f hide1" shareID="{$share['share_id']}" id="share_item_{$share['share_id']}">
+				<div class="hd"></div>
+				<div class="bd">
+					<ul class="pic">
+						<!--{if ACTION_NAME == 'bao'}-->
+						<!--{loop $share['goods_imgs'] $share_img}-->
+						<li>
+							<a style="width:200px;" href="{$share_img['url']}" target="_blank">
+								<img class="book_img lazyload" original="{getimg $share_img['img'] 200 999}" width="200" src="./tpl/images/lazyload.gif" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+							</a>
+							<span class="p"><span>{$share_img['price_format']}</span><i></i></span>
+							<a class="add_to_album_btn" href="javascript:;" style="display: none;" onclick="$.Show_Rel_Album($share_img['id'],'goods');"></a>
+						</li>
+						<!--{/loop}-->
+						<!--{else}-->
+						<!--{loop $share['imgs'] $share_img}-->
+						<!--{if $share_img['type'] == 'g'}-->
+						<!--{if ACTION_NAME == 'all'}-->
+						<li>
+							<a style="width:200px;" href="{$share_img['url']}" target="_blank">
+								<img class="book_img lazyload" original="{getimg $share_img['img'] 200 999}" width=200 src="./tpl/images/lazyload.gif" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+							</a>
+							<span class="p"><span>{$share_img['price_format']}</span><i></i></span>
+							<a class="add_to_album_btn" href="javascript:;" style="display: none;" onclick="$.Show_Rel_Album($share_img['id'],'goods');"></a>
+						</li>
+						<!--{/if}-->
+						<!--{else}-->
+						<li>
+							<a style="width:200px;" href="{$share_img['url']}" target="_blank">
+								<img class="book_img lazyload" original="{getimg $share_img['img'] 200 999}" width=200 src="./tpl/images/lazyload.gif" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+							</a>
+							<a class="add_to_album_btn" href="javascript:;" style="display: none;" onclick="$.Show_Rel_Album($share_img['id'],'photo');"></a>
+						</li>
+						<!--{/if}-->
+						<!--{/loop}-->
+						<!--{/if}-->
+					</ul>
+					<div class="favorite">
+						<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+						<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+						<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+					</div>
+				</div>
+				<div class="who_share">
+					<div class="ws_bd clearfix">
+						<!--{getuser $share['uid'] 0 's,24' ',icard avt fl lazyload'}-->
+						<p class="fr clearfix">
+							<span class="t fl"><!--{getuser $share['uid'] 0 '' 'n icard'}--></span>
+							<span class="t fr">{$share['time']}</span>
+							<span class="tkinfo clearfix">
+								{cutstr $share['content'] 200}
+							</span>
+						</p>
+					</div>
+					<div class="ws_ft"></div>
+				</div>
+			</div>
+			<!--{/loop}-->
+		</div>
+		<!--{if $pager['page_count'] > 1}-->
+		<div style="padding-top:30px" class="clr hide" id="pageBox">
+			<div class="pagination"> 
+				<!--{subtemplate inc/pages}--> 
+			</div>
+		</div>
+		<!--{/if}-->
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="pbLoading" style="background:url(./tpl/images/loading.gif) no-repeat center center;height:52px; display:none;"></div>
+<div class="hide">
+<!--{if $pager['page_count'] > 0}-->
+<!--{loop $pb_list $url}-->
+<a href="{$url}">{$url}</a>
+<!--{/loop}-->
+<!--{/if}-->
+</div>
+<script type="text/javascript">
+var rowHtml = '<div class="i_w_f i_w_f_f empty_row"><div class="hd"></div><div class="bd" style="height:#HEIGHT#px;"></div><div class="ft"></div></div>';
+var pbUrl = "{$pb_url}";
+var imgWidth = 200;
+var pbMaxIndex = {$_FANWE['setting']['share_pb_load_count']};
+
+jQuery(function(){
+	$(".book_img").each(function(){
+		var oldWidth = parseInt(this.getAttribute("oldWidth"));
+		var oldHeight = parseInt(this.getAttribute("oldHeight"));
+		if(isNaN(oldWidth) || isNaN(oldHeight) || oldWidth == 0 || oldHeight == 0)
+		{
+			this.height = 0;
+		}
+		else
+		{
+			var scale = imgWidth / oldWidth;
+			this.height = oldHeight * scale;
+		}
+	});
+
+	$('#imagewall_container').css({"height":"auto","background":"none"});
+	$('.i_w_f').css("visibility","visible");
+	
+	$('#imagewall_container').masonry({
+		itemSelector: '.i_w_f',
+		isAnimated:true,
+		gutterWidth:15,
+		gutterHeight:8,
+		columnWidth:225
+	});
+
+	<!--{if $pager['page_count'] > 0}-->
+	createPBScroll(pbUrl,appendShareItem,pbLoadingFun,2,pbMaxIndex,300);
+	<!--{/if}-->
+});
+
+function appendBottomItem()
+{
+	var lefts = new Object();
+	var colTotal = 4;
+	$(".i_w_f").each(function(i){
+		if($(this).position().top == 0)
+		{
+			lefts['l'+$(this).position().left] = $(this);
+		}
+		else
+		{
+			if(lefts['l'+$(this).position().left].position().top <  $(this).position().top)
+				lefts['l'+$(this).position().left] = $(this);
+		}
+	});
+	
+	var cols = 0;
+	var maxLeft = '';
+	var currentSize = 0;
+	var maxSize = 0;
+	for(var left in lefts)
+	{
+		cols++;
+		currentSize = lefts[left].position().top + lefts[left].height();
+		if(currentSize > maxSize)
+		{
+			maxLeft = left;
+			maxSize = currentSize;
+		}
+	}
+	
+	var htmlArray = new Array();
+	var htmlObjs = new Object();
+	html = '';
+	for(var left in lefts)
+	{
+		currentSize = lefts[left].position().top + lefts[left].height();
+		if(currentSize < maxSize)
+		{
+			htmlObjs['h'+(maxSize - currentSize)] = rowHtml.replace("#HEIGHT#",maxSize - currentSize - 30);
+			htmlArray.push(maxSize - currentSize);
+		}
+	}
+
+	var newArray = htmlArray.sort(function(a,b){
+		if(a > b)
+			return -1;
+		else if(a < b)
+			return 1;
+		else
+			return 0;
+	});
+	
+	for(var h=0;h<newArray.length;h++)
+	{
+		html += htmlObjs['h'+newArray[h]];
+	}
+
+	if(colTotal > cols)
+	{
+		for(var i=0; i< (colTotal - cols);i++)
+		{
+			html = rowHtml.replace("#HEIGHT#",maxSize - 22) + html;
+		}
+	}
+	html = $('<div>' + html + '</div>').find('.i_w_f');
+	$('#imagewall_container').append(html).masonry('appended',html,true);
+}
+
+function appendShareItem(result,index)
+{
+	html = '<div>' + result + '</div>';
+    html = $(html).find('.i_w_f');
+	$(".book_img",html).each(function(){
+		var oldWidth = parseInt(this.getAttribute("oldWidth"));
+		var oldHeight = parseInt(this.getAttribute("oldHeight"));
+		if(isNaN(oldWidth) || isNaN(oldHeight) || oldWidth == 0 || oldHeight == 0)
+		{
+			this.height = 0;
+		}
+		else
+		{
+			var scale = imgWidth / oldWidth;
+			this.height = oldHeight * scale;
+		}
+	});
+	$('#imagewall_container').append(html).masonry('appended',html,true,function(){
+		if(index >= pbMaxIndex || result == '')
+		{
+			$("#pageBox").show();
+			var fun = function(){
+				appendBottomItem();
+			}
+			setTimeout(fun,1000);
+		}
+	});
+}
+
+function pbLoadingFun(bln)
+{
+	if(bln)
+		$("#pbLoading").show();
+	else
+		$("#pbLoading").hide();
+}
+</script>
+<!--{template inc/footer}-->

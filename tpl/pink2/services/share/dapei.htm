@@ -1,0 +1,52 @@
+<!--{loop $share_list $share}-->
+<div class="i_w_f" shareID="{$share['share_id']}" id="share_item_{$share['share_id']}">
+	<div class="hd"></div>
+	<div class="bd">
+		<ul class="pic">
+			<!--{eval $shipai_tag = '<span class="shipai_tag"></span>';}-->
+			<!--{loop $share['dapei_imgs'] $share_img}-->
+			<li>
+				<!--{if isset($share['goods_imgs'])}-->
+				{$shipai_tag}
+				<!--{/if}-->
+				<a style="width:200px;" href="{$share_img['url']}" target="_blank">
+					<img class="book_img" src="{getimg $share_img['img'] 200 999}" width="200" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+				</a>
+			</li>
+			<!--{eval $shipai_tag = '';}-->
+			<!--{/loop}-->
+		</ul>
+		<div class="favorite">
+			<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+			<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+			<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+		</div>
+		<!--{if isset($share['goods_imgs'])}-->
+		<ul class="googd_list_show">
+			<!--{eval $index = 1;}-->
+			<!--{loop $share['goods_imgs'] $share_img}-->
+			<li>
+				<span class="num_list">{$index}</span>
+				<a class="link" target="_blank" href='{$share_img['url']}'>{cutstr $share_img['name'] 18}</a>&nbsp;
+				<span class="price">{$share_img['price_format']}</span>
+			</li>
+			<!--{eval $index++;}-->
+			<!--{/loop}-->
+		</ul>
+		<!--{/if}-->
+	</div>
+	<div class="who_share">
+		<div class="ws_bd clearfix">
+			<!--{getuser $share['uid'] 0 's,24' ',icard avt fl'}-->
+			<p class="fr clearfix">
+				<span class="t fl"><!--{getuser $share['uid'] 0 '' 'n icard'}--></span>
+				<span class="t fr">{$share['time']}</span>
+				<span class="tkinfo clearfix">
+					{cutstr $share['content'] 200}
+				</span>
+			</p>
+		</div>
+		<div class="ws_ft"></div>
+	</div>
+</div>
+<!--{/loop}-->

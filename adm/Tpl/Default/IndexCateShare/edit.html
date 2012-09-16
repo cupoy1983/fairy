@@ -1,0 +1,108 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/search.js"></script>
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:Cookie::get('returnUrl')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.SHARE_ID}</th>
+		<td>
+			<p>
+				{$share.share_id}&nbsp;&nbsp;
+				{$Think.lang.USER}：{$share.user_name}&nbsp;&nbsp;
+				{$Think.lang.COLLECT}：{$share.collect_count}
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.TAGS}</th>
+		<td>
+			<p>{$share.tags}</p>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.NAME}</th>
+		<td>
+			<input type="text" class="textinput" name="name" value="{$vo.name}" size="30" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CID}</th>
+		<td>
+			<fanwe:select options="cate_list" name="cid" id="cid" textfield="cate_name" valuefield="cate_id" selected="vo['cid']"/>
+			&nbsp;&nbsp;{$Think.lang.INDEX_GROUP}&nbsp;
+			<fanwe:select options="cate_groups" name="gid" id="cateGroup" textfield="name" valuefield="id" selected="vo['gid']" first="不分组" firstvalue="0"/>
+			&nbsp;&nbsp;<a href="#" id="addGroup" style="display:none;" target="_blank">添加分组(添加后切换分类可加载新的分组)</a>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CIMG_ID}</th>
+		<td>
+			<input type="file" class="fileinput" name="cimg" size="30" />
+			<if condition="$vo['cimg_id'] gt 0">
+				<span>&nbsp;<a href="<?php echo getImgById($vo['cimg_id'],0,0,0,1) ?>" target="_blank" >{$Think.lang.VIEW}</a>
+				&nbsp;<a href="javascript:;" onclick="deleteImgById(this,{$vo['share_id']},'cimg_id','IndexCateShare');">{$Think.lang.REMOVE}</a></span>
+			</if>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_IMG}</th>
+		<td>
+			<table cellpadding="3" cellspacing="0" border="0" align="left">
+				<tr>
+					<foreach name="share.imgs" item="img">
+					<td style="border:none;">
+						<if condition="$img['type'] eq 'g'">
+						<a href="{$img.url}" target="_blank"><img src="<?php echo FS('Image')->getImageUrl($img['img'],2) ?>" height="100" style="border:solid 1px #ff3300;" alt="{$img.name}" /></a>
+						<else/>
+						<img src="<?php echo FS('Image')->getImageUrl($img['img'],2) ?>" height="100" style="border:solid 1px #ccc;"/>
+						</if>
+						<p><label><input type="radio" name="img_id" value="{$img.img_id}" <if condition="$img['img_id'] eq $vo['img_id']">checked="checked"</if>/>{$Think.lang.INDEX_IMG}</label></p>
+					</td>
+					</foreach>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.URL}</th>
+		<td>
+			<input type="text" class="textinput" name="url" value="{$vo.url}" size="60" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SORT}</th>
+		<td>
+			<input type="text" class="textinput" name="sort" id="sort" value="{$vo.sort}" size="10" />
+		</td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="hidden" name="share_id" value="{$share.share_id}" />
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+var add_group = "{:U('IndexCateGroup/add',array('cate_id'=>'aaaa'))}";
+var cid = {$vo.cid};
+jQuery(function($){
+	$("#cid").change(function(){
+		searchCateGroup('#cateGroup','#cid');
+		$("#addGroup").attr('href',add_group.replace('aaaa',this.value));
+		$("#addGroup").show();
+	});
+	
+	if(cid > 0)
+	{
+		$("#addGroup").attr('href',add_group.replace('aaaa',cid));
+		$("#addGroup").show();
+	}
+});
+</script>
+<include file="Public:footer" />

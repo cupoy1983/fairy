@@ -1,0 +1,69 @@
+<div class="blank20"></div>
+<div class="wrapper user_nav">
+	<div class="un_avatar">
+		<a class="fleft" href="{u u/book uid=$home_uid}"><img src="{avatar $home_user['avatar'] b}" width="100" height="100" alt="{$home_user['user_name']}" /></a>
+		<div class="un_info">
+			<h2>{$home_user['user_name']}<!--{if $home_user['is_daren'] == 1}--><img src="./tpl/images/tag_daren_b.png" /><!--{/if}--></h2>
+			<p>{$home_user['introduce']}</p>
+			<div>
+				<!--{if $home_uid == $_FANWE['uid']}-->
+				<a href="{u settings/personal}" class="un_setting">[完善我的资料]</a>
+				<!--{else}-->
+				<!--{getfollow $home_uid inc/getfollow/u_menu}-->
+				<a href="javascript:;" onclick="$.AtMe_Share(this);" class="home_at_ta ml10 mt10" toname="{$home_user['user_name']}" >@{$_FANWE['home_user_names']['short']}</a>
+				<!--{/if}-->
+			</div>
+		</div>
+		<ul class="un_ffc">
+			<li class="first">
+				<a href="{u u/follow uid=$home_uid}"><span>{$home_user['follows']}</span></a>
+				<a href="{u u/follow uid=$home_uid}">关注</a>
+			</li>
+			<li>
+				<a href="{u u/fans uid=$home_uid}"><span >{$home_user['fans']}</span></a>
+				<a href="{u u/fans uid=$home_uid}">粉丝</a>
+			</li>
+			<li>
+				<a><span style="color:#f39;">{$home_user['collects']}</span></a>
+				<a>被喜欢</a>
+			</li>
+		</ul>
+	</div>
+	<div class="un_menu">
+		<ul>
+			<li{if $current_menu == 'book'} class="c"{/if}><a href="{u u/book uid=$home_uid}">封面</a></li>
+			<li{if $current_menu == 'index'} class="c"{/if}><a href="{u u/index uid=$home_uid}">动态</a></li>
+			<li{if $current_menu == 'album'} class="c"{/if}><a href="{u u/album uid=$home_uid}">杂志社</a></li>
+			<li{if $current_menu == 'fav'} class="c"{/if}><a href="{u u/fav uid=$home_uid}">喜欢</a></li>
+			<!--{if $home_uid == $_FANWE['uid']}-->
+			<li{if $current_menu == 'group'} class="c"{/if}><a href="{u u/group uid=$home_uid}">小组</a></li>
+			<!--{else}-->
+			<li{if $current_menu == 'group'} class="c"{/if}><a href="{u u/topic uid=$home_uid}">小组</a></li>
+			<!--{/if}-->
+			<li{if $current_menu == 'look'} class="c"{/if}><a href="{u u/look uid=$home_uid}">晒货</a></li>
+			<li{if $current_menu == 'dapei'} class="c"{/if}><a href="{u u/dapei uid=$home_uid}">搭配</a></li>
+			<li{if $current_menu == 'bao'} class="c"{/if}><a href="{u u/bao uid=$home_uid}">宝贝</a></li>
+			<li{if $current_menu == 'photo'} class="c"{/if}><a href="{u u/photo uid=$home_uid}">相册</a></li>
+			<!--{if $home_uid == $_FANWE['uid']}-->
+			<li{if $current_menu == 'message'} class="c"{/if}><a href="{u u/message uid=$home_uid}">信件</a></li>
+			<li{if $current_menu == 'exchange'} class="c"{/if}><a href="{u u/exchange uid=$home_uid}">兑换</a></li>
+			<li{if $current_menu == 'commission'} class="c"{/if}><a href="{u u/commission uid=$home_uid}">佣金</a></li>
+			<!--{/if}-->
+		</ul>
+	</div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+function UMenuUpdateUserFollow(obj,result)
+{
+	var parent = $(obj).parent();
+	if(result.status == 1)
+	{
+		parent.html('<span class="followed">已关注</span><a onclick="$.User_Follow({$home_uid},this,UMenuUpdateUserFollow);" href="javascript:;" class="follow_del">取消</a>');
+	}
+	else
+	{
+		parent.html('<a onclick="$.User_Follow($home_uid,this,UMenuUpdateUserFollow);" href="javascript:;" class="addfo">加关注</a>');
+	}
+}
+</script>

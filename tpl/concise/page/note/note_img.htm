@@ -1,0 +1,238 @@
+<div class="note_left">
+	<div class="note_content">
+		<a href="{u u/index uid=$share_user['uid']}" class="nc_avatar GUID" uid="{$share_user['uid']}"><img class="fl" src="{avatar $share_user['avatar'] m}"></a>
+		<div class="nc_ut">
+			<a href="{u u/index uid=$share_user['uid']}" class="fl GUID" uid="{$share_user['uid']}">{$share_user['user_name']}</a>
+			<span class="fl">&nbsp;
+				<!--{if $share_detail['type'] == 'bar'}-->
+				创建《<a target="_blank" title="{$share_detail['title']}" class="from" href="{u topic/detail tid=$share_detail['rec_id']}">{cutstr $share_detail['title'] 40}</a>》
+				<!--{elseif $share_detail['type'] == 'bar_post'}-->
+				回应《<a target="_blank" title="{$share_detail['title']}" class="from" href="{u topic/detail tid=$share_detail['rec_id']}">{cutstr $share_detail['title'] 40}</a>》
+				<!--{elseif $share_detail['type'] == 'album_best'}-->
+				推荐{lang common/album}<a target="_blank" title="{$share_detail['title']}" href="{u album/show id=$share_detail['rec_id']}">《{cutstr $share_detail['title'] 40}》</a>
+				<!--{elseif $share_detail['type'] == 'album_item'}-->
+				加入{lang common/album}<a target="_blank" title="{$share_detail['title']}" href="{u album/show id=$share_detail['rec_id']}">《{cutstr $share_detail['title'] 40}》</a>
+				<!--{if $share_detail['rec_uid'] > 0}-->
+				收入自 @<!--{getuser $share_detail['rec_uid'] 0}-->
+				<!--{/if}-->
+				<!--{/if}-->
+			</span>
+			<span class="fr">{$share_detail['time']}</span>
+		</div>
+		<div class="nc_info">
+			{nl2br $share_detail['content']}
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="blank15"></div>
+	<div class="note_imgs">
+		<div class="ni_big">
+			<a href="{if $current_type == 'bao'}$current_obj['to_url']{else}{$current_obj['img']}{/if}" target="_blank" class="show_big"><img src="{getimg $current_obj['img'] 468 468}" width="320" /></a>
+			<!--{if $current_type == 'bao'}-->
+			<a class="add_to_album_btn" href="javascript:;" style="display: none;" onclick="$.Show_Rel_Album($current_obj['id'],'goods');"></a>
+			<!--{else}-->
+			<a class="add_to_album_btn" href="javascript:;" style="display: none;" onclick="$.Show_Rel_Album($current_obj['id'],'photo');"></a>
+			<!--{/if}-->
+		</div>
+		<!--{if !empty($share_detail['imgs']) && count($share_detail['imgs']) > 1}-->
+		<div class="ni_small">
+			<ul>
+				<!--{loop $share_detail['imgs'] $share_detail_img}-->
+				<!--{if $share_detail_img['type'] == 'g'}-->
+				<li keys="$share_detail_img['id']" tp="good" class="{if $current_type == 'bao' && $share_detail_img['id'] == $current_obj['id']}c{/if}">
+					<a href="$share_detail_img['url']" title="{$share_detail_img['name']}"><img src="{getimg $share_detail_img['img'] 100 100}"></a>
+					<p>{$share_detail_img['price_format']}</p>
+				</li>
+				<!--{else}-->
+				<li tp="image" keys="$share_detail_img['id']" class="{if $current_type == 'photo' && $share_detail_img['id'] == $current_obj['id']}c{/if}">
+					<a href="$share_detail_img['url']"><img src="{getimg $share_detail_img['img'] 100 100}"></a>
+				</li>
+				<!--{/if}-->
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+	</div>
+	<div class="note_info">
+		<div class="note_who_like">
+			<div style="overflow:hidden;zoom:1;padding-bottom:10px;">
+				<!--{if $current_type == 'bao'}-->
+				<a class="nwl_album" href="javascript:;" onclick="$.Show_Rel_Album($current_obj['id'],'goods');">收进杂志</a>
+				<!--{else}-->
+				<a class="nwl_album" href="javascript:;" onclick="$.Show_Rel_Album($current_obj['id'],'photo');">收进杂志</a>
+				<!--{/if}-->
+				<a href="javascript:;" class="fl" onclick="$.Fav_Share({$share_detail['share_id']},this,32,'#note_{$share_detail['share_id']}');"><img class="fl add_fav_new" src="./tpl/images/like.png" /></a>
+				<span class="nwl_cfav"><span class="SHARE_FAV_COUNT">{$share_detail['collect_count']}</span><i></i></span>
+				<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" style="width:26px; float:right; overflow:hidden;">   
+					<span class="bds_more"></span>
+				</div>
+				<script type="text/javascript" id="bdshare_js" data="type=tools&mini=1" ></script> 
+				<script type="text/javascript" id="bdshell_js"></script> 
+				<script type="text/javascript">
+					//在这里定义bds_config
+					var bds_config = {"bdText":"<?php echo cutstr($share_detail['share_content'],200); ?>"};
+					<?php $bu_share_img = getImgName($current_obj['img'],0,0,0,1); ?>
+					bds_config.bdPic = "{$bu_share_img}";
+					document.getElementById('bdshell_js').src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+				</script>
+				<a href="javascript:;" onclick="$.Relay_Share($share_detail['share_id']);" class="nwl_forward">转发({$share_detail['relay_count']})</a>
+			</div>
+		</div>
+		<!--{if isset($share_detail['goods_imgs'])}-->
+		<div class="ni_goods">
+			<strong>点这里去购买：</strong>
+			<!--{eval $goods_id = 0;}-->
+			<!--{eval $index = 1;}-->
+			<!--{if $current_type == 'bao'}-->
+			<!--{eval $goods_id = $current_obj['id'];}-->
+			<a href="{$current_obj['to_url']}" class="nig_c" target="_blank"><img src="./tpl/images/buy.gif" /><span>{$current_obj['name']}</span></a>
+			<!--{eval $index++;}-->
+			<a href="{$current_obj['to_url']}" class="nig_btn"><span>{$current_obj['price_format']}</span></a>
+			<!--{/if}-->
+			<!--{loop $share_detail['goods_imgs'] $goods}-->
+			<!--{if $goods['id'] != $goods_id}-->
+			<div>
+				<span class="num_list">{$index}</span>
+				<a class="link" target="_blank" href='{$goods['to_url']}' title="{$goods['name']}">{cutstr $goods['name'] 38}</a>&nbsp;
+				<span class="price">{$goods['price_format']}</span>
+			</div>
+			<!--{eval $index++;}-->
+			<!--{/if}-->
+			<!--{/loop}-->
+		</div>
+		<!--{/if}-->
+		<div class="note_who_like">
+			<div id="SHARE_TAGS_{$share_detail['share_id']}" class="fashion">
+				<!--{if $is_eidt_tag}-->
+				<div class="ed_fashion SHARE_TAG_EDIT_BOX">
+					<div class="fa_title">
+						<div class="fsl">{sprintf share_tag_tip $_FANWE['setting']['share_tag_count']}</div>
+						<div class="fsr"><a onclick="$.ShareTagClose('{$share_detail['share_id']}',this)" href="javascript:;">关闭</a></div>
+					</div>
+					<div class="fa_inp">
+						<?php
+							$tags_val = array();
+							foreach($share_tags as $share_tag)
+							{
+								$tags_val[] = $share_tag['tag_name'];
+							}
+							$tags_val = implode(' ',$tags_val);
+						?>
+						<input type="text" value="{$tags_val}" class="SHARE_TAG text">
+						<a onclick="$.ShareTagSave('{$share_detail['share_id']}',this)" href="javascript:;" style="text-align:center; line-height:30px; font-size:14px; color:#fff;">提交</a>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<!--{/if}-->
+				<div class="sw_fashion SHARE_TAG_SHOW_LIST">
+					<span>时尚元素：</span>
+					<!--{if empty($share_tags)}-->
+					<!--{if $is_eidt_tag}-->
+					<span class="SHARE_TAG_LIST"></span>
+					<span class="edit"><a onclick="$.ShareTagEdit('{$share_detail['share_id']}',this)" href="javascript:;">添加</a></span>
+					<!--{/if}-->
+					<!--{else}-->
+					<span class="SHARE_TAG_LIST">
+					<!--{loop $share_tags $share_tag}-->
+					<a href="{$share_tag['url']}" target="_blank">$share_tag['tag_name']</a>
+					<!--{/loop}-->
+					</span>
+					<!--{if $is_eidt_tag}-->
+					<span class="edit"><a onclick="$.ShareTagEdit('{$share_detail['share_id']}',this)" href="javascript:;">编辑</a></span>
+					<!--{/if}-->
+					<!--{/if}-->
+				</div>
+			</div>
+			<div class="blank6"></div>
+			<div class="SHARE_FAV_BOX nwl_img{if count($share_detail['collects']) == 0} hidden{/if}">
+				<span>她们喜欢这个分享</span>
+				<ul class="SHARE_FAV_LIST u_like">
+					<!--{loop $share_detail['collects'] $collect_uid}-->
+					<li><!--{getuser $collect_uid 0 'm' ',icard r3'}--></li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="note_comment">
+		<form method="post">
+		<div class="pub_box" id="publish_note">
+			<div class="pub_edit r5">
+				<div><span class="fw_count">{sprintf char_check 140}</span></div>
+				<textarea name="content" class="PUB_TXT pub_txt fl rl5" length="140" position="0"></textarea>
+				<input type="button" value="评论" class="pub_btn fl rr5" onclick="$.Add_Share_Comment(this,'#SHARE_COMMENT_LIST_{$share_detail['share_id']}')">
+				<div class="pub_ext">
+					<div class="pub_opt fl">
+						<span class="fl">{lang add}：</span>
+						<a w="note" onclick="$.Show_Expression(this)" href="javascript:;" style="background-position: 0pt -3px;" class="add_face">{lang face}</a>
+					</div>
+					<div class="pub_out fr">
+						<input id="comment_relay_tweet" type="checkbox" name="is_relay" value="1" />
+						<label for="comment_relay_tweet">{lang js_relay_share}</label>
+						<input type="hidden" value="$share_detail['share_id']" name="share_id" />
+						<input type="hidden" name="parent_id" value="0" />
+						<input type="hidden" name="comment_type" value="note" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="SHARE_COMMENT_LIST_BOX">
+			<ul id="SHARE_COMMENT_LIST_{$share_detail['share_id']}" class="c_l rb5">
+				<!--{loop $share_detail['comments'] $comment}-->
+				<li class="c_f" id="COMMENT_{$comment['comment_id']}">
+					<!--{getuser $comment['uid'] 0 'm' ',avt'}-->
+					<div>
+						<p class="p1">
+							<!--{if $is_remove_comment}-->
+							<a onclick="$.Delete_Comment($comment['comment_id'],this);" class="del fr ml10" href="javascript:void(0);">删除</a>
+							<!--{/if}-->
+							<a class="rpl fr" href="javascript:;" uname='{$comment['user']['user_name']}' cid="{$comment['comment_id']}" onclick="$.Reply_Comment(this);">回复</a>
+							<!--{getuser $comment['uid'] 1 '' 'uname'}-->
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;{$comment['time']}</span>
+						</p>
+						<p class="p2">{$comment['content']}</p>
+					</div>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<div class="pagination clearfix mt20">
+				<!--{subtemplate inc/pages}-->
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<div class="note_right">
+	<!--{if $current_type == 'bao'}-->
+	<div class="hot_images">
+		<h2><a>最被喜欢的宝贝</a></h2>
+		<ul class="fl"> 
+			<!--{loop $best_goods_share $goods_share}-->
+			<li><a target="_blank" href="{$goods_share['url']}"><img src="{getimg $goods_share['img'] 100 100}"></a></li>
+			<!--{/loop}-->
+		</ul> 
+	</div>
+	<div class="blank20"></div>
+	{$shop_percent_html}
+	<!--{elseif $current_type == 'photo'}-->
+	<div class="hot_images">
+		<h2><a>最被喜欢的照片 </a></h2>
+		<ul class="fl">
+			<!--{loop $best_photo_share $photo_share}-->
+			<li><a target="_blank" href="{$photo_share['url']}"><img src="{getimg $photo_share['img'] 100 100}"></a></li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<div class="blank20"></div>
+	<div class="hot_images">
+		<h2><a>{$user_show_name['short']}喜欢的照片 </a></h2>
+		<ul class="fl">
+			<!--{loop $user_fav_photo $photo_share}-->
+			<li><a target="_blank" href="{$photo_share['url']}"><img src="{getimg $photo_share['img'] 100 100}"></a></li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{else}-->
+	
+	<!--{/if}-->
+</div>

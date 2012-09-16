@@ -1,0 +1,40 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<link href="__TMPL__Static/Js/DatePicker/jquery.ui.all.css" rel="stylesheet" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/lang/jquery.ui.datepicker-{$default_lang}.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="addAdmin" name="addAdmin" value="{$Think.lang.ADD}" click="addData()" />
+	<fanwe:imageBtn id="editAdmin" name="editAdmin" value="{$Think.lang.EDIT}" click="editData(this,'checkList')" />
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<form action="__APP__">
+		<span>{$Think.lang.USER_NAME}</span>
+		<input class="textinput" type="text" value="{$user_name}" name="user_name" size="10" />
+		<small></small>
+		<span>{$Think.lang.DAY_TIME}</span>
+		<input class="textinput" type="text" value="{$day_time}" name="day_time" id="day_time" size="10" />
+		<small></small>
+		<span>{$Think.lang.CID}</span>
+		<fanwe:select options="daren_cate" name="cid" id="cid" first="{$Think.lang.CID_ALL}" firstvalue="0" textfield="name" valuefield="id" selected="cid"/>
+		<small></small>
+		<span>{$Think.lang.STATUS}</span>
+		<select name="status">
+			<option value="-1">{$Think.lang.STATUS_ALL}</option>
+			<option value="0" <if condition="$status eq 0">selected="selected"</if>>{$Think.lang.STATUS_0}</option>
+			<option value="1" <if condition="$status eq 1">selected="selected"</if>>{$Think.lang.STATUS_1}</option>
+		</select>
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<fanwe:list id="checkList" style="list" name="daren" checkbox="true" action="true" datasource="list" show="id:{$Think.lang.ID}|80,user_name:{$Think.lang.USER_NAME}|~left,is_best|getStatusImg:{$Think.lang.IS_BEST}|60:toggleStatus|id,is_index|getStatusImg:{$Think.lang.IS_INDEX}|60:toggleStatus|id,day_time|toDate:{$Think.lang.DAY_TIME}|140,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|id,create_time|toDate:{$Think.lang.CREATE_TIME}|140,sort:{$Think.lang.SORT}|80:numberEdit|id" actionlist="editData:{$Think.lang.EDIT}:id,removeData:{$Think.lang.REMOVE}:id" action_width="100" />
+<div class="pager">{$page}</div>
+<script type="text/javascript">
+jQuery(function($){
+	$("#day_time").datepicker();
+});
+</script>
+<include file="Public:footer" />

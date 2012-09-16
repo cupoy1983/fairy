@@ -1,0 +1,62 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/shareList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="editShare" name="editShare" value="{$Think.lang.EDIT}" click="editData(this,'checkList','share_id')" />
+	<fanwe:imageBtn id="removeShare" name="removeShare" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<fanwe:imageBtn id="ShiftClass" name="ShiftClass" value="{$Think.lang.SHIFT_CLASS}" click="ShiftClassData(this,'checkList')" />
+	<fanwe:imageBtn id="BatchDelete" name="BatchDelete" value="{$Think.lang.BATCH_DELETE}" click="BatchDelete()" />
+</div>
+<div class="search-box">
+    <form action="__APP__">
+		<span>{$Think.lang.SHARE_CONTENT}</span>
+		<input class="textinput" type="text" value="{$keyword}" name="keyword" size="12" />
+		<small></small>
+		<span>{$Think.lang.USER_NAME}</span>
+		<input class="textinput" type="text" value="{$uname}" name="uname" id="user_name" size="8" />
+		<small></small>
+		<span>{$Think.lang.SHARE_DATA}</span>
+		<select name="share_data">
+			<option value="goods_photo">{$Think.lang.SHARE_DATA_GOODS_PHOTO}</option>
+			<option value="goods" <if condition="$share_data eq 'goods'">selected="selected"</if> >{$Think.lang.SHARE_DATA_GOODS}</option>
+			<option value="photo" <if condition="$share_data eq 'photo'">selected="selected"</if> >{$Think.lang.SHARE_DATA_PHOTO}</option>
+		</select>
+		<small></small>
+		<span>{$Think.lang.SHARE_CATEGORY}</span>
+		<select name="cate_id">
+			<option value="0" <if condition="$cate_id eq 0">selected="selected"</if> >{$Think.lang.SHARE_ALL}</option>
+			<option value="-1" <if condition="$cate_id eq -1">selected="selected"</if> >{$Think.lang.NO_CATEGORY}</option>
+			<foreach name="cate_list" item="cate_item">
+			<option value="{$cate_item.cate_id}" <if condition="$cate_id eq $cate_item['cate_id']">selected="selected"</if> >{$cate_item.cate_name}</option>
+			</foreach>
+		</select>
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="image" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="share" 
+	pk="share_id" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="share_id:{$Think.lang.ID}|80,content:{$Think.lang.SHARE_CONTENT}|~left,cate_name:{$Think.lang.SHARE_CATEGORY}|80,user_name:{$Think.lang.USER_NAME}|80,create_time|toDate:{$Think.lang.CREATE_TIME}|100,collect_count:{$Think.lang.COLLECT_COUNT}|50,relay_count:{$Think.lang.RELAY_COUNT}|50,comment_count|getCommentCount=$share['share_id']:{$Think.lang.COMMENT_COUNT}|90,type|getTypeName:{$Think.lang.SHARE_TYPE}|70,share_data|getShareData:{$Think.lang.SHARE_DATA}|70,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|share_id" 
+	actionlist="is_index|getHandlerLink=$share,editData:{$Think.lang.EDIT}:share_id,removeData:{$Think.lang.REMOVE}:share_id" action_width="150" nosort="content,cate_name,user_name,create_time,relay_count,comment_count,type,share_data,status"/>
+<div class="pager">{$page}</div>
+<script type="text/javascript">
+FANWE.IS_TOGGLE_FUNC = function(query){
+	if(query.field == 'is_index')
+	{
+		if(query.val == 0)
+		{
+			var url = APP + '?' + VAR_MODULE + '=IndexCateShare&' + VAR_ACTION + '=add&share_id='+query.id;
+			$("#is_index_"+query.id).html('<a href="'+url+'">{$Think.lang.IS_INDEX_0}</a>');
+		}
+	}
+};
+</script>
+<include file="Public:footer" />

@@ -1,0 +1,57 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/shop.js"></script>
+<script type="text/javascript">
+var CONFIRM_ERROR = "{$Think.lang.CONFIRM_ERROR}";
+var NAME_EMPTY_TIP = "{$Think.lang.NAME_EMPTY_TIP}";
+var URL_EMPTY_TIP	=	"{$Think.lang.URL_EMPTY_TIP}";
+</script>
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:U(MODULE_NAME.'/index')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/insert')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.SHOP_NAME}</th>
+		<td><input type="text" class="textinput" name="shop_name" id="shop_name" value="" style="width:400px;" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHOP_URL}</th>
+		<td>
+			<input type="text" class="textinput" name="shop_url" id="shop_url" value=""  style="width:400px;" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHOP_LOGO}</th>
+		<td>
+			<input type="file" class="fileinput" name="shop_logo" size="30" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHOP_CATEGORY}</th>
+		<td>
+			<select name="cate_id">
+				<option value="0">{$Think.lang.NO_CATE}</option>
+				<foreach name="cate_tree" item="cate_item">
+					<option value="{$cate_item.id}">{$cate_item.name}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SORT}</th>
+		<td>
+			<input type="text" class="textinput" name="sort" id="sort" value="100"  />
+		</td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+
+<include file="Public:footer" />

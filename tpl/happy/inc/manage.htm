@@ -1,0 +1,25 @@
+<!--{if $page='book_index'}-->
+<!--{if getIsManage('share')}-->
+$('.book_item').live('mouseover',function(){
+	var shareID = this.getAttribute('shareID');
+	if(shareID)
+		$.GetManageMenu('share',shareID,this);
+});
+<!--{/if}-->
+<!--{elseif $page='book_dapei'}-->
+<!--{if getIsManage('share')}-->
+$('.book_item').live('mouseover',function(){
+	var shareID = this.getAttribute('shareID');
+	if(shareID)
+		$.GetManageMenu('dapei',shareID,this);
+});
+<!--{/if}-->
+<!--{elseif $page='book_look'}-->
+<!--{if getIsManage('share')}-->
+$('.book_item').live('mouseover',function(){
+	var shareID = this.getAttribute('shareID');
+	if(shareID)
+		$.GetManageMenu('share',shareID,this);
+});
+<!--{/if}-->
+<!--{/if}-->

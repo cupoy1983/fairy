@@ -1,0 +1,16 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="addAdmin" name="addAdmin" value="{$Think.lang.ADD}" click="addData()" />
+	<fanwe:imageBtn id="editAdmin" name="editAdmin" value="{$Think.lang.EDIT}" click="editData(this,'checkList')" />
+	<fanwe:imageBtn id="removeAdmin" name="removeAdmin" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<if condition="$parent_id gt 0">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_PREV}" href="{:U(MODULE_NAME.'/index',array('parent_id'=>$pp_id))}" />
+	</if>
+</div>
+<div class="search-box">
+</div>
+<fanwe:list id="checkList" style="list" name="city" checkbox="true" action="true" datasource="list" show="id:{$Think.lang.ID}|80,name:{$Think.lang.NAME}|~left:textEdit|id,parent_id|getCityName:{$Think.lang.PARENT_ID}|100,sort:{$Think.lang.SORT}|80:numberEdit|id" actionlist="child|getChildLink=$city['id'],editData:{$Think.lang.EDIT}:id,removeData:{$Think.lang.REMOVE}:id" action_width="150" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

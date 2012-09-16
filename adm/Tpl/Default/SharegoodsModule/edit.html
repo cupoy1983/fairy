@@ -1,0 +1,89 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:Cookie::get('returnUrl')}" />
+	<if condition="$vo['class'] eq 'yiqifa'">
+	<fanwe:linkBtn text="{$Think.lang.YIQIFA_SITES}" href="{:U('YiqifaShop/index')}" />
+	</if>
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<?php
+		$langs = L();
+		$class_code = strtoupper($vo['class'].'_tips');
+		if(isset($langs[$class_code]))
+		{
+			echo '<tr><th width="150">&nbsp;</th><td><p>'.$langs[$class_code].'</p></td>';
+		}
+	?>
+	<tr>
+		<th width="150">{$Think.lang.CLASS}</th>
+		<td><p>{$vo.class}</p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.NAME}</th>
+		<td><input type="text" class="textinput requireinput" name="name" value="{$vo.name}" /></td>
+	</tr>
+	<if condition="$vo['class'] neq 'yiqifa'">
+	<tr>
+		<th>{$Think.lang.DOMAIN}</th>
+		<td><input type="text" class="textinput" name="domain" value="{$vo.domain}" size="60" /></td>
+	</tr>
+	</if>
+	<tr>
+		<th>{$Think.lang.URL}</th>
+		<td><input type="text" class="textinput" name="url" value="{$vo.url}" size="60" /></td>
+	</tr>
+	<foreach name="vo['api_data']" key="api_key" item="api_item">
+	<?php
+		$th = L($vo['class'].'_'.$api_key);
+		$tips = '';
+		$tips_code = strtoupper($vo['class'].'_'.$api_key.'_tips');
+		if(isset($langs[$tips_code]))
+		{
+			$tips = $langs[$tips_code];
+		}
+	?>
+	<tr>
+		<th>{$th}</th>
+		<td>
+			<if condition="$api_key eq 'expires_in'">
+			<input type="text" class="textinput" name="api_item[{$api_key}]" value="{:toDate($api_item)}" size="30"/>
+			<else/>
+			<input type="text" class="textinput" name="api_item[{$api_key}]" value="{$api_item}" size="60"/>
+			</if>
+		</td>
+	</tr>
+	<if condition="$tips neq ''">
+	<tr>
+		<th>&nbsp;</th>
+		<td><p>{$tips}</p></td>
+	</tr>
+	</if>
+	</foreach>
+	<tr>
+		<th>{$Think.lang.SORT}</th>
+		<td>
+			<input type="text" class="textinput" name="sort" id="sort" value="{$vo.sort}"/>
+		</td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+function replaceToggle(obj)
+{
+	if(obj.value == 2)
+		$("#replaceTr").show();
+	else
+		$("#replaceTr").hide();
+}
+</script>
+<include file="Public:footer" />

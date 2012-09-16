@@ -1,0 +1,163 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/zone.css';
+	$js_list[0] = './tpl/js/zone.js';
+?>
+<!--{template inc/header}-->
+<!--{template inc/u/u_menu}-->
+<div class="wrapper">
+	<div class="zone_head clearfix">
+		<div class="fleft zh_cat">
+			<a href="{u u/commission}"{if $type == 0} class="c"{/if}>佣金列表</a>
+			<!--{if $_FANWE['setting']['user_commission_type'] == 0}-->
+			<span>|</span>
+			<a href="{u u/commission type=1}"{if $type == 1} class="c"{/if}>已结算佣金</a>
+			<!--{/if}-->
+			<!--{if $_FANWE['setting']['user_commission_type'] == 0 || $_FANWE['setting']['user_commission_type'] == 1}-->
+			<span>|</span>
+			<a href="{u u/commission type=2}"{if $type == 2} class="c"{/if}>已支付佣金</a>
+			<!--{/if}-->
+			<span>|</span>
+			<a href="{u u/commission type=3}"{if $type == 3} class="c"{/if}>资金日志</a>
+			<span>|</span>
+			<a href="{u u/commission type=4}"{if $type == 4} class="c"{/if}>提现日志</a>
+			<span>|</span>
+			<a href="{u user/commission}">佣金说明</a>
+		</div>
+		<div class="fright">
+			<a href="{u u/commission type=5}" class="zone_btn" >我要提现</a>
+		</div>
+	</div>
+</div>
+<div class="mt20 zone_wrapper clearfix">
+	<!--{if $type == 3}-->
+	<table class="list-table" border="0" cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr class="lt-title">
+				<th class="first" width="80">编号</th>
+				<th width="80">增加</th>
+				<th width="80">减少</th>
+				<th>原因</th>
+				<th class="last" width="130">发生时间</th>
+			</tr>
+			<!--{loop $order_list $order}-->
+			<tr>
+				<td class="lt-td first" style="text-align:center;vertical-align:middle;">{$order['id']}</td>
+				<td class="lt-td tl" style="text-align:center;vertical-align:middle;">{if $order['money'] > 0}{$order['money']}{else}&nbsp;{/if}</td>
+				<td class="lt-td" style="text-align:center;vertical-align:middle;">{if $order['money'] < 0}{$order['money']}{else}&nbsp;{/if}</td>
+				<td class="lt-td">{$order['content']}</td>
+				<td class="lt-td last tl" style="text-align:center;vertical-align:middle;">{$order['create_time']}</td>
+			</tr>
+			<!--{/loop}-->
+		</tbody>
+	</table>
+	<!--{elseif $type == 4}-->
+	<table class="list-table" border="0" cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr class="lt-title">
+				<th class="first" width="80">编号</th>
+				<th>提现金额</th>
+				<th>处理状态</th>
+				<th>支付状态</th>
+				<th width="130">支付/取消时间</th>
+				<th class="last" width="130">申请时间</th>
+			</tr>
+			<!--{loop $order_list $order}-->
+			<tr>
+				<td class="lt-td first" style="vertical-align:middle;" rowspan="2">{$order['id']}</td>
+				<td class="lt-td">{$order['money_format']}</td>
+				<td class="lt-td">{if $order['status'] == 0}处理中{elseif $order['status'] == 1}已处理{else}作废{/if}</td>
+				<td class="lt-td">{if $order['pay_time'] > 0}{if $order['is_pay'] == 1}已支付{else}取消支付{/if}{else}未支付{/if}</td>
+				<td class="lt-td">{if $order['pay_time'] > 0}{$order['pay_time_format']}{/if}</td>
+				<td class="lt-td last">{$order['create_time']}</td>
+			</tr>
+			<tr>
+				<td class="lt-td" colspan="3">备注：{$order['content']}</a></td>
+				<td class="lt-td last" colspan="2" style="text-align:left;">处理结果：{$order['adm']}</a></td>
+			</tr>
+			<!--{/loop}-->
+		</tbody>
+	</table>
+	<!--{elseif $type == 5}-->
+	<form action="{u u/commission}" method="post" id="commissionForm">
+	<table class="list-table" border="0" cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr>
+				<td class="lt-td first" width="100" style="text-align:right;vertical-align:middle;">提现金额：</td>
+				<td class="lt-td last" style="text-align:left;">
+					<input type="text" name="money" class="gray_text" style="line-height:20px; height:20px; padding:2px;" />&nbsp;
+					（现有资金：¥{$_FANWE['user']['money']}）
+				</td>
+			</tr>
+			<tr>
+				<td class="lt-td first" width="100" style="text-align:right;" rowspan="2">备注：</td>
+				<td class="lt-td last" style="text-align:left;">
+					<textarea name="content" class="gray_text" rows="5" cols="100" style="padding:3px;"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="lt-td last" style="text-align:left;">
+					请填定你的联系方式、转帐方式、相关银行或在线银行帐号，以便我们及时处理您提交的提现申请
+				</td>
+			</tr>
+			<tr>
+				<td class="lt-td first" width="100" style="text-align:right;">&nbsp;</td>
+				<td class="lt-td last" style="text-align:left;">
+					<input type="submit" class="pink_button" value="提交" style="border:none; padding:3px 10px;" />
+					<input type="hidden" name="type" value="6" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<script type="text/javascript">
+	jQuery(function($){
+		$("#commissionForm").submit(function(){
+			var money = parseFloat(this.money.value);
+			if(isNaN(money) || money < 0)
+			{
+				alert("请输入正确的提现金额");
+				return false;	
+			}
+			this.money.value = money;
+			if(money > {$_FANWE['user']['money']})
+			{
+				alert("提现金额超出现有资金");
+				return false;	
+			}
+		});
+	});
+	</script>
+	</form>
+	<!--{else}-->
+	<table class="list-table" border="0" cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr class="lt-title">
+				<th class="first" width="110">佣金编号</th>
+				<th>佣金类型</th>
+				<th>所得佣金</th>
+				<th>支付状态</th>
+				<th>支付/取消时间</th>
+				<th width="80">结算时间</th>
+				<th class="last" width="80">创建时间</th>
+			</tr>
+			<!--{loop $order_list $order}-->
+			<tr>
+				<td class="lt-td first" style="text-align:center; vertical-align:middle;" rowspan="2">o{$order['order_id']}</td>
+				<td class="lt-td tl" style="text-align:center;">{if $order['type'] == 0}佣金返现{else}购买返现{/if}</td>
+				<td class="lt-td" style="text-align:center;">{if $order['commission'] > 0}{$order['commission_format']}{else}<span style="color:#ccc;">获取中</span>{/if}</td>
+				<td class="lt-td" style="text-align:center;">{if $order['pay_time'] > 0}{if $order['is_pay'] == 1}已支付{else}取消支付{/if}{else}未支付{/if}</td>
+				<td class="lt-td" style="text-align:center;">{if $order['pay_time'] > 0}{$order['pay_time_format']}{/if}</td>
+				<td class="lt-td" rowspan="2" style="text-align:center;vertical-align:middle;">{if $order['settlement_time'] > 0}{$order['settlement_time_format']}{/if}</td>
+				<td class="lt-td last tl" style="text-align:center;vertical-align:middle;" rowspan="2">{$order['create_time']}</td>
+			</tr>
+			<tr>
+				<td class="lt-td tl" colspan="4">商品：<a href="{$order['taoke_url']}" target="_blank">{cutstr $order['name'] 68}</a></td>
+			</tr>
+			<!--{/loop}-->
+		</tbody>
+	</table>
+	<!--{/if}-->
+	<div class="pagination pt15">
+		<!--{subtemplate inc/pages}--> 
+	</div>
+</div>
+<!--{template inc/footer}-->

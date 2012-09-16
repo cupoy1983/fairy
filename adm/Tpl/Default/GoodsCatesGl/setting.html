@@ -1,0 +1,53 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<load href="__TMPL__Static/Js/addgl.js" />
+<style type="text/css">
+#dl_cids dl { margin: 0px 0px 10px 0px; border-bottom: dashed 1px #ccc }
+#dl_cids dl dt { padding: 10px 0px 0px 0px; }
+#dl_cids dl dd { float: left; padding-left:20px; }
+</style>
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_CATEGORY_LIST}" href="{:U('GoodsCatesGl/index',array('cate_id'=>$_GET['cate_id'],'cate_name'=>$_GET['cate_name']))}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/insert')}">
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+		<tr>
+			<th width="180">{$Think.lang.CATE_NAME}</th>
+			<td>
+				<span>{$cate_info['cate_name']}({$type})</span>
+				<input type="hidden" name="cate_id" value="{$_GET['cate_id']}"/>
+				<input type="hidden" name="type" value="{$type}"/>
+			</td>
+		</tr>
+		<tr >
+			<th>{$Think.lang.GL_CATES}（双击选定关联）</th>
+			<td>
+				<table class="fl">
+					<tr id="cate_select">
+						<td style="border:none;">
+							<select multiple="multiple" class="selectmul" name="cates" style="width:260px; height:400px;">
+								<foreach name="cate_list" item="cate">
+									<option value="{$cate['id']}"> {$cate['name']}</option>
+								</foreach>
+							</select>
+						</td>
+						<td id="lv2" style="border:none;"></td>
+						<td id="lv3" style="border:none;"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<th>已关联分类</th>
+			<td><div id="faddcate_btn"> </div></td>
+		</tr>
+		<tr class="act">
+			<th>&nbsp;</th>
+			<td>
+				<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+				<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+			</td>
+		</tr>
+	</table>
+</form>
+<include file="Public:footer" />

@@ -1,0 +1,30 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.BACK_THREAD}" href="{:Cookie::get('returnUrl')}" />
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList','pid')" />
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<form action="__APP__">
+		<span>{$Think.lang.USER_NAME}</span>
+		<input class="textinput" type="text" value="{$uname}" name="uname" id="user_name" size="8" />
+		<small></small>
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<div class="search-box">
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="post" 
+	pk="pid" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="pid:{$Think.lang.ID}|50,user_name:{$Think.lang.USER_NAME}|100,content:{$Think.lang.CONTENT}|~left,share_id|getRelateShare:{$Think.lang.CHECK_RELATE_SHARE}|150,create_time|toDate:{$Think.lang.POST_TIME}|150" 
+	actionlist="editData:{$Think.lang.EDIT}:pid,removeData:{$Think.lang.REMOVE}:pid" action_width="80" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

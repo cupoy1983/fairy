@@ -1,0 +1,68 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<if condition="$systems['is_install_dir'] or $systems['is_install_dir']">
+	<tr>
+		<th colspan="4" style="background:#9CB8CC; color:#fff; font-size:14px; text-align:left;"><strong>&nbsp;安全提示</strong></th>
+	</tr>
+	</if>
+	<if condition="$systems['is_install_dir']">
+	<tr>
+		<th colspan="4" style="text-align:center; color:#f00;">您还没有删除 install 文件夹，出于安全的考虑，我们建议您删除 install 文件夹。</th>
+	</tr>
+	</if>
+	<if condition="$systems['is_update_dir']">
+	<tr>
+		<th colspan="4" style="text-align:center; color:#f00;">您还没有删除 update 文件夹，出于安全的考虑，我们建议您删除 update 文件夹。</th>
+	</tr>
+	</if>
+	<tr>
+		<th colspan="4" style="background:#9CB8CC; color:#fff; font-size:14px; text-align:left;"><strong>&nbsp;系统信息</strong></th>
+	</tr>
+	<tr>
+		<th>服务器操作系统:</th>
+		<td><?php echo PHP_OS; ?>&nbsp;&nbsp;{$Think.server.SERVER_ADDR}</td>
+		<th>Web 服务器:</th>
+		<td>{$Think.server.SERVER_SOFTWARE}</td>
+	</tr>
+	<tr>
+		<th>PHP 版本:</th>
+		<td><?php echo PHP_VERSION; ?></td>
+		<th>系统版本:</th>
+		<td>{:fanweC("SYS_VERSION")}</td>
+	</tr>
+	<tr>
+		<th>系统时间:</th>
+		<td>{:toDate(gmtTime())}</td>
+		<th>系统时区:</th>
+		<td>{:date_default_timezone_get()}</td>
+	</tr>
+	<tr>
+		<th colspan="4" style="background:#9CB8CC; color:#fff; font-size:14px; text-align:left;"><strong>&nbsp;审核统计</strong></th>
+	</tr>
+	<tr>
+		<th>待审核分享:</th>
+		<td><a href="{:U('Share/check')}">{$systems.share_check}</a></td>
+		<th>待审核商品:</th>
+		<td><a href="{:U('Goods/check')}">{$systems.goods_check}</a></td>
+	</tr>
+	<tr>
+		<th>待审核小组:</th>
+		<td><a href="{:U('Forum/check')}">{$systems.group_check}</a></td>
+		<th>待审核店铺:</th>
+		<td><a href="{:U('Shop/check')}">{$systems.shop_check}</a></td>
+	</tr>
+	<tr>
+		<th>待支付佣金:</th>
+		<td><a href="{:U('GoodsOrder/index')}">{$systems.yj_count}</a></td>
+		<th>待处理提现申请:</th>
+		<td><a href="{:U('UserAuctionLog/index')}">{$systems.tx_count}</a></td>
+	</tr>
+	<tr>
+		<th>待处理兑换订单:</th>
+		<td><a href="{:U('Order/index')}">{$systems.order_count}</a></td>
+		<th>待审核勋章申请:</th>
+		<td><a href="{:U('Medal/check')}">{$systems.xz_count}</a></td>
+	</tr>
+</table>	
+<include file="Public:footer" />

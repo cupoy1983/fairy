@@ -1,0 +1,75 @@
+<div class="piece_bd posr">
+    <h2 class="my_group_title"><img id="myGroupLoading" src="./tpl/images/loading_blue1.gif" class="hide" style="position:absolute; top:8px; right:20px;" /></h2>
+    <div class="my_gorup">
+        <a href="{u u/topic}">我发表的</a>
+        <a href="{u u/feed}">我回应的</a>
+    </div>
+    <!--{if $groups['pager']['total_count'] > 0}-->
+    <div class="my_group_slide_box" id="my_group_slide_box">
+        <a href="javascript:;" class="fl prev vhide"></a>
+        <div class="my_group_slide fl">
+            <ul class="my_group_list" style="left:0px; ">
+                <!--{loop $groups['list'] $group_item}-->
+                <li>
+                    <a target="_blank" href="{u group/detail fid=$group_item['fid']}"><img class="tg_cover" src="{getimg $group_item['icon']['img'] 100 100 1}" width="53" /></a>
+                    <a target="_blank" href="{u group/detail fid=$group_item['fid']}">{$group_item['name']}</a>
+                </li>
+                <!--{/loop}-->
+            </ul>
+        </div>
+        <a href="javascript:;" class="next fl{if $groups['pager']['page_count'] < 2} vhide{/if}"></a>
+    </div>
+    <!--{else}-->
+    <p class="no_group">您还没有加入任何小组哦~来加入小组找到更多志同道合的闺蜜吧&gt;&gt;&gt;<a href="#all_group">去发现</a></p>
+    <!--{/if}-->
+</div>
+<!--{if $groups['pager']['total_count'] > 0 && $groups['pager']['page_count'] > 1}-->
+<script type="text/javascript">
+var MY_GROUP_PAGE = 1;
+var MY_GROUP_MAX_PAGE = {$groups['pager']['page_count']};
+jQuery(function($){
+	$('#my_group_slide_box a.prev').click(function(){
+		if(MY_GROUP_PAGE <= 1)
+		{
+			$('#my_group_slide_box a.prev').addClass('vhide');
+			MY_GROUP_PAGE = 1;
+			return;
+		}
+		$("#myGroupLoading").show();
+		MY_GROUP_PAGE--;
+		getUserGroups(MY_GROUP_PAGE,getMeGroupFunc);
+	});
+
+	$('#my_group_slide_box a.next').click(function(){
+		if(MY_GROUP_PAGE >= MY_GROUP_MAX_PAGE)
+		{
+			$('#my_group_slide_box a.next').addClass('vhide');
+			MY_GROUP_PAGE = MY_GROUP_MAX_PAGE;
+			return;
+		}
+		$("#myGroupLoading").show();
+		MY_GROUP_PAGE++;
+		getUserGroups(MY_GROUP_PAGE,getMeGroupFunc);
+	});
+});
+
+function getMeGroupFunc(result)
+{
+	$("#myGroupLoading").hide();
+	if(result)
+	{
+		MY_GROUP_PAGE = result.pager.page;
+		MY_GROUP_MAX_PAGE = result.pager.page_count;
+		$('#my_group_slide_box a.prev').addClass('vhide');;
+		$('#my_group_slide_box a.next').addClass('vhide');;
+		if(MY_GROUP_PAGE < MY_GROUP_MAX_PAGE)
+			$('#my_group_slide_box a.next').removeClass('vhide');
+		
+		if(MY_GROUP_PAGE > 1)
+			$('#my_group_slide_box a.prev').removeClass('vhide');
+			
+		$(".my_group_list").html(result.list);
+	}
+}
+</script>
+<!--{/if}-->

@@ -1,0 +1,36 @@
+<!--{if $_FANWE['uid'] == 0}-->
+<div class="login_scroll">
+	<div class="ls_body">
+		<div class="lsb_1"><a href="{u user/register}" target="_blank"><img src="./tpl/images/ls_reg.png" /></a></div>
+		<div class="lsb_2">
+			<strong>爱网购，爱漂亮的时尚女生都在这里</strong>
+			<span>挑衣服，聊化妆，分享搭配秘籍，发现最美自己！</span>
+		</div>
+		<div class="lsb_3">
+			<span>合作网站账号登录：</span>
+			<a href="{$_FANWE[site_root]}login.php?mod=sina"><img class="fl" src="./tpl/images/ls_sina.png"></a>
+			<a href="{$_FANWE[site_root]}login.php?mod=tqq"><img class="fl" src="./tpl/images/ls_tqq.png"></a>
+			<a href="{$_FANWE[site_root]}login.php?mod=qq"><img class="fl" src="./tpl/images/ls_qq.png"></a>
+			<a href="{$_FANWE[site_root]}login.php?mod=taobao"><img class="fl" src="./tpl/images/ls_taobao.png"></a>
+		</div>
+	</div>
+	<div class="ls_bottom"></div>
+</div>
+<script type="text/javascript">
+jQuery(function(){
+	$(window).scroll(function(){
+		if(USER_ID == 0)
+		{
+			if($(window).scrollTop() > 39)
+				$(".login_scroll").css({"position":"fixed"});
+			else
+				$(".login_scroll").css({"position":"relative"});
+		}
+		else
+		{
+			$(".login_scroll").hide();
+		}
+	});
+});
+</script>
+<!--{/if}-->

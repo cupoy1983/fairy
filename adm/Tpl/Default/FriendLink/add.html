@@ -1,0 +1,35 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:U(MODULE_NAME.'/index')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/insert')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="200">{$Think.lang.NAME}</th>
+		<td><input type="text" class="textinput requireinput" name="name" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.URL}</th>
+		<td><input type="text" class="textinput requireinput" name="url" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.IMG}</th>
+		<td>
+			<input type="file" class="fileinput" name="img" size="30" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SORT}</th>
+		<td><input type="text" class="textinput" name="sort" size="4" value="100"/></td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<include file="Public:footer" />

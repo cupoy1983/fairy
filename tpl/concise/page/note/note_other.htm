@@ -1,0 +1,74 @@
+<div class="note_left">
+	<div class="note_content">
+		<a href="{u u/index uid=$share_user['uid']}" class="nc_avatar GUID" uid="{$share_user['uid']}"><img class="fl" src="{avatar $share_user['avatar'] m}"></a>
+		<div class="nc_ut">
+			<a href="{u u/index uid=$share_user['uid']}" class="fl GUID" uid="{$share_user['uid']}">{$share_user['user_name']}</a>
+			<span class="fl">&nbsp;
+				<!--{if $share_detail['type'] == 'bar'}-->
+				创建《<a target="_blank" title="{$share_detail['title']}" class="from" href="{u topic/detail tid=$share_detail['rec_id']}">{cutstr $share_detail['title'] 40}</a>》
+				<!--{elseif $share_detail['type'] == 'bar_post'}-->
+				回应《<a target="_blank" title="{$share_detail['title']}" class="from" href="{u topic/detail tid=$share_detail['rec_id']}">{cutstr $share_detail['title'] 40}</a>》
+				<!--{elseif $share_detail['type'] == 'album_best'}-->
+				推荐{lang common/album}<a target="_blank" title="{$share_detail['title']}" href="{u album/show id=$share_detail['rec_id']}">《{cutstr $share_detail['title'] 40}》</a>
+				<!--{elseif $share_detail['type'] == 'album_item'}-->
+				加入{lang common/album}<a target="_blank" title="{$share_detail['title']}" href="{u album/show id=$share_detail['rec_id']}">《{cutstr $share_detail['title'] 40}》</a>
+				<!--{if $share_detail['rec_uid'] > 0}-->
+				收入自 @<!--{getuser $share_detail['rec_uid'] 0}-->
+				<!--{/if}-->
+				<!--{/if}-->
+			</span>
+			<span class="fr">{$share_detail['time']}</span>
+		</div>
+		<div class="nc_info">
+			{nl2br $share_detail['content']}
+		</div>
+	</div>
+	<div class="blank15"></div>
+	<div class="note_comment">
+		<form method="post">
+		<div class="pub_box" id="publish_note">
+			<div class="pub_edit r5">
+				<div><span class="fw_count">{sprintf char_check 140}</span></div>
+				<textarea name="content" class="PUB_TXT pub_txt fl rl5" length="140" position="0"></textarea>
+				<input type="button" value="评论" class="pub_btn fl rr5" onclick="$.Add_Share_Comment(this,'#SHARE_COMMENT_LIST_{$share_detail['share_id']}')">
+				<div class="pub_ext">
+					<div class="pub_opt fl">
+						<span class="fl">{lang add}：</span>
+						<a w="note" onclick="$.Show_Expression(this)" href="javascript:;" style="background-position: 0pt -3px;" class="add_face">{lang face}</a>
+					</div>
+					<div class="pub_out fr">
+						<input id="comment_relay_tweet" type="checkbox" name="is_relay" value="1" />
+						<label for="comment_relay_tweet">{lang js_relay_share}</label>
+						<input type="hidden" value="$share_detail['share_id']" name="share_id" />
+						<input type="hidden" name="parent_id" value="0" />
+						<input type="hidden" name="comment_type" value="note" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="SHARE_COMMENT_LIST_BOX">
+			<ul id="SHARE_COMMENT_LIST_{$share_detail['share_id']}" class="c_l rb5">
+				<!--{loop $share_detail['comments'] $comment}-->
+				<li class="c_f" id="COMMENT_{$comment['comment_id']}">
+					<!--{getuser $comment['uid'] 0 'm' ',avt'}-->
+					<div>
+						<p class="p1">
+							<!--{if $is_remove_comment}-->
+							<a onclick="$.Delete_Comment($comment['comment_id'],this);" class="del fr ml10" href="javascript:void(0);">删除</a>
+							<!--{/if}-->
+							<a class="rpl fr" href="javascript:;" uname='{$comment['user']['user_name']}' cid="{$comment['comment_id']}" onclick="$.Reply_Comment(this);">回复</a>
+							<!--{getuser $comment['uid'] 1 '' 'uname'}-->
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;{$comment['time']}</span>
+						</p>
+						<p class="p2">{$comment['content']}</p>
+					</div>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<div class="pagination">
+				<!--{subtemplate inc/pages}-->
+			</div>
+		</div>
+		</form>
+	</div>
+</div>

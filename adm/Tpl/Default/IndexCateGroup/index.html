@@ -1,0 +1,20 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="addData" name="addData" value="{$Think.lang.ADD}" click="addData()" />
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList')" />
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<fanwe:linkBtn text="{$Think.lang.CATE_SHARE}" href="{:U('IndexCateShare/index',array('cate_id'=>$cid))}" />
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="item" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{$Think.lang.ID}|80,name:{$Think.lang.NAME}|~left:textEdit|id,cate_name:{$Think.lang.CID}|80,tags:{$Think.lang.TAGS}|~left,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|id,sort:{$Think.lang.SORT}|80:numberEdit|id" 
+	actionlist="editData:{$Think.lang.EDIT}:share_id,removeData:{$Think.lang.REMOVE}:share_id" action_width="80" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

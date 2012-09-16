@@ -1,0 +1,28 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+</div>
+<div class="search-box">
+    <form action="__APP__">
+		<span>关键字</span>
+		<input class="textinput" type="text" value="{$keyword}" name="keyword" size="12">
+		<input class="submit_btn" type="submit" value="搜索">
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="eventpost" 
+	pk="share_id" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="share_id:{$Think.lang.ID}|50,content:{$Think.lang.EVENT_NAME}|~left,user_name:{$Think.lang.USER_NAME}|100,create_time|toDate:{$Think.lang.CREATE_TIME}|140" 
+	actionlist="removeData:{$Think.lang.REMOVE}:share_id" action_width="80" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

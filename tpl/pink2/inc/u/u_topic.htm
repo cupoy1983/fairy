@@ -1,0 +1,24 @@
+<div class="zr_box mb25">
+	<form action="{u search/group}" method="post" id="search_group">
+		<input type="text" name="keyword" class="search_txt fl" value="" autocomplete="off" tooltip="搜小组" />
+		<input type="submit" value=" " class="search_btn">
+		<input type="hidden" name="action" value="group" />
+	</form>
+</div>
+<?php
+$home_groups = FS('Group')->getGroupsByUid($home_uid,24);
+?>
+<div class="zr_box mb25">
+	<h3 class="mb10">{$_FANWE['home_user_names']['short']}加入的小组</h3>
+	<a class="zr_more" href="{u group/index}">更多&gt;&gt;</a>
+	<ul class="s_group_list">
+		<!--{loop $home_groups['list'] $group_item}-->
+		<li>
+			<a href="{u group/detail fid=$group_item['fid']}" target="_blank"><img src="{getimg $group_item['icon']['img'] 100 100 1}"></a>
+			<a href="{u group/detail fid=$group_item['fid']}" target="_blank">{$group_item['name']}</a>
+		</li>
+		<!--{/loop}-->
+	</ul>
+	<div class="clear"></div>
+</div>
+<a class="apply_group clearfix" href="{u group/create}">创建小组</a>

@@ -1,0 +1,53 @@
+<!--{if $cate_list}-->
+<!--{eval $item_jg='';}-->
+<!--{loop $cate_list $citem}-->
+{$item_jg}
+<div class="wrapper cate_group">
+	<div class="cg_head">
+		<strong>{$citem['short_name']}</strong>
+		<!--{eval $tag_index=1;$jg='';}-->
+		<!--{loop $citem['index_tags'] $tag}-->
+		{$jg}
+		<a href="{u book/cate tag=$tag['url_tag'],cate=$citem['cate_code']}">{$tag['tag_name']}</a>
+		<!--{if $tag_index > 11}-->
+		<!--{/if}-->
+		<!--{if $tag_index > 11}-->
+		<!--{eval break;}-->
+		<!--{/if}-->
+		<!--{eval $tag_index++;$jg='<span>/</span>';}-->
+		<!--{/loop}-->
+		<a href="{u book/cate cate=$citem['cate_code']}" class="more">更多&gt;&gt;</a>
+	</div>
+	<div class="cg_body">
+		<!--{loop $citem['groups'] $group}-->
+		<dl class="cg_item">
+			<dt><a href="{u book/cate gid=$group['id'],cate=$citem['cate_code']}">{$group['name']}</a></dt>
+			<dd class="items">
+				<!--{eval $share_index=1;}-->
+				<!--{loop $group['share_list'] $share}-->
+				<!--{if $share_index > 9}-->
+				<!--{eval break;}-->
+				<!--{/if}-->
+				<!--{if !empty($share['url'])}-->
+				<a href="{$share['url']}"><img class="lazyload" src="./tpl/images/lazyload.gif" original="{getimg $share['img'] 100 100}" alt="{$share['name']}" /></a>
+				<!--{else}-->
+				<a href="{u book/cate gid=$group['id'],sid=$share['share_id'],cate=$citem['cate_code']}"><img class="lazyload" src="./tpl/images/lazyload.gif" original="{getimg $share['img'] 100 100}" alt="{$share['name']}" /></a>
+				<!--{/if}-->
+				<!--{eval $share_index++;}-->
+				<!--{/loop}-->
+			</dd>
+			<dd class="more">
+				<span>{$group['count']}件推荐的宝贝</span>
+				<a href="{u book/cate gid=$group['id'],cate=$citem['cate_code']}">去逛逛&gt;</a>
+			</dd>
+		</dl>
+		<!--{/loop}-->
+	</div>
+	<div class="clear"></div>
+</div>
+<!--{eval $item_jg='<div class="wrapper line1"></div>';}-->
+<!--{/loop}-->
+<!--{/if}-->
+<script type="text/javascript">
+FANWE.NO_COUNTER = true;
+</script>

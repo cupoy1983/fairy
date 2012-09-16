@@ -1,0 +1,9 @@
+<!--{if $is_follow > -1}-->
+<!--{if $is_follow == 0}-->
+<a onclick="$.User_Follow({$uid},this,BookUpdateUserFollow);" href="javascript:;" class="addfo"></a>
+<!--{else}-->
+<span class="followed">已关注</span>
+<!--{/if}-->
+<!--{else}-->
+<br/>
+<!--{/if}-->

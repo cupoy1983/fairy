@@ -1,0 +1,111 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="tabs-title">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:U(MODULE_NAME.'/index')}" />
+	<div class="tt-item active" rel="1"><p><a href="javascript:;">{$Think.lang.TAB_1}</a></p></div>
+	<if condition="$vo['gid'] neq 6">
+	<div class="tt-item" rel="2"><p><a href="javascript:;">{$Think.lang.TAB_2}</a></p></div>
+	</if>
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+<div class="tabs-body">
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form tabs-item tabs-active" rel="1">
+		<tr>
+			<th width="200">{$Think.lang.NAME}</th>
+			<td><input type="text" class="textinput requireinput" name="name"  value="{$vo.name}"/></td>
+		</tr>
+		<if condition="$vo['gid'] neq 6">
+		<tr>
+			<th>{$Think.lang.IS_SPECIAL}</th>
+			<td>
+				<input type="checkbox" name="is_special" value="1" id="is_special" <if condition="$vo['is_special'] eq 1">checked="checked"</if>/>&nbsp;{$Think.lang.IS_SPECIAL_TIP}
+			</td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.IS_ADMIN}</th>
+			<td>
+				<input type="checkbox" name="is_admin" value="1"  <if condition="$vo['is_admin'] eq 1">checked="checked"</if>/>&nbsp;{$Think.lang.IS_ADMIN}
+			</td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.ICON}</th>
+			<td><input type="text" class="textinput" name="icon" value="{$vo.icon}" size="60" /></td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.ICON_TIP}</p></td>
+		</tr>
+		<tr class="scoreRate" <if condition="$vo['is_special'] eq 1">style="display:none;"</if>>
+			<th>{$Think.lang.CREDITS_RANGE}</th>
+			<td><input type="text" class="textinput" name="credits_lower" size="8" value="{$vo.credits_lower}"/>&nbsp;积分&nbsp;～&nbsp;<input type="text" class="textinput" name="credits_higher" size="8" value="{$vo.credits_higher}"/>&nbsp;积分</td>
+		</tr>
+		<tr class="scoreRate" <if condition="$vo['is_special'] eq 1">style="display:none;"</if>>
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.CREDITS_RANGE_TIP}</p></td>
+		</tr>
+		<tr class="scoreRate" <if condition="$vo['is_special'] eq 1">style="display:none;"</if>>
+			<th>{$Think.lang.COMMISSION_RATE}</th>
+			<td><input type="text" class="textinput" name="commission_rate" size="6" value="{$vo.commission_rate}"/>&nbsp;%</td>
+		</tr>
+		<tr class="scoreRate" <if condition="$vo['is_special'] eq 1">style="display:none;"</if>>
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.COMMISSION_RATE_TIP}</p></td>
+		</tr>
+		<tr class="scoreRate" <if condition="$vo['is_special'] eq 1">style="display:none;"</if>>
+			<th>{$Think.lang.BUY_RATE}</th>
+			<td><input type="text" class="textinput" name="buy_rate" size="6" value="{$vo.buy_rate}"/>&nbsp;%</td>
+		</tr>
+		<tr class="scoreRate" <if condition="$vo['is_special'] eq 1">style="display:none;"</if>>
+			<th>&nbsp;</th>
+			<td><p>{$Think.lang.BUY_RATE_TIP}</p></td>
+		</tr>
+		</if>
+	</table>
+	<if condition="$vo['gid'] neq 6">
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form tabs-item" rel="2">
+		<thead>	
+			<tr>
+				<th width="150">&nbsp;</th>
+				<td><label><input name="reset_group_access" type="checkbox" value="1" />&nbsp;{$Think.lang.RESET_GROUP_ACCESS}</label></td>
+			</tr>
+		</thead>
+		<tbody id="user_authoritys">
+			<foreach name="authoritys" key='mkey' item="module" >
+			<tr class="access-item">
+				<th class="first tr" width="150">
+					<p><span>&nbsp;{$module.name}&nbsp;</span></p>
+				</th>
+				<td>
+					<p>
+						<foreach name="module.actions" item="action">
+						<label><input class="action-item" type="checkbox" name="access_node[{$mkey}][]" value="{$action}" <if condition="$uga_list[$mkey][$action]">checked="checked"</if>/><span>&nbsp;{:L('ACTION_'.$action)}</span></label>&nbsp;&nbsp;
+						</foreach>&nbsp;
+					</p>
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	</if>
+</div>
+<table cellpadding="4" cellspacing="0" border="0" class="table-form" style="border-top:none;">
+	<tr class="act">
+		<th width="200">&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+			<input type="hidden" name="gid" value="{$vo.gid}" />
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+jQuery(function($){
+	$("#is_special").change(function(){
+		if(this.checked)
+			$(".scoreRate").hide();
+		else
+			$(".scoreRate").show();
+	});
+});
+</script>
+<include file="Public:footer" />

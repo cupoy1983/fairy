@@ -1,0 +1,44 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="tabs-title">
+	<div class="tt-item active" rel="1"><p><a href="javascript:;">{$Think.lang.TAB_1}</a></p></div>
+	<div class="tt-item" rel="2"><p><a href="javascript:;">{$Think.lang.TAB_2}</a></p></div>
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+<div class="tabs-body">
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form tabs-item tabs-active" rel="1">
+		<tr>
+			<th width="200">{$Think.lang.IS_OPEN_COMMISSION}</th>
+			<td>
+				<label><input type="radio" name="settings[IS_OPEN_COMMISSION]" value="1" <if condition='$settings.IS_OPEN_COMMISSION eq 1'>checked="checked"</if> /><span>{$Think.lang.YES}</span></label>&nbsp;&nbsp;
+			<label><input type="radio" name="settings[IS_OPEN_COMMISSION]" value="0" <if condition='$settings.IS_OPEN_COMMISSION eq 0'>checked="checked"</if> /><span>{$Think.lang.NO}</span></label>
+			</td>
+		</tr>
+		<tr>
+			<th>{$Think.lang.USER_COMMISSION_TYPE}</th>
+			<td>
+				<select name="settings[USER_COMMISSION_TYPE]" >
+					<option <if condition='$settings.USER_COMMISSION_TYPE eq 0'>selected="selected"</if> value="0">{$Think.lang.USER_COMMISSION_TYPE_0}</option>
+					<option <if condition='$settings.USER_COMMISSION_TYPE eq 1'>selected="selected"</if> value="1">{$Think.lang.USER_COMMISSION_TYPE_1}</option>
+					<option <if condition='$settings.USER_COMMISSION_TYPE eq 2'>selected="selected"</if> value="2">{$Think.lang.USER_COMMISSION_TYPE_2}</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form tabs-item" rel="2">
+		<tr>
+			<td><fanwe:editor id="COMMISSION_DESC" name="settings[COMMISSION_DESC]" type="CKEDITOR" width="96%" height="130px" content="{$settings.COMMISSION_DESC}" /></td>
+		</tr>
+	</table>
+</div>
+<table cellpadding="4" cellspacing="0" border="0" class="table-form" style="border-top:none;">
+	<tr class="act">
+		<th width="200">&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<include file="Public:footer" />

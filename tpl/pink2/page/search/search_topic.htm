@@ -1,0 +1,79 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/general.css';
+	$css_list[0]['url'][] = './tpl/css/book.css';
+	$css_list[0]['url'][] = './tpl/css/search.css';
+	$js_list[0] = './public/js/jquery.masonry.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="container_16">
+	<div class="blank20"></div>
+	<div class="piece1">
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd">
+			<div class="clearfix">
+				<div class="search_navi_left " id="searchbox">
+					<div class="search_tab clearfix">
+						<a href="{$search_navs['all']}">全部</a>
+						<a href="{$search_navs['bao']}">宝贝</a>
+						<a href="{$search_navs['photo']}">图片</a>
+						<a href="{$search_navs['album']}">杂志社</a>
+						<a href="{$search_navs['user']}">找人</a>
+						<a href="{$search_navs['group']}">小组</a>
+						<a class="current">主题</a>
+					</div>
+					<form method="get" action="{u search/index}" id="search_form_box" class="search_form_box">
+						<input type="text" value="{$keyword}" name="keyword" class="search_input" tooltip="{lang search_share}">
+						<input type="hidden" name="action" value="{ACTION_NAME}" />
+						<!--{if ACTION_NAME == 'topic'}-->
+						<input type="hidden" name="fid" value="{$fid}" />
+						<!--{/if}-->
+						<input type="submit" value="搜  索" class="search_btn">
+					</form>
+					<div class="blank15"></div>
+					多个字词可以用空格分隔后搜索
+				</div>
+			</div>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+	<div class="blank20"></div>
+	<div class="piece1">
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd">
+			<div class="search_group_result">
+				<h3 class="all_group_result">与"{cutstr $keyword 30}"相关的主题</h3>
+				<ul class="topic_list">
+					<!--{loop $topic_list $topic}-->
+					<li class="tl_f">
+						<div class="tl_c">
+							<!--{getuser $topic['uid'] 0 's,32' ',pic icard'}-->
+							<div class="ct">               
+								<p class="title clearfix">		
+									<a href="{u topic/detail tid=$topic['tid']}" target="_blank" class="tit fl ">{$topic['title']}</a>
+								</p>
+								<p class="author">
+									<span class="n"><!--{getuser $topic['uid'] 0 '' 'icard'}--></span>
+								</p>
+							</div>
+						</div>
+						<div class="count">{$topic['post_count']}</div>
+						<div class="title_time">
+							<span class="p_time">{timelag $topic['create_time']}</span>
+						</div>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+	<!--{if $pager['page_count'] > 1}-->
+	<div style="padding-top:30px" class="clr">
+		<div class="pagination"> 
+			<!--{subtemplate inc/pages}--> 
+		</div>
+	</div>
+	<!--{/if}-->
+	<div class="clear"></div>
+</div>
+<!--{template inc/footer}-->

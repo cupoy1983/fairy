@@ -1,0 +1,170 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/exchange.css';
+	$js_list[0] = './tpl/js/exchange.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+   <!-- 积分商品详细 -->
+    <div class="fl" style="width:705px;">
+
+          <div class="box_shadow p13 mt20  mr10 " >
+		       <div class="wf_top">
+		           <a class="wf_pic fl" href="#" target="_blank"><img src="{$info['img']}" style="width: 317px;height: 222px;"/></a>
+	                   <div class="wf_pr">
+		                    <h3 class="f30" style ="height: 50px;overflow: hidden;line-height: 50px;">{$info['name']}</h3>
+		                            <!--{if $info['begin_time'] > 0 || $info['end_time']> 0}-->
+									<p class="f16 mt10 ">
+										<!--{if $info['begin_time'] > 0 && $info['end_time'] == 0}-->
+										开始时间: 
+										<span style="font-weight:normal;">
+										{echo fToDate($info['begin_time'],'Y-m-d')}
+										</span>
+										<!--{elseif $info['end_time'] > 0 && $info['begin_time'] == 0}-->
+										结束时间: 
+										<span style="font-weight:normal;">
+										{echo fToDate($info['end_time'],'Y-m-d')}
+										</span>
+										<!--{else}-->
+										活动时间: 
+										<span style="font-weight:normal;">
+										{echo fToDate($info['begin_time'],'Y-m-d')}
+										&nbsp;&nbsp;~&nbsp;&nbsp;
+										{echo fToDate($info['end_time'],'Y-m-d')}
+										</span>
+										<!--{/if}-->
+									</p>
+									<!--{/if}-->
+		                            <p class="f16 mt10 ">
+										库存剩余: 
+										<span class="fb30 red">{$info['num']}</span>
+									</p>
+									<p class="f16 mt10 ">
+										已兑数量: 
+										<span class="fb30 red">{$info['buy_count']}</span>
+									</p>
+		                            <p class="f16 mt10 ">
+										每人限兑: 
+										<span class="fb30 red">{$info['user_num']}</span>
+									</p>
+									<div class="wf_ico1 cursor" ><a class="exchangeBtn" href="javascript:;" goodsID="{$info['id']}" goodsType="{$goods['goods_type']}"></a></div>
+	                    </div>
+                 </div>
+                       <div class="clear"></div>
+		                      <h3 class="f16 mt15">活动简介</h3>
+		         <div class="wf_two zoom l22">
+
+                             {$info['content']}
+
+                    </div>
+	    </div>
+
+	</div>
+	<!-- 积分商品详细 结束-->
+	<div class="exchange_right">
+		<dl>
+			<dd class="content">
+				<!--{if $_FANWE['uid'] > 0}-->
+				<div class="er_info">
+					<span class="fl">&nbsp;&nbsp;当前积分：<b class="red">$_FANWE['user']['credits']</b></span>
+					<span class="fr"><a href="{u exchange/rule}" target="_blank">如何赚取积分？</a></span>
+				</div>
+				<div class="er_link">
+					<a href="{u u/exchange}"><img src="./tpl/images/exchange.jpg" /></a>
+				</div>
+				<!--{else}-->
+				<div class="er_link">
+					<a href="{u user/login}"><img src="./tpl/images/login.jpg" /></a>
+				</div>
+				<div class="er_rule"><a href="{u exchange/rule}" target="_blank">如何赚取积分？</a></div>
+				<!--{/if}-->
+			</dd>
+		</dl>
+		<div class="blank12"></div>
+		<dl>
+			<dt><strong>兑换快报</strong></dt>
+			<dd class="text-list">
+				<!--{if count($order_list) > 0}-->
+				<ul>
+					<!--{loop $order_list $order}-->
+					<li><p>$order['create_time_format']&nbsp;会员&nbsp;<span>{getuser $order['uid'] 0}</span>&nbsp;兑换了&nbsp;$order['data_name']&nbsp;<span>$order['data_num']</span>&nbsp;件</p></li>
+					<!--{/loop}-->
+				</ul>
+				<!--{else}-->
+				<div class="empty">&nbsp;</div>
+				<!--{/if}-->
+			</dd>
+		</dl>
+		<div class="blank12"></div>
+		<dl>
+			<dt><strong>积分TOP10</strong></dt>
+			<dd class="top">
+				<!--{if count($score_list) > 0}-->
+				<ul>
+					<!--{eval $index = 1;}-->
+					<!--{loop $score_list $score_item}-->
+					<li><span class="i{if $index < 4} t{/if}">{if $index < 10}0{/if}{$index}</span><span class="u">{getuser $score_item['uid'] 0}</span><span class="j">积分：$score_item[credits]</span></li>
+					<!--{eval $index++;}-->
+					<!--{/loop}-->
+				</ul>
+				<!--{else}-->
+				<div class="empty">&nbsp;</div>
+				<!--{/if}-->
+			</dd>
+		</dl>
+		<div class="blank12"></div>
+		<dl>
+			<dt><strong>兑换TOP10</strong></dt>
+			<dd class="top">
+				<!--{if count($exchange_list) > 0}-->
+				<ul>
+					<!--{eval $index = 1;}-->
+					<!--{loop $exchange_list $exchange_item}-->
+					<li><span class="i{if $index < 4} t{/if}">{if $index < 10}0{/if}{$index}</span><span class="u1">{getuser $exchange_item['uid'] 0}</span><span class="j j1">兑换了$exchange_item[sum_count]件礼品</span></li>
+					<!--{eval $index++;}-->
+					<!--{/loop}-->
+				</ul>
+				<!--{else}-->
+				<div class="empty">&nbsp;</div>
+				<!--{/if}-->
+			</dd>
+		</dl>
+	</div>
+	<div class="clear"></div>
+</div>
+<div id="consignee" style="display:none;">
+	<table border="0" cellpadding="0" cellspacing="1">
+		<tr>
+			<td class="l">详细地址：</td>
+			<td colspan="3"><input type="text" id="c-address" class="finput" style="width:454px;" value="$consignee[address]" /></td>
+		</tr>
+		<tr>
+			<td class="l">电子邮箱：</td>
+			<td><input type="text" id="c-email" class="finput" style="width:180px;" value="$consignee[email]"/></td>
+			<td class="l">邮政编码：</td>
+			<td><input type="text" id="c-zip" class="finput" style="width:180px;" value="$consignee[zip]"/></td>
+		</tr>
+		<tr>
+			<td class="l">手机号码：</td>
+			<td><input type="text" id="c-mobile-phone" class="finput" style="width:180px;" value="$consignee[mobile_phone]"/></td>
+			<td class="l">固定电话：</td>
+			<td><input type="text" id="c-fax-phone" class="finput" style="width:180px;" value="$consignee[fax_phone]"/></td>
+		</tr>
+		<tr>
+			<td class="l">传真号码：</td>
+			<td><input type="text" id="c-fix-phone" class="finput" style="width:180px;" value="$consignee[fix_phone]"/></td>
+			<td class="l">ＱＱ号码：</td>
+			<td><input type="text" id="c-qq" class="finput" style="width:180px;" value="$consignee[qq]"/></td>
+		</tr>
+		<tr>
+			<td class="l">备　　注：</td>
+			<td colspan="3"><textarea id="c-memo" class="finput" style="width:454px; height:80px;"></textarea></td>
+		</tr>
+		<tr>
+			<td class="l">&nbsp;</td>
+			<td colspan="3">
+				<a id="submitConsignee" href="javascript:;"><img src="./tpl/images/confirm_btn.png" /></a>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{template inc/footer}-->

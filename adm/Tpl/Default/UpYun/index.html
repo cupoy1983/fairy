@@ -1,0 +1,81 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<if condition="$is_has eq 0">
+<div class="handle-btns">
+	<fanwe:linkBtn text="未注册又拍云存储" target="_blank" href="https://www.upyun.com/?md=fanwe" />
+</div>
+</if>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">空间名称:</th>
+		<td><input type="text" class="textinput requireinput" name="space_name" value="{$UpYun.space_name}" id='space_name' /></td>
+	</tr>
+	
+	<tr>
+		<th>操作员:</th>
+		<td><input type="text" class="textinput requireinput" name="user" value="{$UpYun.user}" id='user' /></td>
+	</tr>
+	
+	<tr>
+		<th>密码:</th>
+		<td><input type="text" class="textinput requireinput" name="password" value="{$UpYun.password}" id='password'  /></td>
+	</tr>
+	<tr>
+		<th>图片网址:</th>
+		<td><input type="text" class="textinput requireinput" name="url" value="{$UpYun.url}"  />(在upyun后台 <span style='color:red;'>域名绑定</span>，可以看到;包含http://)</td>
+	</tr>
+	<tr>
+		<th>是否开启</th>
+		<td>
+			<select name="status" id='status'>
+				<option value="1" <if condition="$UpYun['status'] eq 1">selected="selected" </if> >是</option>
+				<option value="0" <if condition="$UpYun['status'] eq 0">selected="selected" </if> >否</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td><span style="color: red;">开通成功后,用户可以登录查看相应的信息<a href="https://www.upyun.com/?md=fanwe" target="_blank">登录</a></span></td>
+	</tr>
+	<tr>
+		<th>测试：</th>
+		<td><input type='button' id='test' class="submit_btn" value="测试" /></td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+$(function(){
+	$("#test").bind('click',function(){
+		var query = new Object();
+		query.space_name = $("#space_name").val();
+		query.password = $("#password").val();
+		query.user = $("#user").val();
+		$.ajax({
+			url: APP + '?' + VAR_MODULE + '=UpYun&' + VAR_ACTION + '=test',
+			data:query,
+			dataType:'json',
+			success: function(re)
+			{
+				if(re==1)
+				{
+					alert('验证成功,您可以使用又拍云存储');
+				}
+				else
+				{
+					alert('验证失败,请确认信息是否正确');
+				}
+			}
+		});
+	});
+});	
+</script>
+<include file="Public:footer" />

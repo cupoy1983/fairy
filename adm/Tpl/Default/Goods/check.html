@@ -1,0 +1,144 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList')" />
+	<fanwe:imageBtn id="removeGoods" name="removeGoods" value="{$Think.lang.REMOVE}" click="removeGoods(this,'checkList')" />
+	<fanwe:imageBtn id="disableGoods" name="disableGoods" value="{$Think.lang.DISABLE}" click="disableGoods(this,'checkList')" />
+	<fanwe:imageBtn id="checkGoods" name="checkGoods" value="{$Think.lang.CHECK_SELECT}" click="checkGoods(this,'checkList')" />
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="item" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="keyid:{$Think.lang.KEYID}|160,cate_name:{$Think.lang.CATE_NAME}|80,name:{$Think.lang.NAME}|~left,url:{$Think.lang.URL}|~left,price:{$Think.lang.PRICE}|80" 
+	actionlist="checkGoods:{$Think.lang.CHECK}:id,disableGoods:{$Think.lang.DISABLE}:id,editData:{$Think.lang.EDIT}:id,removeGoods:{$Think.lang.REMOVE}:id" action_width="180" nosort="cate_name,name,url,price" />
+<div class="pager">{$page}</div>
+<script type="text/javascript">
+var CONFIRM_HANDLER = "{$Think.lang.CONFIRM_HANDLER}";
+function checkGoods(obj,id,pk,args)
+{
+	var ids =  new Array();
+	if(isNaN(id))
+	{
+		$("#" + id + " input:checked[name='key']").each(function(){
+			ids.push(this.value);
+		});
+	}
+	else
+	{
+		ids.push(id);
+		var parent = $(obj).parent().parent();
+		id = parent.parent().parent().attr('id');
+	}
+	
+	ids = ids.join(',');
+	if(ids == '')
+		return false;
+	
+	var query = new Object();
+	query.id = ids;
+	
+	$.ajax({
+		url: APP + '?' + VAR_MODULE + '=' + CURR_MODULE + '&' + VAR_ACTION + '=checkOk',
+		type:"POST",
+		cache: false,
+		data:query,
+		dataType:"json",
+		success: function(result){
+			if(result.isErr == 0)
+			{
+				var fun = function(parent){
+					$('td span,td a',parent).each(function(){
+						if (typeof(this.onclick) == 'function' && this.onclick.toString() != '')
+						{
+							if(this.onclick.toString().indexOf('toggleStatus') != -1)
+							{
+								var img = $('img',this).get(0);
+								img.src = img.src.replace('status','disabled');
+							}
+							
+							this.onclick = '';
+						}
+					});
+					
+					parent.attr({"disabled":true,"title":ALREADY_REMOVE});
+					$("td",parent).attr({"disabled":true}).addClass('disabled');
+					$("td *",parent).attr({"disabled":true}).addClass('disabled');
+				};
+
+				$("#" + id + " tbody tr input[name='key']").each(function(){
+					if((',' + ids + ',').indexOf(',' + this.value + ',') != -1)
+					{
+						var list = $('.tr'+this.value);
+						if(list.length > 0)
+						{
+							list.each(function(){
+								fun($(this));
+							});
+						}
+						else
+						{
+							parent = $(this).parent().parent();
+							fun(parent);
+						}
+						this.checked = false;
+						
+					}
+					
+					if($("#" + id + " tbody tr:not([disabled])").length == 0)
+						location.reload(true);
+				});
+			}
+			else
+				$.ajaxError(result.content);
+		}
+	});
+}
+
+function disableGoods(obj,id,pk,args)
+{
+	removeDisableGoods(obj,id,1);
+}
+
+function removeGoods(obj,id,pk,args)
+{
+	removeDisableGoods(obj,id,0);
+}
+
+function removeDisableGoods(obj,id,type)
+{
+	var ids =  new Array();
+	if(isNaN(id))
+	{
+		$("#" + id + " input:checked[name='key']").each(function(){
+			ids.push(this.value);
+		});
+	}
+	else
+	{
+		ids.push(id);
+		var parent = $(obj).parent().parent();
+		id = parent.parent().parent().attr('id');
+	}
+	
+	ids = ids.join(',');
+	if(ids == '')
+		return false;
+	
+	if(!window.confirm(CONFIRM_HANDLER))
+		return false;
+		
+	var fun = function(){
+		if(type == 1)
+			location.href = APP + '?' + VAR_MODULE + '=' + CURR_MODULE + '&' + VAR_ACTION + '=disable&id=' + ids;
+		else
+			location.href = APP + '?' + VAR_MODULE + '=' + CURR_MODULE + '&' + VAR_ACTION + '=remove&id=' + ids;
+	}
+	setTimeout(fun,1);
+}
+</script>
+<include file="Public:footer" />

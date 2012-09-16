@@ -1,0 +1,9 @@
+<tagLib name="fanwe" />
+<foreach name="list" item="cate">
+<div>
+	<strong>{$cate.name}：</strong>
+	<foreach name="cate['tags']" item="tag">
+	<a <if condition="$tag['checked']">class="checked"</if> rel="{$tag.name}">{$tag.name}</a>
+	</foreach>
+</div>
+</foreach>

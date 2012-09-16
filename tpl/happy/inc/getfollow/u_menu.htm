@@ -1,0 +1,10 @@
+<!--{if $is_follow > -1}-->
+<span class="un_followed">
+<!--{if $is_follow == 0}-->
+<a onclick="$.User_Follow({$uid},this,UMenuUpdateUserFollow);" href="javascript:;" class="addfo">加关注</a>
+<!--{else}-->
+<span class="followed">已关注</span>
+<a onclick="$.User_Follow({$uid},this,UMenuUpdateUserFollow);" href="javascript:;" class="follow_del ml10">取消</a>
+<!--{/if}-->
+</span>
+<!--{/if}-->

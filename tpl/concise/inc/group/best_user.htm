@@ -1,0 +1,24 @@
+<h2>推荐该主题的会员</h2>
+<div>
+	<ul class="other_best_list">
+		<!--{loop $best_users $uid $temp}-->
+		<li>
+			<!--{getuser $uid 0 '' '' 'inc/getuser/follow_user'}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+<div class="follow_info" style="clear:both">
+	<!--{if $_FANWE['uid'] != $topic['uid']}-->
+	<a class="fl" href="javascript:;">
+		<!--{if $is_best}-->
+		<img class="fo_st" src="./tpl/images/topic_unfo.png" onclick="$.Remove_Topic_Best({$topic['tid']},this,updateTopicBest)">
+		<!--{else}-->
+		<img class="fo_st" src="./tpl/images/topic_fo.png" onclick="$.Topic_Best({$topic['tid']},updateTopicBest)">
+		<!--{/if}-->
+	</a>
+	<!--{else}-->
+	<img class="fo_st fl" src="./tpl/images/topic_fonum.png">
+	<!--{/if}-->
+	<div class="topicBestDiv" style="float:left;"><span class="topicBestCount">{$best_count}</span><i></i></div>
+</div>

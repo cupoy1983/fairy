@@ -1,0 +1,32 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<foreach name="config" item="cfg">
+	<tr>		
+		<th width="200">{$cfg.title}</th>
+		<td>
+			<if condition="$cfg['code'] eq 'about_info'">
+			<fanwe:editor id="about_info" name="about_info" type="CKEDITOR" width="96%" height="130px" content="{$cfg.val}" />
+			<elseif condition="$cfg['code'] eq 'index_logo'" />
+			<input type="file" class="fileinput" name="{$cfg.code}" /> 
+			<if condition="$cfg['val'] neq ''">
+				<a href="__ROOT__/{$cfg.val}" target="_blank" >{$Think.lang.VIEW}</a>
+			</if>
+			<else />
+			<input type="text" class="textinput" name="{$cfg.code}" value="{$cfg.val}" />
+			</if>
+		</td>
+	</tr>
+	</foreach>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+	</foreach>
+</table>
+</form>
+<include file="Public:footer" />

@@ -1,0 +1,387 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/user.js"></script>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+	<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+		<tr>
+			<th width="130">&nbsp;</th>
+			<td>
+				<p>
+					采集过程会执行比较长的时间，需要设置PHP运行时间，请关闭 PHP 安全模式；<br/>
+					采集时如果已有该商品的分享，则会跳过该商品；<br/>
+					为避免后台采集冲突或设置冲突，请只设置一个管理员可以进行后台采集和采集设置；<br/>
+					当更新设置后或后台采集时，为避免采集冲突，将锁定采集，自动采集将停止；
+					<if condition="$is_auto_collect">
+					<br/><span style="color:#00f;">当前正在进行自动采集</span>，采集开始时间为 {:toDate($auto_collect['time'])}。
+					<br/><span style="color:#f00;">如果要手动清除锁定</span>，请点击 【<a href="{:U('TaobaoCollect/clearautolock')}">清除锁定</a>】 ，清除锁定后，如果要进行自动采集，请点击保存 以生成自动采集定进任务。
+					</if>
+					<if condition="$is_collect_lock">
+					<br/><span style="color:#f00;">当前自动采集已锁定</span>，请点击 【<a href="{:U('TaobaoCollect/clearlock')}">清除锁定</a>】 
+					</if>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<th>自动采集</th>
+			<td>
+				<label><input type="checkbox" name="is_auto_collect" value="1" id="isAutoCollect" <if condition="$vo['is_auto_collect'] eq 1">checked="checked"</if>/></label>
+				<span>&nbsp;(当有用户访问网站时，自动检测是否已执行采集操作)</span> 
+			</td>
+		</tr>
+		<tr class="autocCollectTr" <if condition="$vo['is_auto_collect'] eq 0">style="display:none;"</if>>
+			<th>采集间隔时间</th>
+			<td>
+				<input type="text" name="collect_time" value="{$vo.collect_time}" size="2" class="textinput" />&nbsp;小时(采集间隔时间不能小于1)
+			</td>
+		</tr>
+		<tr>
+			<th>数据排序</th>
+			<td>
+				<select name="sort_order">
+					<option value="price_desc" <if condition="$vo['sort_order'] eq 'price_desc'">selected="selected"</if>>价格从高到低</option>
+					<option value="price_asc" <if condition="$vo['sort_order'] eq 'price_asc'">selected="selected"</if>>价格从低到高</option>
+					<option value="credit_desc" <if condition="$vo['sort_order'] eq 'credit_desc'">selected="selected"</if>>信用等级从高到低</option>
+					<option value="commissionRate_desc" <if condition="$vo['sort_order'] eq 'commissionRate_desc'">selected="selected"</if>>佣金比率从高到低</option>
+					<option value="commissionRate_asc" <if condition="$vo['sort_order'] eq 'commissionRate_asc'">selected="selected"</if>>佣金比率从低到高</option>
+					<option value="commissionNum_desc" <if condition="$vo['sort_order'] eq 'commissionNum_desc'">selected="selected"</if>>成交量从高到低</option>
+					<option value="commissionNum_asc" <if condition="$vo['sort_order'] eq 'commissionNum_asc'">selected="selected"</if>>成交量从低到高</option>
+					<option value="commissionVolume_desc" <if condition="$vo['sort_order'] eq 'commissionVolume_desc'">selected="selected"</if>>总支出佣金从高到低</option>
+					<option value="commissionVolume_asc" <if condition="$vo['sort_order'] eq 'commissionVolume_asc'">selected="selected"</if>>总支出佣金从低到高</option>
+					<option value="delistTime_desc" <if condition="$vo['sort_order'] eq 'delistTime_desc'">selected="selected"</if>>商品下架时间从高到低</option>
+					<option value="delistTime_asc" <if condition="$vo['sort_order'] eq 'delistTime_asc'">selected="selected"</if>>商品下架时间从低到高</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>分类采集页数</th>
+			<td>
+				<input type="text" value="{$vo.page_num}" class="textinput" name="page_num" size="3">
+				<span>&nbsp;(所选分类采集的页数，页数为 1 到 99)</span> 
+			</td>
+		</tr>
+		<tr>
+			<th>分享会员</th>
+			<td>
+				<p>
+					可设置多个会员，写入分享数据表时，根据设置随机分配会员；<br/>
+					如果只选择会员组，请保证会员组下有正常状态下的会员；<br/>
+				</p> 
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+				<table class="fl" cellpadding="0" cellspacing="0">
+					<tr>
+						<td style="border:none; padding:0; text-align:left;" colspan="2">
+							<span>会员名&nbsp;</span><input type="text" class="textinput" size="8" id="userName" />&nbsp;
+							<input class="submit_btn" type="button" value="{$Think.lang.SEARCH}" onclick="searchUser('#userSelect','#userName');" />
+						</td>
+						<td style="border:none; padding:0;text-align:center;">
+							<p>所选会员</p>
+						</td>
+						<td width="30" rowspan="2" style="border:none; padding:0;">&nbsp;</td>
+						<td style="border:none; padding:0;text-align:center;">
+							<p>设置会员组</p>
+						</td>
+					</tr>
+					<tr>
+						<td style="border:none;">
+							<select multiple="multiple" id="userSelect" style="width:160px;" size="12"></select>
+						</td>
+						<td width="60" style="border:none;">
+							<input type="button" value=">>" name="add" id="addUserBtn" class="formbutton" />
+							<div class="blank9"></div>
+							<input type="button" value="<<" name="remove" id="removeUserBtn" class="formbutton" />
+						</td>
+						<td style="border:none;">
+							<select multiple="multiple" id="userIdsSelect" style="width:160px;" size="12">
+								<foreach name="user_list" item="user">
+								<option value="{$user.uid}">{$user.user_name}</option>
+								</foreach>
+							</select>
+							<input type="hidden" name="user_ids" value="{$vo.user_ids}" id="userIds" />
+						</td>
+						<td style="border:none;">
+							<select name="user_gid" id="userGidSelect" style="width:260px;" size="12">
+								<option value="0">不设置</option>
+								<foreach name="group_list" key="gid" item="gname">
+								<option value="{$gid}" <if condition="$gid eq $vo['user_gid']">selected="selected"</if>>{$gname}</option>
+								</foreach>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<th>采集分类</th>
+			<td>
+				<p>如果选择上级分类，将取消他所有的子级分类。如果选择子分类，将取消他所属的上级分类。双击设置采集分类</p> 
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+				<table class="fl">
+					<tr>
+						<td style="border:none; padding:0; text-align:center;">
+							<p>分类列表</p>
+						</td>
+						<td width="30" style="border:none; padding:0;">&nbsp;</td>
+						<td style="border:none; padding:0;text-align:center;">
+							<p>设置的分类</p>
+						</td>
+					</tr>
+					<tr id="cate_select">
+						<td style="border:none;">
+							<div class="fl">
+								<select multiple="multiple" id="lv1" style="height:400px;">
+									<foreach name="cate_list" item="cate">
+										<option value="{$cate['id']}">{$cate['name']}</option>
+									</foreach>
+								</select>
+							</div>
+							<div id="lv2Box" class="fl">
+							
+							</div>
+							<div id="lv3Box" class="fl">
+								
+							</div>
+						</td>
+						<td width="30" style="border:none; padding:0;">&nbsp;</td>
+						<td style="border:none; padding:0;text-align:center;">
+							<select multiple="multiple" id="cateSelect" style="width:160px;height:400px;" size="12">
+								<foreach name="cate_slist" item="cate">
+								<option value="{$cate.id}" parentID="{$cate.pid}">{$cate.name}</option>
+								</foreach>
+							</select>
+							<input type="hidden" name="cate_ids" value="{$vo.cate_ids}" id="cateIds" />
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<th>采集关键字</th>
+			<td>
+				<p>只采集商品标题中包含有关键字的商品(为空则采集分类的所有商品)，请在采集分类设置完成后，再为设置分类对应的关键字</p> 
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td id="cateKeywords">
+				<table align="left" cellpadding="0" cellspacing="0" border="0">
+					<tbody>
+						<foreach name="cate_keywords" item="cate_keyword">
+						<tr>
+							<th nowrap="nowrap" style="border:none; padding:2px 0;">{$cate_keyword.name}：</th>
+							<td style="border:none; padding:2px 0;"><input type="text" name="keywords[{$cate_keyword.id}]" class="textinput keyinput_{$cate_keyword.id}" value="{$cate_keyword.keywords}" /></td>
+						</tr>
+						</foreach>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr class="act">
+			<th>&nbsp;</th>
+			<td>
+				<input type="submit" class="submit_btn" value="{$Think.lang.SAVE}" />&nbsp;&nbsp;
+				<input type="submit" id="saveCollect" class="submit_btn" value="{$Think.lang.COLLECT}" />&nbsp;&nbsp;
+				<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+				<input type="hidden" name="is_collect" value="0" id="isCollect" />
+			</td>
+		</tr>
+	</table>
+</form>
+<script type="text/javascript">
+var EMPTY_USER = "{:getLang('EMPTY_USER','User')}";
+jQuery(function($){
+	$("#saveCollect").click(function(){
+		$("#isCollect").val(1);
+	});
+	
+	$("#form").submit(function(){
+		var ids = new Array();
+		var opts,i;
+		
+		opts = $("#userIdsSelect option");
+		ids = new Array();
+		for(i=0;i<opts.length;i++)
+		{
+			ids.push($(opts[i]).attr("value"));
+		}
+		
+		if(ids.length == 0 && $("#userGidSelect").val() == 0)
+		{
+			alert("请选择至少一个会员，或者会员组");
+			return false;	
+		}
+		
+		$("#userIds").val(ids.join(","));
+		
+		opts = $("#cateSelect option");
+		ids = new Array();
+		for(i=0;i<opts.length;i++)
+		{
+			ids.push($(opts[i]).attr("value"));
+		}
+		if(ids.length == 0)
+		{
+			alert("请选择至少一个采集分类");
+			return false;	
+		}
+		$("#cateIds").val(ids.join(","));
+	});
+	
+	$("#userSelect").bind("dblclick",function(){
+		addUserOption();
+	});
+	$("#addUserBtn").bind("click",function(){
+		addUserOption();
+	});
+	
+	$("#userIdsSelect").bind("dblclick",function(){
+		removeUserOption();
+	});
+	
+	$("#removeUserBtn").bind("click",function(){
+		removeUserOption();
+	});
+	
+	$("#isAutoCollect").change(function(){
+		if(this.checked)
+			$(".autocCollectTr").show();
+		else
+			$(".autocCollectTr").hide();
+	});
+	
+	$("#lv1").change(function(){
+		var query = new Object();
+		query.id = this.value;
+		query.lv = 'lv2';
+					
+		$.ajax({
+			url: APP + '?' + VAR_MODULE + '=GoodsCatesGl&' + VAR_ACTION + '=getSelect',
+			type:"POST",
+			cache: false,
+			data:query,
+			dataType:"text",
+			success: function(result){
+				$('#lv2Box').html(result);
+				$('#lv3Box').html('');
+			}
+		});
+	});
+	
+	$("#lv2").live('change',function(){
+		var query = new Object();
+		query.id = this.value;
+		query.lv = 'lv3';
+		
+		$.ajax({
+			url: APP + '?' + VAR_MODULE + '=GoodsCatesGl&' + VAR_ACTION + '=getSelect',
+			type:"POST",
+			cache: false,
+			data:query,
+			dataType:"text",
+			success: function(result){
+				$('#lv3Box').html(result);
+			}
+		});
+	});
+	
+	$("#lv1").live('dblclick',function(){
+		$("#cateSelect option[parentID='"+ this.value +"']").remove();
+		var cate_option = $("#lv2 option");
+		var i = 0;
+		for(i;i < cate_option.length;i++)
+		{
+			$("#cateSelect option[parentID='"+ cate_option.eq(i).val() +"']").remove();
+		}
+		updateCateSelect(this.value,$('option:selected',this).text(),'');
+	});
+	
+	$("#lv2").live('dblclick',function(){
+		$("#cateSelect option[parentID='"+ this.value +"']").remove();
+		$("#cateSelect option[value='"+ $("#lv1").val() +"']").remove();
+		updateCateSelect(this.value,$('option:selected',this).text(),$("#lv1").val());
+	});
+	
+	$("#lv3").live('dblclick',function(){
+		$("#cateSelect option[value='"+ $("#lv1").val() +"']").remove();
+		$("#cateSelect option[value='"+ $("#lv2").val() +"']").remove();
+		updateCateSelect(this.value,$('option:selected',this).text(),$("#lv2").val());
+	});
+	
+	$("#cateSelect").bind("dblclick",function(){
+		$("#cateSelect option:selected").remove();
+		updateCateKeywords();
+	});
+});
+
+function addUserOption()
+{
+	var select_option = $("#userSelect option:selected");
+	var user_option = $("#userIdsSelect option");
+	var obj = new Array();
+	var i,j;
+	
+	for(i=0;i<select_option.length;i++)
+	{
+		is_add = true;
+		for (j = 0; j < user_option.length; j++) 
+		{
+			if ($(select_option[i]).attr("value") == $(user_option[j]).attr("value")) 
+			{
+				is_add = false;
+				break;
+			}
+		}
+		if(is_add)
+		{
+			obj.push(select_option[i]);
+		}
+	}
+	var clone = $(obj).clone();
+	$("#userIdsSelect").append(clone);
+}
+
+function removeUserOption()
+{
+	$("#userIdsSelect option:selected").remove();	
+}
+
+function updateCateSelect(id,name,pid)
+{
+	var html = '<option parentID="'+ pid +'" value="'+ id +'">'+name+'</option>';
+	$("#cateSelect").append(html);
+	updateCateKeywords();
+}
+
+function updateCateKeywords()
+{
+	var html = '';
+	var cates = new Array();
+	var cate;
+	$("#cateSelect option").each(function(){
+		cate = new Object();
+		cate.id = this.value;
+		cate.name = $(this).text();
+		if($("#cateKeywords .keyinput_" + this.value).length > 0)
+			cate.keywords = $("#cateKeywords .keyinput_" + this.value).val();
+		else
+			cate.keywords = '';
+		cates.push(cate);
+	});
+	$("#cateKeywords").html('');
+	
+	for(var i = 0;i < cates.length;i++)
+	{
+		cate = cates[i];
+		html += '<tr><th nowrap="nowrap" style="border:none; padding:2px 0;">'+ cate.name +'：</th><td style="border:none; padding:2px 0;"><input type="text" name="keywords['+ cate.id +']" class="textinput keyinput_'+ cate.id +'" value="'+ cate.keywords +'" /></td></tr>';
+	}
+	$("#cateKeywords").html('<table align="left" cellpadding="0" cellspacing="0" border="0"><tbody>' + html + '</tbody></table>');
+}
+</script>
+<include file="Public:footer" />

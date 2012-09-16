@@ -1,0 +1,171 @@
+.u_mid {
+    float: left;
+    margin-top: 7px;
+    width: 100%;
+}
+.u_setting {
+    background: none repeat scroll 0 0 #F9F9F9;
+    float: left;
+    margin: 10px;
+    padding: 5px;
+    width: 200px;
+}
+.u_setting_right {
+    display: inline;
+    float: left;
+    margin: 10px 0 10px 0;
+    padding: 10px;
+    width: 720px;
+}
+#setting_box {
+    font-size: 14px;
+    margin-left: 35px;
+}
+#setting_box .head_bd {
+    border: 3px solid #E3E3E3;
+    margin-right: 15px;
+    vertical-align: top;
+}
+#setting_box h1 {
+    color: #82AF00;
+    font-size: 18px;
+    line-height: 130%;
+}
+#setting_bar {
+    font-size: 14px;
+    margin: 25px 0 0 10px;
+    width: 200px;
+}
+#setting_bar h1 {
+    font-size: 18px;
+    line-height: 130%;
+}
+#setting_bar a {
+    color: #0099EE;
+    font-size: 14px;
+    line-height: 28px;
+    padding: 0 10px;
+}
+#setting_bar a.c {
+    font-weight: bold;
+}
+#setting_bar .base_info {
+    margin-bottom: 20px;
+}
+.u_mid {
+    background: url("/tpl/happy/images/setting_left_bg.gif") repeat-y scroll 0 0 #FFFFFF;
+    margin: 0;
+    padding: 0 0 20px;
+}
+.u_setting, .u_setting h1, #setting_bar a:hover, .u_setting_select {
+    background: url("/tpl/happy/images/setting.gif") repeat scroll 0 0 transparent;
+}
+.u_mid {
+    margin: 0;
+    padding: 0;
+}
+.u_setting {
+    left: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 0 0 20px;
+    top: 0;
+    width: 180px;
+}
+.u_setting h1 {
+    color: #F14B88;
+    display: inline;
+    float: left;
+    font-family: "Microsoft Yahei";
+    font-size: 20px;
+    font-weight: normal;
+    height: 30px;
+    margin: 20px 0 10px 20px;
+    text-indent: 35px;
+}
+.u_setting .u_setting_base {
+    background-position: -360px 0;
+}
+.u_setting .u_setting_medal {
+    background-position: -360px -30px;
+}
+.u_setting .u_setting_invite {
+    background-position: -360px -60px;
+}
+.u_setting .u_setting_about {
+    background-position: -360px -90px;
+}
+.u_setting .u_setting_help {
+    background-position: -360px -120px;
+}
+.u_setting .u_setting_phone {
+    background-position: -360px -150px;
+}
+#setting_bar {
+    margin: 0;
+}
+#setting_bar a:link, #setting_bar a:visited {
+    color: #666666;
+    display: block;
+    float: left;
+    height: 28px;
+    margin-bottom: 1px;
+    padding: 2px 0 0 50px;
+    width: 130px;
+}
+#setting_bar a:hover {
+    background-position: -180px 0;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+#setting_bar .u_setting_select:link, #setting_bar .u_setting_select:visited {
+    background-position: -180px 0;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+.about_info {
+}
+.about_info h4 {
+    color: #F14B88;
+    font-family: "Microsoft Yahei";
+    font-size: 32px;
+    font-weight: normal;
+}
+.about_info h5 {
+    color: #F899BC;
+    font-family: "Microsoft Yahei";
+    font-size: 16px;
+    font-weight: normal;
+    height: 20px;
+    margin: 5px 0 0 100px;
+}
+.about_info dl {
+    clear: both;
+    margin-top: 30px;
+    width: 720px;
+}
+.about_info dl dt {
+    background: none repeat scroll 0 0 #F7F4F4;
+    border-left: 5px solid #E1E0E0;
+    color: #000000;
+    font-family: "Microsoft Yahei";
+    font-size: 16px;
+    height: 30px;
+	line-height: 30px;
+    text-indent: 10px;
+}
+.about_info dl dd {
+    color: #666666;
+    line-height: 24px;
+    margin: 13px 15px 24px;
+}
+.about_info dl dd a{
+    padding:5px;
+}
+.about_info dl dd a:link, .about_info dl dd a:visited {
+    margin-right: 5px;
+    text-decoration: underline;
+}
+.about_info dl dd a:hover {
+    color: #F14B88;
+}

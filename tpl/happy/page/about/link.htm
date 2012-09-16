@@ -1,0 +1,44 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/about.css';
+?>
+
+<!--{template inc/header}-->
+
+<div class="fm960">
+	<div class="panel u_mid">
+		<!--{template page/about/nav}-->
+		<div class="u_setting_right">
+			<div class="fl" id="setting_box">
+				<div class="about_info">
+					<h4>友情链接</h4>
+					<h5>Links</h5>
+					<dl>
+						<dt>合作伙伴</dt>
+						<dd>
+							<a href="#"><img alt="淘宝网" title="淘宝网" width="120" height="45" border="0" src="/tpl/happy/images/taobao.png"></a>
+							<a href="#"><img alt="天猫网" title="天猫网" width="120" height="45" border="0" src="/tpl/happy/images/tmall.png"></a>
+							<a href="#"><img alt="当当网" title="当当网" width="120" height="45" border="0" src="/tpl/happy/images/dangdang.jpg"></a> 
+							<a href="#"><img alt="京东商城" title="京东商城" width="120" height="45" border="0" src="/tpl/happy/images/360buy.png"></a>
+							<a href="#"><img alt="亚马逊" title="亚马逊" width="120" height="45" border="0" src="/tpl/happy/images/amazon.png"></a>
+							
+							<a href="#"><img alt="新浪微博" title="新浪微博" width="120" height="45" border="0" src="/tpl/happy/images/weibo.png"></a>
+							<a href="#"><img alt="腾讯微博" title="腾讯微博" width="120" height="45" border="0" src="/tpl/happy/images/tencent.jpg"></a> 
+							<a href="#"><img alt="QQ空间" title="QQ空间" width="120" height="45" border="0" src="/tpl/happy/images/qzone.png"></a>
+							<a href="#"><img alt="人人网" title="人人网" width="120" height="45" border="0" src="/tpl/happy/images/renren.png"></a>
+							<a href="#"><img alt="豆瓣网" title="豆瓣网" width="120" height="45" border="0" src="/tpl/happy/images/douban.png"></a> 
+						</dd>
+						<dt>友情链接</dt>
+						<dd>
+							<!--{loop $_FANWE['cache']['links']['all'] $link}-->
+                    		<a href="{$link['url']}" target="_blank">{$link['name']}</a>
+                    		<!--{/loop}-->
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br style="clear: both;" />
+
+<!--{template inc/footer}-->

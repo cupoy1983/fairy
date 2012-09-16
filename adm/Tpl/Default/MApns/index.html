@@ -1,0 +1,51 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<link href="__TMPL__Static/Js/DatePicker/jquery.ui.all.css" rel="stylesheet" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/lang/jquery.ui.datepicker-{$default_lang}.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<form action="__APP__" id="formAM">
+		<span>{$Think.lang.SEND_TIME}</span>
+		<input class="textinput" type="text" name="begin_time" value="{$begin_time}" id="begin_time" size="6" />
+		<span>─</span>
+		<input class="textinput" type="text" name="end_time" value="{$end_time}" id="end_time" size="6" />
+		<small></small>
+		<select name="status">
+			<option value="" <if condition="$status eq ''">selected="selected"</if> >{$Think.lang.SEND_STATUS}</option>
+			<option value="queued" <if condition="$status eq 'queued'">selected="selected"</if> >{$Think.lang.SEND_STATUS_QUEUED}</option>
+			<option value="delivered" <if condition="$status eq 'delivered'">selected="selected"</if> >{$Think.lang.SEND_STATUS_DELIVERED}</option>
+			<option value="failed" <if condition="$status eq 'failed'">selected="selected"</if> >{$Think.lang.SEND_STATUS_FAILED}</option>
+		</select>
+		<small></small>
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<fanwe:imageBtn id="emptyBtn" name="emptyBtn" value="{$Think.lang.EMPTY_LOG}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" id="action_box" value="index" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="item" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="pid:{$Think.lang.ID}|50,user_name:{$Think.lang.UIDS}|100,message|getContent:{$Think.lang.CONTENT}|~left,status|getStatusName:{$Think.lang.SEND_STATUS}|120,created:{$Think.lang.SEND_TIME}|130" 
+	actionlist="removeData:{$Think.lang.REMOVE}:pid" action_width="60" />
+<div class="pager">{$page}</div>
+<script type="text/javascript">
+jQuery(function($){
+	$("#begin_time").datepicker();
+	$("#end_time").datepicker();
+	
+	$("#emptyBtn").click(function(){
+		$("#action_box").val('clear');
+		$("#formAM").submit();
+	});
+});
+</script>
+<include file="Public:footer" />

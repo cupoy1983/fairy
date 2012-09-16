@@ -1,0 +1,349 @@
+/**====其他====**/
+.panel {
+    background: none repeat scroll 0 0 #FFFFFF;
+    box-shadow: 0 1px 4px #CCCCCC;
+	padding: 5px 25px;
+    position: relative;
+}
+
+
+/**====首页-广告、滚动====**/
+.pop {
+    height: 300px;
+    position: relative;
+}
+.pop img {
+    height: 300px;
+    width: 960px;
+}
+.pop-bar {
+    background: none repeat scroll 0 0 #ED3E7E;
+    bottom: 0;
+    height: 26px;
+    opacity: 0.8;
+    position: absolute;
+    width: 672px;
+}
+.pop-link {
+    background: none repeat scroll 0 0 #ED3E7E;
+    bottom: 0;
+    height: 26px;
+    position: absolute;
+}
+.pop-link li {
+    float: left;
+    text-align: center;
+}
+.pop-link li a:link, .pop-link li a:visited {
+    color: #FFFFFF;
+    display: block;
+    height: 23px;
+    padding-top: 3px;
+    text-decoration: none;
+    width: 224px;
+}
+.pop-link li a:hover, .pop-select a:link, .pop-select a:visited {
+    background: none repeat scroll 0 0 #000000;
+}
+.pop-link li.current a {
+    background: none repeat scroll 0 0 #000000;
+}
+.xmFocus_main {
+    float: left;
+    width: 960px;
+}
+.xmFocus_main {
+    height: 300px;
+	position:relative;
+    overflow: hidden;
+    width: 960px;
+}
+#slides ul {
+    position: absolute;
+}
+.slides_container {
+    width: 960px;
+}
+.slides_container a {
+    display: block;
+    height: 300px;
+    width: 960px;
+}
+.slides_container li {
+    float: left;
+}
+.pop-right-reg, .pop-right-login, .pop-today h3, .pop-today li span, .pop-ios, .panel-1 h2, .panel-album dl dd span, .panel-2 h2, .panel-shop-sort li a:link, .panel-shop-sort li a:visited, .panel-shop-sort li a em, .panel-daren-1, .panel-shop-url dl dt {
+    background: url("/tpl/happy/images/index.gif") repeat scroll 0 0 transparent;
+}
+.qiandao-state {
+    background: url("/tpl/happy/images/qiandao-state.gif") repeat scroll 0 0 transparent;
+    display: block;
+    height: 18px;
+    overflow: hidden;
+    position: absolute;
+    right: 147px;
+    text-indent: -9999px;
+    top: 17px;
+    width: 18px;
+    z-index: 1;
+}
+.qiandao-true {
+    background-position: 0 -18px;
+}
+.pop-right {
+    background: none repeat scroll 0 0 #FFFFFF;
+    height: 298px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 287px;
+}
+.pop-right-shadow {
+    background: url("/tpl/happy/images/pop-shadow.png") repeat scroll 0 0 transparent;
+    height: 298px;
+    position: absolute;
+    right: 287px;
+    top: 1px;
+    width: 14px;
+}
+.pop-right-btn {
+    display: inline;
+    float: left;
+    height: 61px;
+    margin: 15px 0 0 14px;
+    width: 259px;
+}
+.pop-right-reg:link, .pop-right-reg:visited, .pop-right-login:link, .pop-right-login:visited {
+    display: block;
+    float: left;
+    height: 61px;
+    text-indent: -9999px;
+}
+.pop-right-reg:link, .pop-right-reg:visited {
+    width: 141px;
+}
+.pop-right-reg:hover {
+    background-position: 0 -61px;
+}
+.pop-right-login:link, .pop-right-login:visited {
+    background-position: -141px 0;
+    width: 118px;
+}
+.pop-right-login:hover {
+    background-position: -141px -61px;
+}
+.pop-right-qiandao:link, .pop-right-qiandao:visited {
+    background-position: 0 -660px;
+    width: 129px;
+}
+.pop-right-qiandao:hover {
+    background-position: 0 -721px;
+}
+.pop-right-share:link, .pop-right-share:visited {
+    background-position: -130px -660px;
+    width: 130px;
+}
+.pop-right-share:hover {
+    background-position: -130px -721px;
+}
+.pop-right-shareform:link, .pop-right-shareform:visited {
+    background-position: 0 -782px;
+    width: 129px;
+}
+.pop-right-shareform:hover {
+    background-position: 0 -843px;
+}
+.pop-today {
+    display: inline;
+    float: left;
+    height: 160px;
+    margin: 10px 0 0 16px;
+    overflow: hidden;
+    width: 253px;
+}
+.pop-today h3 {
+    background-position: 0 -145px;
+    height: 16px;
+    margin-bottom: 3px;
+    text-indent: -9999px;
+    width: 158px;
+}
+.pop-today li {
+    border-top: 1px solid #FFEAF2;
+    float: left;
+    height: 24px;
+    line-height: 26px;
+    margin-top: 5px;
+    overflow: hidden;
+    padding-top: 5px;
+    text-align: left;
+    width: 252px;
+}
+.pop-today li a:link, .pop-today li a:visited {
+    color: #666666;
+    text-decoration: none;
+}
+.pop-today li a:hover {
+    color: #F55D95;
+}
+.pop-today li img {
+    float: left;
+    height: 24px;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 24px;
+}
+.pop-today li span {
+    background-position: 0 -216px;
+    color: #F55F96;
+    float: right;
+    font-weight: bold;
+    line-height: 18px;
+    margin-top: 3px;
+    padding-left: 16px;
+}
+.pop-ios {
+    background-position: 0 -170px;
+    bottom: 1px;
+    float: left;
+    height: 39px;
+    position: absolute;
+    right: 1px;
+    width: 285px;
+}
+.pop-ios-iphone, .pop-ios-android {
+    display: block;
+    float: left;
+    height: 39px;
+    text-indent: -9999px;
+    width: 142px;
+}
+
+/**====首页-类目====**/
+.panel .item-sort{
+	left: -2px;
+    position: absolute;
+    top: -42px;
+}
+.panel .item-sort li{
+	float:left;
+}
+.panel .item-sort li a:link, .panel .item-sort li a:visited, .panel .item-sort li a em{
+	background: url("/tpl/happy/images/index.gif") repeat scroll 0 0 transparent;
+} 
+.panel .item-sort li a:hover {
+    background-position: 0 -400px;
+}
+.panel .item-sort li a em {
+    display: block;
+    float: left;
+    height: 26px;
+    margin: 2px 5px 0 0;
+    width: 26px;
+}
+.panel .item-sort .shop-icon-1 {
+    background-position: 0 -500px;
+}
+.panel .item-sort .shop-icon-2 {
+    background-position: -26px -500px;
+}
+.panel .item-sort .shop-icon-3 {
+    background-position: -52px -500px;
+}
+.panel .item-sort .shop-icon-4 {
+    background-position: -78px -500px;
+}
+.panel .item-sort .shop-icon-5 {
+    background-position: -104px -500px;
+}
+.panel .item-sort .shop-icon-6 {
+    background-position: -130px -500px;
+}
+.panel .item-sort .shop-select a:link, .panel .item-sort .shop-select a:visited {
+    background-position: 0 -400px;
+    font-weight: bold;
+}
+.panel .item-sort li a:link, .panel .item-sort li a:visited {
+    background-position: 0 -442px;
+    color: #333333;
+    display: block;
+    font-family: "Microsoft Yahei";
+    font-size: 20px;
+    height: 35px;
+    padding: 7px 0 0 18px;
+    width: 106px;
+}
+
+/*======头部======*/
+body {
+	background: url("/tpl/happy/images/bg1.png") repeat scroll 0 0 #F1F1F1;
+}
+#header{
+	background: url("/tpl/happy/images/bg.png") repeat-x scroll 0 0 #F1F1F1;
+	width:auto;
+	padding:0 120px;
+}
+
+
+/*======尾部======*/
+.foot_left div{
+	width: 125px;
+}
+#foot .links ul {
+    margin: 5px 0 24px;
+    overflow: hidden;
+    width: 100px;
+}
+#foot .links li a {
+    line-height: 20px;
+    padding-left: 5px;
+}
+#foot .followus li a {
+    padding: 3px 0 3px 20px;
+}
+#foot .followus .sina {
+    background: url("/tpl/happy/images/icons_share.png") no-repeat scroll 0 -199px transparent;
+}
+#foot .followus .qqzone {
+    background: url("/tpl/happy/images/icons_share.png") no-repeat scroll 0 -369px transparent;
+}
+#foot .followus .douban {
+    background: url("/tpl/happy/images/icons_share.png") no-repeat scroll 0 -117px transparent;
+}
+#foot .followus .renren {
+    background: url("/tpl/happy/images/icons_share.png") no-repeat scroll 0 -78px transparent;
+}
+#foot .followus .tqq {
+    background: url("/tpl/happy/images/icons_share.png") no-repeat scroll 0 -278px transparent;
+}
+.foot_left .friend{
+	height:110px;
+	overflow:hidden;
+}
+/*滚动导航条*/
+a.ntel {
+    background: url("/tpl/happy/images/return.png") no-repeat scroll left -41px transparent;
+    display: block;
+    height: 31px;
+    width: 56px;
+}
+a.nbook {
+    background-position: left -80px;
+    margin-top: 12px;
+}
+a.fabu {
+    background-position: 0 0;
+    height: 33px;
+    margin-bottom: 10px;
+}
+a.nrebtn {
+    background: url("/tpl/happy/images/return.png") no-repeat scroll left -117px transparent;
+    display: block;
+    height: 56px;
+    margin-top: 10px;
+    width: 56px;
+}
+a.nrebtn:hover {
+    background-position: left -180px;
+}
+

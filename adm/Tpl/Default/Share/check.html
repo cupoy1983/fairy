@@ -1,0 +1,31 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/shareList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="editShare" name="editShare" value="{$Think.lang.EDIT}" click="editData(this,'checkList','share_id')" />
+	<fanwe:imageBtn id="removeShare" name="removeShare" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<fanwe:imageBtn id="ToExamineSelect" name="ToExamineSelect" value="{$Think.lang.TO_EXAMINE_SELECT}" click="ToExamineSelectData(this,'checkList')" />
+	<fanwe:imageBtn id="BatchDelete" name="BatchDelete" value="{$Think.lang.BATCH_DELETE}" click="BatchDelete()" />
+</div>
+<div class="search-box">
+    <form action="__APP__">
+		<span>{$Think.lang.USER_NAME}</span>
+		<input class="textinput" type="text" value="{$uname}" name="uname" id="user_name" size="8" />
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="check" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="share" 
+	pk="share_id" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="share_id:{$Think.lang.ID}|80,content:{$Think.lang.SHARE_CONTENT}|~left,cate_name:{$Think.lang.SHARE_CATEGORY}|100,user_name:{$Think.lang.USER_NAME}|100,create_time|toDate:{$Think.lang.CREATE_TIME}|100,type|getTypeName:{$Think.lang.SHARE_TYPE}|90,share_data|getShareData:{$Think.lang.SHARE_DATA}|90,status|getStatusImg:{$Think.lang.STATUS}|60:toggleStatus|share_id" 
+	actionlist="editData:{$Think.lang.EDIT}:share_id,removeData:{$Think.lang.REMOVE}:share_id" action_width="80" nosort="content,cate_name,user_name,create_time,type,share_data,status"/>
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

@@ -1,0 +1,44 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.NAME}</th>
+		<td><p>{$vo.name}</p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.UID}</th>
+		<td><p><a href="__ROOT__/u.php?action=index&uid={$vo.uid}" target="_blank">{$vo.user_name}</a></p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.REASON}</th>
+		<td><p><pre>{$vo.reason}</pre></p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.JOIN_WAY}</th>
+		<td>
+			<p><if condition='$vo.join_way eq 1'>
+			{$Think.lang.JOIN_WAY_1}
+			<else/>
+			{$Think.lang.JOIN_WAY_0}
+			</if></p>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.TAGS}</th>
+		<td><p>{$vo.tags}</p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CONTENT}</th>
+		<td><p><pre>{$vo.content}</pre></p></td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="hidden" name="fid" value="{$vo.fid}" />
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<include file="Public:footer" />

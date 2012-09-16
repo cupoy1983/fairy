@@ -1,0 +1,85 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/book.css';
+	$css_list[0]['url'][] = './tpl/css/search.css';
+	$js_list[0] = './public/js/jquery.masonry.js';
+?>
+<!--{template inc/header}-->
+<div class="wrapper">
+	<div class="blank20"></div>
+	<div class="piece1">
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd">
+			<div class="clearfix">
+				<div class="search_navi_left " id="searchbox">
+					<div class="search_tab clearfix">
+						<a href="{$search_navs['all']}"}>全部</a>
+						<a href="{$search_navs['bao']}">宝贝</a>
+						<a href="{$search_navs['photo']}">图片</a>
+						<a href="{$search_navs['album']}">杂志社</a>
+						<a class="current">找人</a>
+						<a href="{$search_navs['group']}">小组</a>
+						<a href="{$search_navs['topic']}">主题</a>
+					</div>
+					<form method="get" action="{u search/index}" id="search_form_box" class="search_form_box">
+						<input type="text" value="{$keyword}" name="keyword" class="search_input" tooltip="{lang search_share}">
+						<input type="hidden" name="action" value="{ACTION_NAME}" />
+						<input type="submit" value="搜  索" class="search_btn">
+					</form>
+					<div class="blank15"></div>
+					多个字词可以用空格分隔后搜索
+				</div>
+			</div>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+</div>
+<div class="blank20"></div>
+<div class="wrapper">
+	<div class="piece1">
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd">
+			<div id="search_result_info">与"{cutstr $keyword 30}"相关的会员</div>
+			<ul id="search_result_list" class="people_list clearfix">
+				<!--{loop $user_list $user}-->
+				<li class="clearfix">
+					<a href="{u u/index uid=$user['uid']}" ><img class="r3 avt head GUID" uid="{$user['uid']}" src="{avatar $user['avatar'] m}" alt="{$user['user_name']}" width="48"></a>
+					<div class="people_info">
+						<a class="n icard bc GUID" uid="{$user['uid']}" href="{u u/index uid=$user['uid']}">{$user['user_name']}</a>
+						 <span >&nbsp;</span> <span>粉丝{$user['fans']}人</span>
+						<p>
+							<!--{if !empty($user['share'])}-->
+							{cutstr $user['share'] 100}&nbsp;({$user['share_time']})
+							<!--{else}-->
+							{cutstr $user['introduce'] 100}
+							<!--{/if}-->
+						</p>
+					</div>
+					<div class="people_toolbar">
+						<!--{getfollow $user['uid'] inc/getfollow/search_user}-->
+					</div>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+	<!--{if $pager['page_count'] > 1}-->
+	<div style="padding-top:30px" class="clr">
+		<div class="pagination"> 
+			<!--{subtemplate inc/pages}--> 
+		</div>
+	</div>
+	<!--{/if}-->
+	<div class="clear"></div>
+</div>
+<script type="text/javascript">
+function UpdateSearchUserFollow(obj,result)
+{
+	var parent = $(obj).parent();
+	if(result.status == 1)
+	{
+		parent.html('<img src="./tpl/images/add_ok_03.png">');
+	}
+}
+</script>
+<!--{template inc/footer}-->

@@ -1,0 +1,82 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/user.js"></script>
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:U(MODULE_NAME.'/index')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/insert')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.NAME}</th>
+		<td><input type="text" class="textinput" name="name" id="name" value="" style="width:400px;" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.UID}</th>
+		<td>
+			<select name="uid" id="userSelect">
+			</select>&nbsp;
+			<input type="text" class="textinput" size="8" id="userName" />&nbsp;
+			<input class="submit_btn" type="button" value="{$Think.lang.SEARCH}" onclick="searchUser('#userSelect','#userName');" />
+		</td>
+	</tr>
+    <tr>
+		<th>{$Think.lang.CID}</th>
+		<td>
+			<select name="cid">
+				<foreach name="cate_list" item="cate_item">
+					<option value="{$cate_item.id}">{$cate_item.cate_name}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.ICON}</th>
+		<td>
+			<input type="file" class="fileinput" name="icon" size="30" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.IMG_ID}</th>
+		<td>
+			<input type="file" class="fileinput" name="img" size="30" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.JOIN_WAY}</th>
+		<td>
+			<label><input type="radio" name="join_way" value="1" checked="checked" /><span>{$Think.lang.JOIN_WAY_1}</span></label>&nbsp;&nbsp;
+			<label><input type="radio" name="join_way" value="0" /><span>{$Think.lang.JOIN_WAY_0}</span></label>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.TAGS}</th>
+		<td><input type="text" class="textinput" name="tags" value="" style="width:400px;" /></td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td><p>{$Think.lang.TAGS_TIP}</p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CONTENT}</th>
+		<td>
+			<textarea name="content" class="textinput areainput" rows="8"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SORT}</th>
+		<td>
+			<input type="text" class="textinput" name="sort" id="sort" value="100"  />
+		</td>
+	</tr>
+	
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+
+<include file="Public:footer" />

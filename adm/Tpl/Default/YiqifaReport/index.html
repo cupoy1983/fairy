@@ -1,0 +1,44 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<link href="__TMPL__Static/Js/DatePicker/jquery.ui.all.css" rel="stylesheet" />
+<script type="text/javascript" src="__TMPL__Static/Js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/DatePicker/lang/jquery.ui.datepicker-{$default_lang}.js"></script>
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList','unique_id')" />
+	<form action="__APP__">
+		<span>{$Think.lang.ORDER_TIME}</span>
+		<input class="textinput" type="text" value="{$day_time}" name="day_time" id="day_time" size="10" />
+		<small></small>
+		<span>{$Think.lang.OUTER_CODE}</span>
+		<input class="textinput" type="text" value="{$outer_code}" name="outer_code" size="10" />
+		<small></small>
+		<select name="status">
+			<option value="">{$Think.lang.STATUS}</option>
+			<option value="A" <if condition="$status eq 'A'">selected="selected"</if>>{$Think.lang.STATUS_A}</option>
+			<option value="F" <if condition="$status eq 'F'">selected="selected"</if>>{$Think.lang.STATUS_F}</option>
+			<option value="R" <if condition="$status eq 'R'">selected="selected"</if>>{$Think.lang.STATUS_R}</option>
+		</select>
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="type" 
+	pk="unique_id" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="unique_id:{$Think.lang.ID}|100,order_no:{$Think.lang.ORDER_NO}|120,prod_name:{$Think.lang.PROD_NAME}|~left,prod_count:{$Think.lang.PROD_COUNT}|60,prod_money:{$Think.lang.PROD_MONEY}|60,am:{$Think.lang.AM}|60,commision:{$Think.lang.COMMISSION}|60,feed_back:{$Think.lang.OUTER_CODE}|80,status:{$Think.lang.STATUS}|60,order_time|toDate:{$Think.lang.ORDER_TIME}|130" 
+	actionlist="removeData:{$Think.lang.REMOVE}:unique_id" action_width="60" />
+<div class="pager">{$page}</div>
+<script type="text/javascript">
+jQuery(function($){
+	$("#day_time").datepicker();
+});
+</script>
+<include file="Public:footer" />

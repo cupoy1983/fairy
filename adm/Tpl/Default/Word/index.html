@@ -1,0 +1,43 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="addData" name="addData" value="{$Think.lang.ADD}" click="addData(this,'checkList')" />
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList')" />
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<fanwe:linkBtn text="{$Think.lang.IMPORT}" href="{:U(MODULE_NAME.'/import')}" />
+	<fanwe:linkBtn text="{$Think.lang.EXPORT}" href="{:U(MODULE_NAME.'/export')}" />
+	<form action="__APP__">
+		<span>{$Think.lang.WORD}</span>
+		<input class="textinput" type="text" value="{$word}" name="word" size="12" />
+		<small></small>
+		<span>{$Think.lang.TYPE}</span>
+		<select name="type">
+			<option value="0">{$Think.lang.TYPE_ALL}</option>
+			<option value="1" <if condition="$type eq 1">selected="selected"</if>>{$Think.lang.TYPE_1}</option>
+			<option value="2" <if condition="$type eq 2">selected="selected"</if>>{$Think.lang.TYPE_2}</option>
+		</select>
+		<small></small>
+		<span>{$Think.lang.CID}</span>
+		<select name="cid">
+			<option value="0">{$Think.lang.CID_ALL}</option>
+			<foreach name="type_list" item="type_item">
+			<option value="{$type_item.id}" <if condition="$cid eq $type_item['id']">selected="selected"</if>>{$type_item.name}</option>
+			</foreach>
+		</select>
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="item" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{$Think.lang.ID}|50,word:{$Think.lang.WORD}|~left:textEdit|id,replacement:{$Think.lang.REPLACEMENT}|~left:textEdit|id,type|getTypeName:{$Think.lang.TYPE}|80:,cname:{$Think.lang.CID}|80,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|id" 
+	actionlist="editData:{$Think.lang.EDIT}:id,removeData:{$Think.lang.REMOVE}:id" action_width="80" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

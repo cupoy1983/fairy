@@ -1,0 +1,53 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/zone.css';
+	$js_list[0] = './tpl/js/zone.js';
+?>
+<!--{template inc/header}-->
+<!--{template inc/u/u_menu}-->
+<div class="wrapper">
+	<div class="zone_head clearfix">
+		<div class="fleft zh_cat">
+			<a href="{u u/album uid=$home_uid,type=1}"{if $type == 1} class="c"{/if}>{$_FANWE['home_user_names']['short']}发表的</a><span>|</span> <a href="{u u/album uid=$home_uid,type=2}"{if $type == 2} class="c"{/if}>{$_FANWE['home_user_names']['short']}关注的人</a><span>|</span> <a href="{u u/album uid=$home_uid,type=3}"{if $type == 3} class="c"{/if}>{$_FANWE['home_user_names']['short']}推荐的</a>
+		</div>
+		<div class="fright">
+			<!--{if $home_uid == $_FANWE['uid']}-->
+			<a href="{u album/create}" class="zone_btn zb_album" >创建{lang common/album}</a>
+			<!--{/if}-->
+		</div>
+	</div>
+</div>
+<div class="wrapper clearfix">
+	<!--{if empty($album_list)}-->
+	<div class="empty mt20">
+		<img alt="" class="fl" src="./tpl/images/fanwe4.png">
+		<span>呼~~这里还是空的~~</span>
+		<div class="clear"></div>
+	</div> 
+	<!--{else}-->
+	<ul class="album_all_pic clearfix">
+		<!--{loop $album_list $album}-->
+		<li class="all_list" >
+			<ul class="all_pic_s">
+				<!--{eval $list_img_counts = array(0,0,0,0,0,0,0,0);}-->
+				<!--{loop $list_img_counts $imgkey $imgindex}-->
+				<!--{eval $img = $album['imgs'][$imgkey];}-->
+				<!--{if !empty($img)}-->
+				<li><a target="_blank" href="{$album['url']}"><img src="{getimg $img['img'] 100 100}" /></a></li>
+				<!--{else}-->
+				<li><a target="_blank" class="add_img" href="{$album['url']}"><img src="./tpl/images/none_pic.png" /></a></li>
+				<!--{/if}-->
+				<!--{/loop}-->
+			</ul>
+			<div class="album_title">
+				<a href="{$album['url']}" class="fl">《{cutstr $album['title'] 26}》</a> <span class="pic_n fl"> <span>{$album['img_count']}&nbsp;图</span> <i></i> </span>
+				<span class="fr"><!--{getuser $album['uid'] 1 '' 'icard name'}--></span>
+			</div>
+		</li>
+		<!--{/loop}-->
+	</ul>
+	<div class="pagination pt15">
+		<!--{subtemplate inc/pages}--> 
+	</div>
+	<!--{/if}-->
+</div>
+<!--{template inc/footer}-->

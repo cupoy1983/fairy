@@ -1,0 +1,83 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/general.css';
+	$css_list[0]['url'][] = './tpl/css/book.css';
+	$css_list[0]['url'][] = './tpl/css/search.css';
+	$js_list[0] = './public/js/jquery.masonry.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="container_16">
+	<div class="blank20"></div>
+	<div class="piece1">
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd">
+			<div class="clearfix">
+				<div class="search_navi_left " id="searchbox">
+					<div class="search_tab clearfix">
+						<a href="{$search_navs['all']}"}>全部</a>
+						<a href="{$search_navs['bao']}">宝贝</a>
+						<a href="{$search_navs['photo']}">图片</a>
+						<a class="current">杂志社</a>
+						<a href="{$search_navs['user']}">找人</a>
+						<a href="{$search_navs['group']}">小组</a>
+						<a href="{$search_navs['topic']}">主题</a>
+					</div>
+					<form method="get" action="{u search/index}" id="search_form_box" class="search_form_box">
+						<input type="text" value="{$keyword}" name="keyword" class="search_input" tooltip="{lang search_share}">
+						<input type="hidden" name="action" value="{ACTION_NAME}" />
+						<input type="submit" value="搜  索" class="search_btn">
+					</form>
+					<div class="blank15"></div>
+					多个字词可以用空格分隔后搜索
+				</div>
+			</div>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+	<div class="imagewall_nav">
+		<div class="imagewall_sort">
+			<h1 class="fl">{cutstr $keyword 30}</h1>
+			<div style="margin-left:20px;" class="fl">
+				<a>{lang sort_by}：</a>
+				<a {if $hot_url['act'] == 1}class="c"{/if} href="$hot_url['url']">{lang sort_hot}</a>
+				<a {if $new_url['act'] == 1}class="c"{/if} href="$new_url['url']">{lang sort_new}</a>
+			</div>
+		</div>
+		<div class="albumwall" id="album_container">
+			<ul class="album_all_pic">
+				<!--{loop $album_list $album}-->
+				<li class="all_list" >
+					<div class="album_title">
+						<a href="{$album['url']}">{cutstr $album['title'] 30}</a> <span class="pic_n"> <span>{$album['img_count']}&nbsp;图</span> <i></i> </span>
+					</div>
+					<ul class="all_pic_s">
+						<!--{eval $list_img_counts = array(0,0,0,0,0,0);}-->
+						<!--{loop $list_img_counts $imgkey $imgindex}-->
+						<!--{eval $img = $album['imgs'][$imgkey];}-->
+						<!--{if !empty($img)}-->
+						<li><a target="_blank" href="{$album['url']}"><img class="lazyload" original="{getimg $img['img'] 100 100}" src="./tpl/images/lazyload.gif"/></a></li>
+						<!--{else}-->
+						<li><a target="_blank" class="add_img" href="{$album['url']}"><img src="./tpl/images/none_pic.png" /></a></li>
+						<!--{/if}-->
+						<!--{/loop}-->
+					</ul>
+					<p>
+						<!--{getuser $album['uid'] 1 '' 'icard name gc'}-->&nbsp;&nbsp;
+						<!--{loop $album['tags'] $tag}-->
+						&nbsp;<a href="{$tag['url']}">{$tag['name']}</a>
+						<!--{/loop}-->
+					</p>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{if $pager['page_count'] > 1}-->
+		<div style="padding-top:30px" class="clr">
+			<div class="pagination"> 
+				<!--{subtemplate inc/pages}--> 
+			</div>
+		</div>
+		<!--{/if}-->
+		<div class="clear"></div>
+	</div>
+</div>
+<!--{template inc/footer}-->

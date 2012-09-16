@@ -1,0 +1,8 @@
+<!--{if $is_join_group == 1}-->
+<span>已有 <b style="color:#FF81B2;">{$group['user_count']}</b> 位成员，我是小组组员。</span>
+<a class="forumout" href="javascript:;" onclick="joinUserGroup($group['fid'],1,joinUserGroupResult);">退出小组</a>
+<!--{elseif $is_join_group == 2}-->
+<span>已有 <b style="color:#FF81B2;">{$group_detail['user_count']}</b> 位成员，我已提交小组加入申请。</span>
+<!--{else}-->
+<a href="javascript:;" class="join_btn" onclick="joinUserGroup($group['fid'],0,joinUserGroupResult);"></a> <span>已有 <b style="color:#FF81B2;">{$group['user_count']}</b> 位成员</span> </div>
+<!--{/if}-->

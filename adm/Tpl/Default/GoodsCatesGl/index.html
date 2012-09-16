@@ -1,0 +1,25 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_CATEGORY_LIST}" href="{:U('GoodsCategory/index')}" />
+	<form action="__APP__" style="float: left">
+		<select name="type" >
+			<option>选择要关联站点</option>
+			<foreach name="types" item="type">
+				<option>{$type['type']}</option>
+			</foreach>
+		</select>
+		<small></small>
+		<input class="submit_btn" type="submit" value="设置关联" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="setting" />
+		<input type="hidden" name="cate_id" value="{$cate_id}" />
+		<input type="hidden" name="cate_name" value="{$cate_name}" />
+	</form>
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+</div>
+<fanwe:list id="checkList" pk="gl_id" style="list" name="cates" checkbox="true" action="true" datasource="list" show="cate_name:{$Think.lang.CATE_NAME}|~left,type:{$Think.lang.CATE_TYPE}" actionlist="removeData:{$Think.lang.REMOVE}:gl_id" action_width="80"/>
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

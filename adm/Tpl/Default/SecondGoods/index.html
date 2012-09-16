@@ -1,0 +1,45 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList','gid')" />
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<form action="__APP__">
+		<span>{$Think.lang.NAME}</span>
+		<input class="textinput" type="text" value="{$keyword}" name="keyword" size="12" />
+		<small></small>
+		<span>{$Think.lang.USER_NAME}</span>
+		<input class="textinput" type="text" value="{$uname}" name="uname" id="user_name" size="8" />
+		<small></small>
+		<span>{$Think.lang.SID}</span>
+		<select name="sid">
+			<option value="0">{$Think.lang.SECOND_ALL}</option>
+			<foreach name="second_list" item="second_item">
+			<option value="{$second_item.sid}" <if condition="$sid eq $second_item['sid']">selected="selected"</if>>{$second_item.name}</option>
+			</foreach>
+		</select>
+		<small></small>
+		<span>{$Think.lang.CITY_ID}</span>
+		<select name="city_id">
+			<option value="0">{$Think.lang.CITY_ALL}</option>
+			<foreach name="city_list" item="city_item">
+			<option value="{$city_item.id}" <if condition="$city_id eq $city_item['id']">selected="selected"</if>>{$city_item.name}</option>
+			</foreach>
+		</select>
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="thread" 
+	pk="gid" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="gid:{$Think.lang.ID}|50,name:{$Think.lang.NAME}|~left,page:{$Think.lang.PAGES}|170,sname:{$Think.lang.SID}|100,user_name:{$Think.lang.USER_NAME}|100,share_id|getRelateShare:{$Think.lang.CHECK_RELATE_SHARE}|150,create_time|toDate:{$Think.lang.CREATE_TIME}|150,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|gid" 
+	actionlist="editData:{$Think.lang.EDIT}:gid,removeData:{$Think.lang.REMOVE}:gid" action_width="80" nosort="share_id,name" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

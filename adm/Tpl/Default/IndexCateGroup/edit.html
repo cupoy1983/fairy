@@ -1,0 +1,47 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:Cookie::get('returnUrl')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.CID}</th>
+		<td>
+			<p>{$cate_name}</p>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.NAME}</th>
+		<td>
+			<input type="text" class="textinput" name="name" size="30" value="{$vo.name}" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.TAGS}</th>
+		<td>
+			<input type="text" class="textinput" name="tags" size="100" value="{$vo.tags}" />
+		</td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td><p>{$Think.lang.TAGS_TIPS}</p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SORT}</th>
+		<td>
+			<input type="text" class="textinput" name="sort" value="50" size="{$vo.sort}" />
+		</td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+			<input name="id" type="hidden" value="{$vo.id}" />
+		</td>
+	</tr>
+</table>
+</form>
+
+<include file="Public:footer" />

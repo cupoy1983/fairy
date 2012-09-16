@@ -1,0 +1,260 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/club.css';
+	$js_list[0][] = './public/js/jquery.slides.js';
+	$js_list[0][] = './tpl/js/group.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+	<div class="piece1 mb20">
+		<div class="piece1_hd"></div>
+		<!--{dynamic getNewBestTopics}-->
+		<div class="piece1_ft"></div>
+	</div>
+	<div id="content_body_wrap" class="fl">
+		<div class="piece piece_wb" >
+			<div class="piece_hd" > <b class="hl"></b> <b class="hr"></b> </div>
+			<!--{dynamic getMeGroups}-->
+			<div class="piece_ft" > <b class="fl"></b> <b class="fr"></b> </div>
+		</div>
+		<div class="piece piece_wb" >
+			<div class="piece_hd" > <b class="hl"></b> <b class="hr"></b> </div>
+			<div class="piece_bd">
+				<h2 class="active_group_title" >活跃小组</h2>
+				<ul class="active_group_list clear_in" >
+					<!--{loop $base_groups $group_item}-->      
+					<li>
+						<a class="fl" href="{u group/detail fid=$group_item['fid']}" target="_blank"><img class="r5 lazyload" height="80" original="{getimg $group_item['icon']['img'] 100 100 1}" src="./tpl/images/lazyload.gif"/></a>
+						<h3 class="ag_t"><a class="glink" href="{u group/detail fid=$group_item['fid']}" target="_blank">{$group_item['name']}</a></h3>
+						<p class="ag_i" ><span><b>{$group_item['user_count']}</b>成员</span> <span><b>{$group_item['thread_count']}</b>分享</span> </p>
+						<p class="ag_d" >{cutstr $group_item['content'] 60}</p>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="piece_ft" > <b class="fl"></b> <b class="fr"></b> </div>
+		</div>
+		<div id="all_group" class="piece piece_wb">
+			<ul class="all_group_nav">
+				<li class="new"><a class="c" href="javascript:;" title="新晋" id="catenav_new">新晋</a></li>
+				<!--{eval $index = 1;}-->
+				<!--{loop $_FANWE['cache']['forum_category'] $category}-->
+				<li class="cate_{$index}"><a href="#cate_groups_{$category['id']}" title="{$category['cate_name']}" id="catenav_{$category['id']}">{$category['cate_name']}</a></li>
+				<!--{eval $index++;}-->
+				<!--{/loop}-->
+			</ul>
+			<div class="piece_bd">
+			   <div class="all_group_sort">
+					<h3 class="all_group_subtitle" >新晋</h3>
+					<ul class="all_group_list" >
+						<!--{loop $new_groups $group_item}-->      
+						<li>
+							<a class="fl" href="{u group/detail fid=$group_item['fid']}" target="_blank"><img class="r5 lazyload" height="50" original="{getimg $group_item['icon']['img'] 100 100 1}"  src="./tpl/images/lazyload.gif"/></a>
+							<h4 class="ag_t"><a class="glink" href="{u group/detail fid=$group_item['fid']}" target="_blank">{cutstr $group_item['name'] 26}</a></h4>
+							<p class="ag_i" > <span><b>{$group_item['user_count']}人</b></span> </p>
+						</li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<!--{loop $group_cates $group_cate}-->
+				<!--{if $group_cate['forum_count'] > 16}-->
+				<div id="groups_box_{$group_cate['id']}" class="all_group_sort all_group_page">
+					<div class="all_group_subtitle" >
+						{$group_cate['cate_name']}
+						<a id="cate_groups_{$group_cate['id']}" class="more">{$group_cate['forum_count']}个小组</a>
+						<div class="all_group_subtitle_page vhide" isLoad="0" cid="{$group_cate['id']}" page="1" maxPage="2">
+							<img src="./tpl/images/loading_blue1.gif" />
+							<a class="gc_arr garight" href="javascript:;"></a>
+							<a class="gc_arr galeft galstop"  href="javascript:;"></a>
+						</div>
+					</div>
+				<!--{else}-->
+				<div class="all_group_sort">
+					<div class="all_group_subtitle" >
+						{$group_cate['cate_name']}
+						<a id="cate_groups_{$group_cate['id']}" class="more">{$group_cate['forum_count']}个小组</a>
+					</div>
+				<!--{/if}-->
+					<ul class="all_group_list" >
+						<!--{loop $group_cate['groups'] $group_item}-->
+						<li>
+							<a class="fl" href="{u group/detail fid=$group_item['fid']}" target="_blank"><img class="r5 lazyload" height="50" original="{getimg $group_item['icon']['img'] 100 100 1}" src="./tpl/images/lazyload.gif"/></a>
+							<h4 class="ag_t"><a class="glink" href="{u group/detail fid=$group_item['fid']}" target="_blank">{cutstr $group_item['name'] 26}</a></h4>
+							<p class="ag_i" > <span><b>{$group_item['user_count']}人</b></span> </p>
+						</li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<!--{/loop}-->
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div id="right_side" class="fr">
+		<div class="piece piece_ws" >
+			<div class="piece_hd" > <b class="hl"></b> <b class="hr"></b> </div>
+			<div class="piece_bd">
+				<form action="{u search/group}" method="post" id="search_group">
+					<input type="text" name="keyword" class="search_txt fl" value="" autocomplete="off" tooltip="搜小组" />
+					<input type="submit" value=" " class="search_btn">
+					<input type="hidden" name="action" value="group" />
+				</form>
+				<div class="apply_group_box" ><a href="{u group/create}" class="apply_group"></a></div>
+			</div>
+			<div class="piece_ft" > <b class="fl"></b> <b class="fr"></b> </div>
+		</div>
+		<!--{if  $_FANWE['setting']['group_admin_uid'] > 0 || $_FANWE['setting']['group_admin_fid'] > 0}-->
+		<div class="piece piece_ws" >
+			<div class="piece_hd" > <b class="hl"></b> <b class="hr"></b> </div>
+			<div class="piece_bd">
+				<!--{if  $_FANWE['setting']['group_admin_uid'] > 0}-->
+				<h3 class="mt10">有事@小组小秘书</h3>
+				<ul class="mana_list" >
+					<li><!--{getuser $_FANWE['setting']['group_admin_uid'] 1 '' '' 'inc/getuser/group_admin'}--></li>
+				</ul>
+				<!--{/if}-->
+				<!--{if  $_FANWE['setting']['group_admin_fid'] > 0}-->
+				<h3><a target="_blank" href="{$_FANWE['setting']['group_admin_furl']}">更多</a>{$_FANWE['setting']['group_admin_fname']}</h3>
+				<ul class="guide_list">
+					<!--{loop $admin_topics $topic}-->
+					<li>
+						<p><a class="tlink" target="_blank" href="{$topic['url']}">{cutstr $topic['title'] 28}</a></p>
+					</li>
+					<!--{/loop}-->
+				</ul>
+				<!--{/if}-->
+			</div>
+			<div class="piece_ft" > <b class="fl"></b> <b class="fr"></b> </div>
+		</div>
+		<!--{/if}-->
+		<div class="piece piece_ws" >
+			<div class="piece_hd" > <b class="hl"></b> <b class="hr"></b> </div>
+			<div class="piece_bd">
+				<h3>热门活动</h3>
+				<ul class="new_topic_list hot_group_event">
+					<!--{loop $hot_events $event}-->
+					<li>
+						<p><a class="tlink" target="_blank" href="{$event['url']}">{cutstr $event['title'] 28}</a></p>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="piece_ft" > <b class="fl"></b> <b class="fr"></b> </div>
+		</div>
+		<div class="piece piece_ws" >
+			<div class="piece_hd" > <b class="hl"></b> <b class="hr"></b> </div>
+			<div class="piece_bd">
+				<h3>优秀小组长</h3>
+				<ul class="group_daren_list" >
+					<!--{loop $group_darens $daren}-->
+					<li>
+						<a href="{u u/index uid=$daren['uid']}" target="_blank"><img class="fl avatar r3 lazyload" original="{getimg $daren['img'] 100 100 1}"  height="80"  src="./tpl/images/lazyload.gif" /></a>
+						<div class="daren_info">
+							<!--{getuser $daren['uid'] 0 '' '' 'inc/getuser/group_daren'}-->
+						</div>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="piece_ft" > <b class="fl"></b> <b class="fr"></b> </div>
+		</div>
+		<div class="piece piece_ws" >
+			<div class="piece_hd" > <b class="hl"></b> <b class="hr"></b> </div>
+			<div class="piece_bd">
+				<h3>最新主题</h3>
+				<ul class="new_topic_list">
+					<!--{loop $new_topics $topic}-->
+					<li>
+						<p><a class="tlink" target="_blank" href="{$topic['url']}">{cutstr $topic['title'] 28}</a></p>
+						<p class="gl_gt" ><a class="glink" target="_blank" href="{u group/detail fid=$topic['fid']}">{cutstr $topic['group_name'] 26}</a></p>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="piece_ft" > <b class="fl"></b> <b class="fr"></b> </div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<script type="text/javascript">
+FANWE.NO_COUNTER = true;
+jQuery(function($){
+	$(".all_group_nav a").click(function(){
+		$(".all_group_nav a").removeClass('c');
+		$(this).addClass('c');
+	});
+	$(".all_group_page").hover(function(){
+		$('.all_group_subtitle_page').addClass('vhide');
+		$('.all_group_subtitle_page',this).removeClass('vhide');
+	},function(){
+		if($('.all_group_subtitle_page',this).get(0).getAttribute('isLoad') == 0)
+			$('.all_group_subtitle_page',this).addClass('vhide');
+	});
+	
+	$(".all_group_subtitle_page").each(function(){
+		var cate = this;
+		$(".galeft",this).click(function(){
+			var cid = cate.getAttribute('cid');
+			var page = parseInt(cate.getAttribute('page'));
+			var maxPage = parseInt(cate.getAttribute('maxPage'));
+			if(page <= 1)
+			{
+				$(this).addClass('galstop');
+				return;
+			}
+			page--;
+			$("img",cate).show();
+			cate.setAttribute('page',page);
+			cate.setAttribute('isLoad',1);
+			getCateGroups(cid,page,getCateGroupsResult);
+		});
+		
+		$(".garight",this).click(function(){
+			var cid = cate.getAttribute('cid');
+			var page = parseInt(cate.getAttribute('page'));
+			var maxPage = parseInt(cate.getAttribute('maxPage'));
+			if(page >= maxPage)
+			{
+				$(this).addClass('garstop');
+				return;
+			}
+			$("img",cate).show();
+			page++;
+			cate.setAttribute('page',page);
+			cate.setAttribute('isLoad',1);
+			getCateGroups(cid,page,getCateGroupsResult);
+		});
+	});
+});
+
+function getCateGroupsResult(cid,result)
+{
+	var cate = $("#groups_box_"+ cid +" .all_group_subtitle_page");
+	var cateObj = cate.get(0);
+	cateObj.setAttribute('isLoad',0);
+	$("img",cate).hide();
+	if(result)
+	{
+		cateObj.setAttribute('page',result.pager.page);
+		cateObj.setAttribute('maxPage',result.pager.page_count);
+		$(".galeft",cate).addClass('galstop');
+		$(".garight",cate).addClass('garstop');
+		if(result.pager.page < result.pager.page_count)
+			$(".garight",cate).removeClass('garstop');
+		
+		if(result.pager.page > 1)
+			$(".galeft",cate).removeClass('galstop');
+			
+		$("#groups_box_"+ cid +" .all_group_list").html(result.list);
+	}
+}
+
+function GroupUpdateUserFollow(obj,result)
+{
+	var parent = $(obj).parent();
+	if(result.status == 1)
+	{
+		parent.html('<span class="followed">已关注</span>');
+	}
+}
+</script>
+<!--{template inc/footer}-->

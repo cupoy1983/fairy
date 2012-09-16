@@ -1,0 +1,19 @@
+<ul class="reco_group">
+	<!--{loop $best_pics $topic}-->
+	<li>
+		<a class="fr" href="{$topic['url']}" target="_blank"><img class="r5" src="{getimg $topic['imgs'][0]['img'] 100 100 1}" height="80"></a>
+		<h3 class="rg_tt" ><a class="tlink" href="{$topic['url']}" target="_blank">{cutstr $topic['title'] 42}</a></h3>
+		<p class="rg_con" >{cutstr $topic['content'] 26}</p>
+		<p class="rg_gt"><a class="glink" href="{u group/detail fid=$topic['fid']}" target="_blank">{cutstr $topic['group']['name'] 20}</a></p>										
+	</li>
+	<!--{/loop}-->
+</ul>
+<ul class="reco_topic">
+	<!--{loop $best_text $topic}-->
+	<li>
+		<!--{getuser $topic['uid'] 0 's,32' ',u_name fl r3'}-->
+		<p class="rt_tt" ><a class="tlink" href="{$topic['url']}" target="_blank">{cutstr $topic['title'] 30}</a></p>
+		<p class="rt_gt" ><a class="glink" href="{u group/detail fid=$topic['fid']}" target="_blank">{cutstr $topic['group']['name'] 30}</a></p>
+	</li>
+	<!--{/loop}-->
+</ul>

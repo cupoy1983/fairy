@@ -1,0 +1,131 @@
+<!--{if $cate_list}-->
+<!--{loop $cate_list $citem}-->
+	<div class="piece1 mb20">
+		<div class="piece1_hd"></div>
+		<div class="piece1_bd" style="padding:5px 25px ">
+			<div class="share_title">
+				<em><a target="_blank" href="{u book/cate cate=$citem['cate']['cate_code']}"><span>分享</span>{$citem['cate']['short_name']}</a></em>
+				<span class="st_key">
+					<a target="_blank" href="{u book/cate cate=$citem['cate']['cate_code'],sort=hot1}">热门</a>
+					<a target="_blank" href="{u book/cate cate=$citem['cate']['cate_code'],sort=new}">最新</a>
+					<span>|</span>
+					<!--{eval $tag_index =1;}-->
+					<!--{loop $citem['cate']['index_tags'] $tag}-->
+					<a target="_blank" href="{u book/cate sort=hot1,tag=$tag['url_tag'],cate=$citem['cate']['cate_code']}">{$tag['tag_name']}</a>
+					<!--{if $tag_index > 11}-->
+					<!--{eval break;}-->
+					<!--{/if}-->
+					<!--{eval $tag_index++;}-->
+					<!--{/loop}-->
+				</span>
+				<span class="more fr">
+					<a href="{u book/cate cate=$citem['cate']['cate_code']}">更多>></a>
+				</span>
+			</div>
+			<div class="cate_share_box">
+				<ul>
+					<li ckass="first">{advlayout name='分类右侧大图广告185X330' target='{$citem['cate']['cate_code']}'}</li>
+				<!--{eval $cate_idx = 1;}-->
+				<!--{loop $citem['share_list'] $share}-->
+					{if $cate_idx <9}
+					<!--{if ($cate_idx>=1 && $cate_idx<=3) ||($cate_idx>=6 && $cate_idx<=8)}-->
+						{eval $class = 'two';}
+						{if $cate_idx>=1 && $cate_idx<=3}
+							{eval $left=195+($cate_idx-1)*160;}
+							{eval $top=0;}
+						{else}
+							{eval $left=440+($cate_idx-6)*160;}
+							{eval $top=170;}
+						{/if}
+						{eval $img_w=150;}
+						{eval $img_h=160;}
+						{eval $img_s=160;}
+					<!--{elseif $cate_idx>=4&&$cate_idx<=5}-->
+						{eval $class = 'three';}
+						{if $cate_idx==4}
+							{eval $top=0;}
+							{eval $left=675;}
+						{else}
+							{eval $top=170;}
+							{eval $left=195;}
+						{/if}
+						{eval $img_w=235;}
+						{eval $img_h=160;}
+						{eval $img_s=468;}
+					<!--{/if}-->
+					<li class="{$class}" style="top:{$top}px;left:{$left}px">
+						<a href="{$share['url']}" target="_blank" style="display:block;width:{$img_w}px;height:{$img_h}px;overflow:hidden;">
+							<img class="img lazyload" src="./tpl/images/lazyload.gif" original="{getimg $share['img'] $img_s $img_s}" scaleType="3" scaleWidth="{$img_w}" scaleHeight="{$img_h}" />
+						</a>
+						<a class="trsp_bg w{$img_w}" href="{$share['url']}" target="_blank">
+							<h4>
+								<span class="likeit fl">
+									<b class="nums red">{$share['collect_count']}</b>
+								</span>
+								<span class="f12 fr">{$share['name']}</span>
+							</h4>
+						</a>
+					</li>
+					<!--{eval $cate_idx++;}-->
+					{/if}
+				<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="cate_share_who  clearfix">
+				<div class="t fl">
+				分享 <a target="_blank" href="{u book/cate cate=$citem['cate_code']}">{$citem['short_name']}</a> 的<br>MM们
+				</div>
+				<ul class="fl clearfix">
+				<!--{eval $user_index = 0;}-->
+				<!--{loop $citem['users'] $uid $user}-->
+				<!--{if $uid > 0}-->
+					<li>
+					<!--{if $user_index > 4}-->
+					<!--{eval break;}-->
+					<!--{/if}-->
+					<!--{eval $user_index++;}-->
+					<!--{getuser $uid 0 '' '' 'inc/getuser/index_cate_share'}-->
+					<div class="follow fl">
+					<!--{getfollow $uid inc/getfollow/index_cate_share}-->
+					</div>
+					</li>
+				<!--{/if}-->
+				<!--{/loop}-->
+			</ul>
+			<div class="share_count fr">
+				<!--{if $citem['today_count'] > 0}-->
+				<span>今日上新</span><br>
+				<b>{$citem['today_count']}件</b>
+				<!--{/if}-->
+			</div>
+			</div>
+		</div>
+		<div class="piece1_ft"></div>
+	</div>
+	<!--{/loop}-->
+	<script>
+	function CateUpdateUserFollow(obj,result)
+	{
+		if(result.status == 1)
+		{
+			$(obj).before('<img src="./tpl/images/flow_ok.gif" />');
+			$(obj).remove();
+		}
+		else{
+			$(obj).before('<img src="./tpl/images/to_flow.gif" />');
+			$(obj).remove();
+		}
+	}
+	
+	jQuery(function(){
+		$('.cate_share_box li').hover(function(){
+			$(this).children('.trsp_bg').stop().animate( { height: "80px" }, 300 );
+			$(this).children('.trsp_bg').find('h4 .f12').stop().animate({ fontSize: "18px" }, 50);
+		},
+		function(){
+			$(this).children('.trsp_bg').stop().animate( { height: "30px" }, 300 );
+			$(this).children('.trsp_bg').find('h4 .f12').stop().animate({ fontSize: "12px" }, 50);
+		});
+	});
+	</script>
+<!--{/if}-->

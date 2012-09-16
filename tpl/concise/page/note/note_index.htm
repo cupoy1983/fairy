@@ -1,0 +1,223 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/book.css';
+	$css_list[0]['url'][] = './tpl/css/note.css';
+	$js_list[0] = './tpl/js/note.js';
+	$js_list[0] = './public/js/jquery.masonry.js';
+?>
+<!--{template inc/header}-->
+<div class="wrapper1" id="note_{$share_detail['share_id']}">
+	<!--{if $current_type == 'other'}-->
+	<!--{subtemplate page/note/note_other}-->
+	<!--{else}-->
+	<!--{subtemplate page/note/note_img}-->
+	<!--{/if}-->
+</div>
+<!--{if $current_type != 'other' && (count($fav_user_fav_share) > 0 || count($user_collect_share) > 0)}-->
+<div class="wrapper book_sort">
+	<h1>你可能还喜欢</h1>
+</div>
+<div class="wrapper book_box">
+	<div class="book_list" id="book_list">
+		<!--{loop $fav_user_fav_share $share}-->
+		<div class="book_item hide1" shareID="{$share['share_id']}" id="share_item_{$share['share_id']}">
+			<div class="bi_body">
+				<ul class="pic">
+					<!--{loop $share['goods_imgs'] $share_img}-->
+					<li>
+						<a style="width:200px;" href="{$share_img['url']}" target="_blank">
+							<img class="book_img lazyload" original="{getimg $share_img['img'] 200 999}" width="200" src="./tpl/images/lazyload.gif" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+						</a>
+						<p>{$share_img['price_format']}</p>
+						<a class="add_to_album_btn" href="javascript:;" style="display:none;" onclick="$.Show_Rel_Album($share_img['id'],'goods');"></a>
+					</li>
+					<!--{/loop}-->
+				</ul>
+				<div class="content">
+					{cutstr $share['content'] 100}
+				</div>
+				<div class="favorite">
+					<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+					<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+					<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+				</div>
+				<div class="user">
+					<!--{getuser $share['uid'] 0 's,30' ',lazyload'}-->
+					<p>
+						<span class="u"><!--{getuser $share['uid'] 0 '' ''}--></span>
+						<span class="t">{$share['time']}</span>
+					</p>
+				</div>
+			</div>
+			<div class="bi_foot"></div>
+		</div>
+		<!--{/loop}-->
+		<!--{loop $user_collect_share $share}-->
+		<!--{if !isset($fav_user_fav_share[$share['share_id']])}-->
+		<div class="book_item hide1" shareID="{$share['share_id']}" id="share_item_{$share['share_id']}">
+			<div class="bi_body">
+				<ul class="pic">
+					<!--{loop $share['goods_imgs'] $share_img}-->
+					<li>
+						<a style="width:200px;" href="{$share_img['url']}" target="_blank">
+							<img class="book_img lazyload" original="{getimg $share_img['img'] 200 999}" width="200" src="./tpl/images/lazyload.gif" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+						</a>
+						<p>{$share_img['price_format']}</p>
+						<a class="add_to_album_btn" href="javascript:;" style="display:none;" onclick="$.Show_Rel_Album($share_img['id'],'goods');"></a>
+					</li>
+					<!--{/loop}-->
+				</ul>
+				<div class="content">
+					{cutstr $share['content'] 100}
+				</div>
+				<div class="favorite">
+					<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+					<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+					<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+				</div>
+				<div class="user">
+					<!--{getuser $share['uid'] 0 's,30' ',lazyload'}-->
+					<p>
+						<span class="u"><!--{getuser $share['uid'] 0 '' ''}--></span>
+						<span class="t">{$share['time']}</span>
+					</p>
+				</div>
+			</div>
+			<div class="bi_foot"></div>
+		</div>
+		<!--{/if}-->
+		<!--{/loop}-->
+	</div>
+	<div class="clear"></div>
+</div>
+<script type="text/javascript">
+FANWE.NO_COUNTER = true;
+var rowHtml = '<div class="book_item"><div class="bi_body" style="height:#HEIGHT#px;"></div><div class="bi_foot"></div></div>';
+var imgWidth = 200;
+jQuery(function($){
+	$(".book_img").each(function(){
+		var oldWidth = parseInt(this.getAttribute("oldWidth"));
+		var oldHeight = parseInt(this.getAttribute("oldHeight"));
+		if(isNaN(oldWidth) || isNaN(oldHeight) || oldWidth == 0 || oldHeight == 0)
+		{
+			this.height = 0;
+		}
+		else
+		{
+			var scale = imgWidth / oldWidth;
+			this.height = oldHeight * scale;
+		}
+	});
+	
+	$('#book_list').css({"height":"auto","background":"none","overflow":"visible"});
+	$('.book_item').css("visibility","visible");
+	
+	$('#book_list').masonry({
+		itemSelector: '.book_item',
+		isAnimated:true,
+		gutterWidth:18,
+		gutterHeight:12,
+		columnWidth:226
+	});
+	appendBottomItem();
+});
+
+function appendBottomItem()
+{
+	var lefts = new Object();
+	var colTotal = 4;
+	$(".book_item").each(function(i){
+		if($(this).position().top == 0)
+		{
+			lefts['l'+$(this).position().left] = $(this);
+		}
+		else
+		{
+			if(lefts['l'+$(this).position().left].position().top <  $(this).position().top)
+				lefts['l'+$(this).position().left] = $(this);
+		}
+	});
+	
+	var cols = 0;
+	var maxLeft = '';
+	var currentSize = 0;
+	var maxSize = 0;
+	for(var left in lefts)
+	{
+		cols++;
+		currentSize = lefts[left].position().top + lefts[left].height();
+		if(currentSize > maxSize)
+		{
+			maxLeft = left;
+			maxSize = currentSize;
+		}
+	}
+	
+	var htmlArray = new Array();
+	var htmlObjs = new Object();
+	html = '';
+	for(var left in lefts)
+	{
+		currentSize = lefts[left].position().top + lefts[left].height();
+		if(currentSize < maxSize)
+		{
+			htmlObjs['h'+(maxSize - currentSize)] = rowHtml.replace("#HEIGHT#",maxSize - currentSize - 20);
+			htmlArray.push(maxSize - currentSize);
+		}
+	}
+
+	var newArray = htmlArray.sort(function(a,b){
+		if(a > b)
+			return -1;
+		else if(a < b)
+			return 1;
+		else
+			return 0;
+	});
+	
+	for(var h=0;h<newArray.length;h++)
+	{
+		html += htmlObjs['h'+newArray[h]];
+	}
+
+	if(colTotal > cols)
+	{
+		for(var i=0; i< (colTotal - cols);i++)
+		{
+			html = rowHtml.replace("#HEIGHT#",maxSize - 20) + html;
+		}
+	}
+	html = $('<div>' + html + '</div>').find('.book_item');
+	$('#book_list').append(html).masonry('appended',html,true);
+}
+</script>
+<!--{/if}-->
+<script type="text/javascript">
+function UpdateUserFollow(obj,result)
+{
+	if(result.status == 1)
+	{
+		$(obj).before('<img class="fo_ok" src="./tpl/images/add_ok_03.png">');
+		$(obj).remove();
+	}
+}
+
+jQuery(function(){
+	CommentInit();
+	<!--{if getIsManage('share')}-->
+	$('#shareInfobox').hover(function(e){
+		$.GetManageMenu('share',{$share_detail['share_id']},this,e);
+	},function(){});
+	<!--{/if}-->
+
+});
+
+function CommentInit()
+{
+	$(".pagination a").click(function(){
+		var page = $(this).attr('page');
+		$.Get_Share_Comment("{$share_detail['share_id']}",page,'#SHARE_COMMENT_LIST_BOX',CommentInit);
+		return false;
+	});
+}
+</script>
+<!--{template inc/footer}-->

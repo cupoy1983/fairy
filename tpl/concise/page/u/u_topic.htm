@@ -1,0 +1,63 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/zone.css';
+	$js_list[0] = './tpl/js/zone.js';
+?>
+<!--{template inc/header}-->
+<!--{template inc/u/u_menu}-->
+<div class="wrapper">
+	<div class="zone_left">
+		<div class="zh_cat fleft">
+			<!--{if $home_uid == $_FANWE['uid']}-->
+			<a href="{u u/group uid=$home_uid}"{if ACTION_NAME == 'group'} class="c"{/if}>小组动态</a>
+			<span>|</span>
+			<!--{/if}-->
+			<a href="{u u/topic uid=$home_uid}"{if ACTION_NAME == 'topic'} class="c"{/if}>{$_FANWE['home_user_names']['short']}发表的</a>
+			<span>|</span>
+			<a href="{u u/feed uid=$home_uid}"{if ACTION_NAME == 'feed'} class="c"{/if}>{$_FANWE['home_user_names']['short']}回应的</a>
+			<span>|</span>
+			<a href="{u u/attention uid=$home_uid}"{if ACTION_NAME == 'attention'} class="c"{/if}>{$_FANWE['home_user_names']['short']}推荐的</a>
+		</div>
+		<!--{if ACTION_NAME == 'group'}-->
+		<div class="zh_cat fright">
+			<strong style="font-size:12px;">排序：</strong>
+			<a href="{u u/group uid=$home_uid,sort=1}"{if $_FANWE['request']['sort'] == 1} class="c"{/if} style="font-size:12px;">最新回应</a>
+			<span style="font-size:12px;">|</span>
+			<a href="{u u/group uid=$home_uid,sort=0}"{if $_FANWE['request']['sort'] != 1} class="c"{/if} style="font-size:12px;">最近发表</a>
+		</div>
+		<!--{/if}-->
+		<div class="blank20"></div>
+		<ul class="topic_list">
+			<!--{loop $thread_list $thread}-->
+			<li class="tl_f">
+				<div class="tl_c">
+					<!--{if $thread['is_best'] == 1}-->
+					<div class="img_tj"></div>
+					<!--{/if}-->
+					<!--{getuser $thread['uid'] 0 '1,24' ',pic'}-->
+					<div class="ct">
+						<p class="title clearfix"> <a href="{$thread['url']}" target="_blank" class="tit fl ">{$thread['title']}</a> </p>
+						<p class="author">
+							<span class="n"><!--{getuser $thread['uid'] 0 '' ''}--></span>
+							<span class="p_time"> 
+								<!--{if !empty($thread['lastposter'])}--> 
+								&nbsp;&nbsp;最后回应：<!--{getuser $thread['lastposter'] 0 '' ''}--> 
+								&nbsp;&nbsp;{$thread['last_time']} 
+								<!--{/if}--> 
+							</span>
+						</p>
+					</div>
+				</div>
+				<div class="count">{$thread['post_count']}</div>
+				<span class="p_info">{if $thread['fid'] > 0}<a href="{u group/detail fid=$thread['fid']}">[{$thread['group']['name']}]</a>{/if} <b>{$thread['time']}</b></span>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		<div class="pagination pt15">
+			<!--{subtemplate inc/pages}--> 
+		</div>
+	</div>
+	<div class="zone_right">
+		<!--{template inc/u/u_topic}-->
+	</div>
+</div>
+<!--{template inc/footer}-->

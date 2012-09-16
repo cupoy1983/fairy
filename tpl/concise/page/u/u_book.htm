@@ -1,0 +1,251 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/book.css';
+	$css_list[0]['url'][] = './tpl/css/zone.css';
+	$js_list[1] = './public/js/jquery.masonry.js';
+?>
+<!--{template inc/header}-->
+<!--{template inc/u/u_menu}-->
+<div class="wrapper">
+	<div class="book_list" id="book_list">
+		<div class="ub_right" style="width:226px; overflow:hidden;margin-left:0;margin-bottom:12px; float:right; padding:0 2px 0 0;">
+			<div class="zone_right">
+				<div class="zr_box mb25 medals">
+					<h3>{$_FANWE['home_user_names']['short']}的时尚勋章</h3>
+					<a class="zr_more" href="{u medal/u uid=$home_uid}" target="_blank">更多</a>
+					<?php
+						$medals = FS('User')->getUserMedal($home_uid);
+					?>
+					<ul class="ml5">
+						<!--{loop $medals $medal}-->
+						<li class="medal_f"><a href="{u medal/u uid=$home_uid}" target="_blank"><img src="{$medal['small_img']}" height="25" alt="{$medal['name']}" title="{$medal['name']}"></a></li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<?php
+				$home_groups = FS('Group')->getGroupsByUid($home_uid,9);
+				?>
+				<div class="zr_box">
+					<h3 class="mb10">{$_FANWE['home_user_names']['short']}加入的小组</h3>
+					<a class="zr_more" href="{u group/index}">更多&gt;&gt;</a>
+					<ul class="s_group_list">
+						<!--{loop $home_groups['list'] $group_item}-->
+						<li>
+							<a href="{u group/detail fid=$group_item['fid']}" target="_blank"><img src="{getimg $group_item['icon']['img'] 100 100 1}"></a>
+							<a href="{u group/detail fid=$group_item['fid']}" target="_blank">{$group_item['name']}</a>
+						</li>
+						<!--{/loop}-->
+					</ul>
+					<div class="clear"></div>
+				</div>
+				<div class="zr_box mb25 focus_tags">
+					<h3>{$_FANWE['home_user_names']['short']}关注的热点</h3>
+					<ul class="ml5">
+						<!--{loop $focus_tags $tag}-->
+						<li><a target="_blank" href="{echo FU("book/shopping",array("tag"=>urlencode($tag['tag_name'])))}">$tag['tag_name']</a></li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--{if count($dapei_list) > 0}-->
+		<div class="ubitem ub_left zone_left">
+			<h2>{$home_user['user_name']}的搭配</h2>
+			<div class="book_look_dapei">
+				<!--{loop $dapei_list $share}-->
+				<div class="bld_item" shareID="{$share['share_id']}" id="share_item_{$share['share_id']}">
+					<a class="pic" href="{$share['dapei_imgs'][0]['url']}" target="_blank">
+						<img class="lazyload" original="{getimg $share['dapei_imgs'][0]['img'] 468 468}" src="./tpl/images/lazyload.gif"  scaleType="3" scaleWidth="210" scaleHeight="265"/>
+					</a>
+					<div class="favorite">
+						<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+						<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+						<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+					</div>
+					<div class="content">
+						{cutstr $share['content'] 66}
+					</div>
+				</div>
+				<!--{/loop}-->
+			</div>
+			<div class="more">
+				<a href="{u u/dapei uid=$home_uid}">查看更多搭配&gt;&gt;</a>
+			</div>
+		</div>
+		<!--{/if}-->
+		<!--{if count($look_list) > 0}-->
+		<div class="ubitem ub_left zone_left">
+			<h2>{$home_user['user_name']}的晒货</h2>
+			<div class="book_look_dapei">
+				<!--{loop $look_list $share}-->
+				<div class="bld_item" shareID="{$share['share_id']}" id="share_item_{$share['share_id']}">
+					<a class="pic" href="{$share['look_imgs'][0]['url']}" target="_blank">
+						<img class="lazyload" original="{getimg $share['look_imgs'][0]['img'] 468 468}" src="./tpl/images/lazyload.gif"  scaleType="3" scaleWidth="210" scaleHeight="265"/>
+					</a>
+					<div class="favorite">
+						<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+						<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+						<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+					</div>
+					<div class="content">
+						{cutstr $share['content'] 66}
+					</div>
+				</div>
+				<!--{/loop}-->
+			</div>
+			<div class="more">
+				<a href="{u u/look uid=$home_uid}">查看更多晒货&gt;&gt;</a>
+			</div>
+		</div>
+		<!--{/if}-->
+		<!--{if count($album_list) > 0}-->
+		<div class="ubitem ub_left zone_left">
+			<h2 style="padding:0;">{$home_user['user_name']}的杂志社</h2>
+			<ul class="book_album">
+				<!--{loop $album_list $album}-->
+				<li class="all_list" >
+					<ul class="all_pic_s">
+						<!--{eval $list_img_counts = array(0,0,0,0,0,0);}-->
+						<!--{loop $list_img_counts $imgkey $imgindex}-->
+						<!--{eval $img = $album['imgs'][$imgkey];}-->
+						<!--{if !empty($img)}-->
+						<li><a target="_blank" href="{$album['url']}"><img src="{getimg $img['img'] 100 100}" /></a></li>
+						<!--{else}-->
+						<li><a target="_blank" class="add_img" href="{$album['url']}"><img src="./tpl/images/none_pic.png" /></a></li>
+						<!--{/if}-->
+						<!--{/loop}-->
+					</ul>
+					<div class="album_title">
+						<a href="{$album['url']}" class="fl">《{cutstr $album['title'] 26}》</a> <span class="pic_n fl"> <span>{$album['img_count']}&nbsp;图</span> <i></i> </span>
+					</div>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<div class="more">
+				<a href="{u u/album uid=$home_uid}">查看更多杂志社&gt;&gt;</a>
+			</div>
+		</div>
+		<!--{/if}-->
+		<!--{loop $share_list $share}-->
+		<div class="ubitem book_item hide1" shareID="{$share['share_id']}" id="share_item_{$share['share_id']}">
+			<div class="bi_body">
+				<ul class="pic">
+					<!--{loop $share['imgs'] $share_img}-->
+					<li>
+						<a style="width:200px;" href="{$share_img['url']}" target="_blank">
+							<img class="book_img lazyload" original="{getimg $share_img['img'] 200 999}" width="200" src="./tpl/images/lazyload.gif" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+						</a>
+						<!--{if $share_img['type'] == 'g'}-->
+						<p>{$share_img['price_format']}</p>
+						<a class="add_to_album_btn" href="javascript:;" style="display:none;" onclick="$.Show_Rel_Album($share_img['id'],'goods');"></a>
+						<!--{else}-->
+						<a class="add_to_album_btn" href="javascript:;" style="display:none;" onclick="$.Show_Rel_Album($share_img['id'],'photo');"></a>
+						<!--{/if}-->
+						
+					</li>
+					<!--{/loop}-->
+				</ul>
+				<div class="content">
+					{cutstr $share['content'] 100} {$share['time']}
+				</div>
+				<div class="favorite">
+					<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+					<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+					<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+				</div>
+			</div>
+			<div class="bi_foot"></div>
+		</div>
+		<!--{/loop}-->
+	</div>
+</div>
+<div class="clear"></div>
+<div id="pbLoading" style="background:url(./tpl/images/loading.gif) no-repeat center center;height:52px; display:none;"></div>
+<div class="hide">
+<!--{if $pager['page_count'] > 0}-->
+<!--{loop $pb_list $url}-->
+<a href="{$url}">{$url}</a>
+<!--{/loop}-->
+<!--{/if}-->
+</div>
+<script type="text/javascript" src="./tpl/js/ubook.js"></script>
+<script type="text/javascript">
+FANWE.NO_COUNTER = true;
+var rowHtml = '<div class="ubitem book_item"><div class="bi_body" style="height:#HEIGHT#px;"></div><div class="bi_foot"></div></div>';
+var pbUrl = "{$pb_url}";
+var imgWidth = 200;
+var pbMaxIndex = {$_FANWE['setting']['share_pb_load_count']};
+
+jQuery(function($){
+	$(".book_img").each(function(){
+		var oldWidth = parseInt(this.getAttribute("oldWidth"));
+		var oldHeight = parseInt(this.getAttribute("oldHeight"));
+		if(isNaN(oldWidth) || isNaN(oldHeight) || oldWidth == 0 || oldHeight == 0)
+		{
+			this.height = 0;
+		}
+		else
+		{
+			var scale = imgWidth / oldWidth;
+			this.height = oldHeight * scale;
+		}
+	});
+	
+	$('#book_list').css({"height":"auto","background":"none","overflow":"visible"});
+	$('.book_item').css("visibility","visible");
+	
+	$('#book_list').masonry({
+		itemSelector: '.ubitem',
+		isAnimated:true,
+		gutterWidth:18,
+		gutterHeight:12,
+		columnWidth:226,
+		cornerStampSelector:".ub_right"
+	});
+	<!--{if $pager['page_count'] > 0}-->
+	createPBScroll(pbUrl,appendShareItem,pbLoadingFun,2,pbMaxIndex,300);
+	<!--{/if}-->
+});
+
+function appendShareItem(result,index)
+{
+	html = '<div>' + result + '</div>';
+    html = $(html).find('.ubitem');
+	$(".book_img",html).each(function(){
+		var oldWidth = parseInt(this.getAttribute("oldWidth"));
+		var oldHeight = parseInt(this.getAttribute("oldHeight"));
+		if(isNaN(oldWidth) || isNaN(oldHeight) || oldWidth == 0 || oldHeight == 0)
+		{
+			this.height = 0;
+		}
+		else
+		{
+			var scale = imgWidth / oldWidth;
+			this.height = oldHeight * scale;
+		}
+	});
+	$('#book_list').append(html).masonry('appended',html,true,function(){
+		if(index >= pbMaxIndex || result == '')
+		{
+			$("#pageBox").show();
+		}
+	});
+}
+
+function pbLoadingFun(bln)
+{
+	if(bln)
+		$("#pbLoading").show();
+	else
+		$("#pbLoading").hide();
+}
+
+function UpdateUserFollow(obj,result)
+{
+	if(result.status == 1)
+	{
+		$(obj).before('<a class="fo_st"></a>');
+		$(obj).remove();
+	}
+}
+</script>
+<!--{template inc/footer}-->

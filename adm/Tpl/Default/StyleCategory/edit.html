@@ -1,0 +1,57 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:U(MODULE_NAME.'/index')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="180">{$Think.lang.CATE_NAME}</th>
+		<td><input type="text" class="textinput requireinput" name="cate_name" value="{$vo.cate_name}"/></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.PARENT_ID}</th>
+		<td>
+			<fanwe:select id='parent_id' name='parent_id' first='{$Think.lang.ROOT_ID}' selected="vo['parent_id']" textfield='cate_name' valuefield='cate_id' options='cate_list' />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHORT_NAME}</th>
+		<td><input type="text" class="textinput" name="short_name" value="{$vo.short_name}"/></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SORT}</th>
+		<td><input type="text" class="textinput" size="5" name="sort" value="{$vo.sort}"/></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.DESC}</th>
+		<td>
+			<textarea name="desc" class="textinput areainput" rows="3">{$vo.desc}</textarea>
+		</td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="hidden" name="cate_id" value="{$vo.cate_id}" />
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+function dblTag(obj)
+{
+	if(obj.getAttribute('rel') == 0)
+	{
+		obj.setAttribute('rel',1);
+		$(obj).prependTo($("#category_tag_list"));
+	}
+	else
+	{
+		obj.setAttribute('rel',0);
+		document.getElementById("tag_list").appendChild(obj);
+	}
+}
+</script>
+<include file="Public:footer" />

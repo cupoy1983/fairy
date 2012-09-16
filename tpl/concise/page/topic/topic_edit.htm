@@ -1,0 +1,82 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/topic.css';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+	<!--{if $group_detail}-->
+	<div class="bar_title">
+		<div class="piece_bd" style="background:url('{getimg $group_detail['img'] 960 150 1}') no-repeat ;">
+			<div class="b_info r5">
+				<img src="{getimg $group_detail['icon'] 100 100 1}" alt="" class="fl forum_logo" height="48"  >
+				<div class="b_n">
+					<h1 class="bar_title">{$group_detail['name']}</h1>
+					{lang caeate_yu}：{date $group_detail['create_time'] 'Y-m-d'}
+				</div>
+			</div>
+			<ul class="b_tab">
+				<li><a href="{u group/detail fid=$forum_id}" class="f_b">小组首页</a></li>
+				<li><a href="{u group/detail fid=$forum_id,type=best}" class="f_b">{lang editor_best}</a></li>
+                <li><a href="{u group/users fid=$forum_id}" class="f_b">成员列表</a></li>
+			</ul>
+		</div>
+	</div>
+	<!--{else}-->
+	<div class="piece1_hd"></div>
+	<!--{/if}-->
+	<div style="background-color:#fff;" class="clearfix pt40 pb40">
+		<form id="topic_form" action="{u topic/update}" method="post">
+			<div id="topic_create">
+				<h2 class="h2title">编辑主题</h2>
+				<div id="topic_edit_box" class="pl40">
+					<div id="topic_con" class="fl">
+						<dl>
+							<dt>{lang topic_title}</dt>
+							<dd>
+								<input type="text" name="title"  class="text" value="{$topic_detail['title']}" />
+							</dd>
+							<dt>{lang topic_content}</dt>
+							<dd>
+								<textarea cols="30" rows="10" name="content" class="PUB_TXT" position="0">{$topic_detail['content']}</textarea>
+							</dd>
+						</dl>
+						<div class="clear"></div>
+						<div id="topic_new_toolbar">
+							<input type="hidden" name="tid" value="{$topic_detail['tid']}" />
+							<input type="submit" class="green_button" value="编辑"/>
+							<a href="{u topic/detail tid=$topic_detail['tid']}">{lang clear}</a>
+							<input name="rhash" value="<!--{dynamic getRHash}-->" type="hidden"/>
+							<input name="action" value="update" type="hidden"/>
+						</div>
+					</div>
+					<div id="topic_setting" class="fl">
+						
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="piece1_ft"></div>
+</div>
+<script type="text/javascript">
+jQuery(function($){
+	$("#topic_form").submit(function(){
+		var title = $.trim(this.title.value);
+		var content = $.trim(this.content.value);
+		
+		if(title == '')
+		{
+			alert(LANG.title_require);
+			this.title.focus();
+			return false;
+		}
+		
+		if(content == '')
+		{
+			alert(LANG.content_require);
+			this.content.focus();
+			return false;
+		}
+	});
+});
+</script>
+<!--{template inc/footer}-->

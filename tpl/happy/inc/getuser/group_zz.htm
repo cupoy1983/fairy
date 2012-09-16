@@ -1,0 +1,10 @@
+<img alt="" src="{avatar $user['avatar'] m}" class="avatar" height="64">
+<div class="info">
+	<p><a class="uname icard" href="{$user['url']}">{$user['user_name']}</a></p>
+	<p></p>
+	<p>
+		<a target="_blank" href="{u u/fans uid=$user['uid']}"><span>{$user['fans']}</span></a>粉丝
+		<a target="_blank" href="{u u/bao uid=$user['uid']}" style="margin-left:10px;"><span>{$user['goods']}</span></a>宝贝
+		<a target="_blank" href="{u u/fav uid=$user['uid']}" style="margin-left:10px;"><span>{$user['collects']}</span></a>喜欢
+	</p>
+</div>

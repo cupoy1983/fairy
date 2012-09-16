@@ -1,0 +1,86 @@
+<tagLib name="fanwe" />
+<php>
+	function getCateName($cate_id)
+	{
+		$cate_name = M("ShopCategory")->where("id=".$cate_id)->getField("name");
+		if($cate_name)
+			return $cate_name;
+		else
+			return l("NO_CATE");
+	}
+	function getUrlShow($url)
+	{
+		return "<a href='".$url."' target='_blank'>".msubstr($url,0,50)."</a>";
+	}
+</php>
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="addData" name="addData" value="{$Think.lang.ADD}" click="addData(this,'checkList')" />
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList','shop_id')" />
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<fanwe:imageBtn id="disableShop" name="disableShop" value="{$Think.lang.DISABLE}" click="disableShop(this,'checkList')" />
+	<form action="__APP__">
+		<span>{$Think.lang.SHOP_NAME}</span>
+		<input class="textinput" type="text" value="{$keyword}" name="keyword" size="10" />
+		<input class="submit_btn" type="submit" value="{$Think.lang.SEARCH}" />
+		<input type="hidden" name="{:c('VAR_MODULE')}" value="{$module_name}" />
+		<input type="hidden" name="{:c('VAR_ACTION')}" value="index" />
+	</form>
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="shop" 
+	pk="shop_id" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="shop_id:{$Think.lang.ID}|80,shop_name:{$Think.lang.SHOP_NAME}|~left,cate_id|getCateName:{$Think.lang.CATE_NAME}|100,shop_url|getUrlShow:{$Think.lang.SHOP_URL}|~left,recommend_count:{$Think.lang.RECOMMEND_COUNT}|80,sort:{$Think.lang.SORT}|60:textEdit|shop_id" 
+	actionlist="disableShop:{$Think.lang.DISABLE}:shop_id,editData:{$Think.lang.EDIT}:shop_id,removeShop:{$Think.lang.REMOVE}:shop_id" action_width="160" />
+<div class="pager">{$page}</div>
+<script type="text/javascript">
+var CONFIRM_HANDLER = "{$Think.lang.CONFIRM_HANDLER}";
+function disableShop(obj,id,pk,args)
+{
+	removeDisableShop(obj,id,1);
+}
+
+function removeShop(obj,id,pk,args)
+{
+	removeDisableShop(obj,id,0);
+}
+
+function removeDisableShop(obj,id,type)
+{
+	var ids =  new Array();
+	if(isNaN(id))
+	{
+		$("#" + id + " input:checked[name='key']").each(function(){
+			ids.push(this.value);
+		});
+	}
+	else
+	{
+		ids.push(id);
+		var parent = $(obj).parent().parent();
+		id = parent.parent().parent().attr('id');
+	}
+	
+	ids = ids.join(',');
+	if(ids == '')
+		return false;
+	
+	if(!window.confirm(CONFIRM_HANDLER))
+		return false;
+		
+	var fun = function(){
+		if(type == 1)
+			location.href = APP + '?' + VAR_MODULE + '=' + CURR_MODULE + '&' + VAR_ACTION + '=disable&id=' + ids;
+		else
+			location.href = APP + '?' + VAR_MODULE + '=' + CURR_MODULE + '&' + VAR_ACTION + '=remove&id=' + ids;
+	}
+	setTimeout(fun,1);
+}
+</script>
+<include file="Public:footer" />

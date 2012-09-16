@@ -1,0 +1,300 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/general.css';
+	$css_list[0]['url'][] = './tpl/css/book.css';
+	$js_list[0] = './public/js/jquery.masonry.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="container_16">
+	<div class="blank20"></div>
+	<div class="piece piece_w960">
+		<div class="cate_nav clearfix">
+			<div class="cate_nav_show">
+				<!--{if $is_root}-->
+				<a href="{u book/shopping}">{$cate_root['cate_name']}<span class="e_name">/ SHOPPING</span></a>
+				<!--{elseif $is_parent_cate}-->
+				<a href="{u book/shopping}">{$cate_root['cate_name']}</a>
+				<span class="split"></span>
+				<a href="{u book/cate cate=$cate_nav_list['cate_code']}">&nbsp;{$cate_nav_list['cate_name']}</a>
+				<!--{else}-->
+				<a href="{u book/shopping}">{$cate_root['cate_name']}</a>
+				<!--{loop $cate_nav_list $cate_nav}-->
+				&nbsp;&nbsp;<span class="split"></span>
+				<a href="{u book/cate cate=$cate_nav['cate_code']}">&nbsp;{$cate_nav['cate_name']}</a>
+				<!--{eval $cate_nav_index++;}-->
+				<!--{/loop}-->
+				<!--{/if}-->
+			</div>
+			<div class="nav_split"></div>
+		</div>
+		<ul class="cate_cont_show">
+			<!--{loop $book_cates $book_cate}-->
+			<!--{if $book_cate['type'] == 'cate'}-->
+			<!--{eval $book_cate = $book_cate['data'];}-->
+			<li class="c_s_cate">
+				<!--{if !empty($book_cate['cate_icon'])}-->
+				<a href="{u book/cate cate=$book_cate['cate_code']}" class="c_s_icon"><img src="{$book_cate['cate_icon']}" title="{$book_cate['cate_name']}" ></a>
+				<div class="c_s_catewords">
+				<!--{else}-->
+				<div class="c_s_catewords c_s_catewords1">
+				<!--{/if}-->
+					<div class="c_s_title">
+						<a href="{u book/cate cate=$book_cate['cate_code']}"><span class="c_s_t_cate">{$book_cate['cate_name']}</span></a>
+					</div>
+					<p class="c_s_c_wordsshow">
+						<!--{loop $book_cate['tags'] $cate_tag}-->
+						<!--{if $is_root}-->
+						<a href="{u book/shopping tag=$cate_tag['url_tag']}"{if $cate_tag['is_hot'] == 1} class="h"{/if}>{$cate_tag['tag_name']}</a>
+						<!--{else}-->
+						<a href="{u book/cate cate=$current_cate['cate_code'],tag=$cate_tag['url_tag']}"{if $cate_tag['is_hot'] == 1} class="h"{/if}>{$cate_tag['tag_name']}</a>
+						<!--{/if}-->
+						<!--{/loop}-->
+					</p>
+				</div>
+			</li>
+			<!--{elseif $book_cate['type'] == 'adv'}-->
+			<li class="dapei_wrap">{$book_cate['data']['html']}</li>
+			<!--{else}-->
+			<li class="c_s_cate">&nbsp;</li>
+			<!--{/if}-->
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<div class="category_sort_all mt20" id="category_sort_all" >
+		<h1 class="fl" style="margin:10px 20px 0 0;">{$title}</h1>
+		<div class="fl" style="margin:15px 0 0 0;">
+			<a style="font-size:14px;color:#666;float:left; padding:5px 0 0 0;">排序：</a>
+			<ul>
+				<li class="category_sort_l">
+					<a{if $hot1_url['act'] == 1} class="c"{/if} href="{$hot1_url['url']}">
+						<i></i>
+						<span>{lang sort_1hot}</span>
+					</a>
+				</li>
+				<li class="category_sort_c">
+					<a{if $hot7_url['act'] == 1} class="c"{/if} href="{$hot7_url['url']}">
+						<span>{lang sort_7hot}</span>
+						<i></i>
+					</a>
+				</li>
+				<li class="category_sort_r" style="margin-left:-1px;">
+					<a{if $new_url['act'] == 1} class="c"{/if} href="{$new_url['url']}">
+						<span>{lang sort_new}</span>
+						<i></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="imagewall_nav">
+		<div class="imagewall" id="imagewall_container">
+			<!--{loop $share_list $share}-->
+			<div class="i_w_f hide1" shareID="{$share['share_id']}" id="share_item_{$share['share_id']}">
+				<div class="hd"></div>
+				<div class="bd">
+					<ul class="pic">
+						<!--{loop $share['goods_imgs'] $share_img}-->
+						<li>
+							<a style="width:200px;" href="{$share_img['url']}" target="_blank">
+								<img class="book_img lazyload" original="{getimg $share_img['img'] 200 999}" width="200" src="./tpl/images/lazyload.gif" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+							</a>
+							<span class="p"><span>{$share_img['price_format']}</span><i></i></span>
+							<a class="add_to_album_btn" href="javascript:;" style="display: none;" onclick="$.Show_Rel_Album($share_img['id'],'goods');"></a>
+						</li>
+						<!--{/loop}-->
+					</ul>
+					<div class="favorite">
+						<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+						<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+						<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+					</div>
+				</div>
+				<div class="who_share">
+					<div class="ws_bd clearfix">
+						<!--{getuser $share['uid'] 0 's,24' ',icard avt fl lazyload'}-->
+						<p class="fr clearfix">
+							<span class="t fl"><!--{getuser $share['uid'] 0 '' 'n icard'}--></span>
+							<span class="t fr">{$share['time']}</span>
+							<span class="tkinfo clearfix">
+								{cutstr $share['content'] 200}
+							</span>
+						</p>
+					</div>
+					<div class="ws_ft"></div>
+				</div>
+			</div>
+			<!--{/loop}-->
+		</div>
+		<!--{if $pager['page_count'] > 1}-->
+		<div style="padding-top:30px" class="clr hide" id="pageBox">
+			<div class="pagination"> 
+				<!--{subtemplate inc/pages}--> 
+			</div>
+		</div>
+		<!--{/if}-->
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="pbLoading" style="background:url(./tpl/images/loading.gif) no-repeat center center;height:52px; display:none;"></div>
+<div class="hide">
+<!--{if $pager['page_count'] > 0}-->
+<!--{loop $pb_list $url}-->
+<a href="{$url}">{$url}</a>
+<!--{/loop}-->
+<!--{/if}-->
+</div>
+<script type="text/javascript">
+var rowHtml = '<div class="i_w_f i_w_f_f empty_row"><div class="hd"></div><div class="bd" style="height:#HEIGHT#px;"></div><div class="ft"></div></div>';
+var pbUrl = "{$pb_url}";
+var imgWidth = 200;
+var pbMaxIndex = {$_FANWE['setting']['share_pb_load_count']};
+
+jQuery(function(){
+	<!--{dynamic getShareByUserClickShareID}-->
+	<!--{dynamic getManageDynamic args=book_index}-->
+	$(".book_img").each(function(){
+		var oldWidth = parseInt(this.getAttribute("oldWidth"));
+		var oldHeight = parseInt(this.getAttribute("oldHeight"));
+		if(isNaN(oldWidth) || isNaN(oldHeight) || oldWidth == 0 || oldHeight == 0)
+		{
+			this.height = 0;
+		}
+		else
+		{
+			var scale = imgWidth / oldWidth;
+			this.height = oldHeight * scale;
+		}
+	});
+
+	$('#imagewall_container').css({"height":"auto","background":"none"});
+	$('.i_w_f').css("visibility","visible");
+	
+	$('#imagewall_container').masonry({
+		itemSelector: '.i_w_f',
+		isAnimated:true,
+		gutterWidth:15,
+		gutterHeight:8,
+		columnWidth:225
+	});
+	<!--{if $pager['page_count'] > 0}-->
+	createPBScroll(pbUrl,appendShareItem,pbLoadingFun,2,pbMaxIndex,300);
+	<!--{/if}-->
+});
+
+function appendBottomItem()
+{
+	var lefts = new Object();
+	var colTotal = 4;
+	$(".i_w_f").each(function(i){
+		if($(this).position().top == 0)
+		{
+			lefts['l'+$(this).position().left] = $(this);
+		}
+		else
+		{
+			if(lefts['l'+$(this).position().left].position().top <  $(this).position().top)
+				lefts['l'+$(this).position().left] = $(this);
+		}
+	});
+	
+	var cols = 0;
+	var maxLeft = '';
+	var currentSize = 0;
+	var maxSize = 0;
+	for(var left in lefts)
+	{
+		cols++;
+		currentSize = lefts[left].position().top + lefts[left].height();
+		if(currentSize > maxSize)
+		{
+			maxLeft = left;
+			maxSize = currentSize;
+		}
+	}
+	
+	var htmlArray = new Array();
+	var htmlObjs = new Object();
+	html = '';
+	for(var left in lefts)
+	{
+		currentSize = lefts[left].position().top + lefts[left].height();
+		if(currentSize < maxSize)
+		{
+			htmlObjs['h'+(maxSize - currentSize)] = rowHtml.replace("#HEIGHT#",maxSize - currentSize - 30);
+			htmlArray.push(maxSize - currentSize);
+		}
+	}
+
+	var newArray = htmlArray.sort(function(a,b){
+		if(a > b)
+			return -1;
+		else if(a < b)
+			return 1;
+		else
+			return 0;
+	});
+	
+	for(var h=0;h<newArray.length;h++)
+	{
+		html += htmlObjs['h'+newArray[h]];
+	}
+
+	if(colTotal > cols)
+	{
+		for(var i=0; i< (colTotal - cols);i++)
+		{
+			html = rowHtml.replace("#HEIGHT#",maxSize - 22) + html;
+		}
+	}
+	html = $('<div>' + html + '</div>').find('.i_w_f');
+	$('#imagewall_container').append(html).masonry('appended',html,true);
+}
+
+function appendShareItem(result,index)
+{
+	html = '<div>' + result + '</div>';
+    html = $(html).find('.i_w_f');
+	$(".book_img",html).each(function(){
+		var oldWidth = parseInt(this.getAttribute("oldWidth"));
+		var oldHeight = parseInt(this.getAttribute("oldHeight"));
+		if(isNaN(oldWidth) || isNaN(oldHeight) || oldWidth == 0 || oldHeight == 0)
+		{
+			this.height = 0;
+		}
+		else
+		{
+			var scale = imgWidth / oldWidth;
+			this.height = oldHeight * scale;
+		}
+	});
+	$('#imagewall_container').append(html).masonry('appended',html,true,function(){
+		if(index >= pbMaxIndex || result == '')
+		{
+			$("#pageBox").show();
+			var fun = function(){
+				appendBottomItem();
+			}
+			setTimeout(fun,1000);
+		}
+	});
+}
+
+function pbLoadingFun(bln)
+{
+	if(bln)
+		$("#pbLoading").show();
+	else
+		$("#pbLoading").hide();
+}
+
+function ShowUserClickShare(result)
+{
+	if($("#share_item_" + result.share_id).length > 0)
+	{
+		var thisshare = $("#share_item_" + result.share_id);
+		$('#imagewall_container').prepend(thisshare);
+	}
+	else
+		$('#imagewall_container').prepend(result.html);
+}
+</script>
+<!--{template inc/footer}-->

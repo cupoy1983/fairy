@@ -1,0 +1,13 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+	<fanwe:linkBtn text="{$Think.lang.SHARE}" href="{:U('TaobaoCollect/shop')}" />
+	<if condition="$is_auto_collect">
+	<p style="float:right; padding:5px;"><span style="color:#00f;">当前正在进行自动采集</span>，采集开始时间为 {:toDate($auto_collect['time'])}，请不要进行操作，有可能会发生冲突</p>
+	</if>
+</div>
+<fanwe:list id="checkList" pk='num_iid' style="list" name="goods" checkbox="true" action="true" datasource="list" show="num_iid:{$Think.lang.ID}|120,title|showGoods=$goods:{$Think.lang.TITLE}|~left,nick|showShop=$goods:{$Think.lang.NICK}|160,price:{$Think.lang.PRICE}|70,commission_rate:{$Think.lang.COMMISSION_RATE}|80,commission:{$Think.lang.COMMISSION}|70,commission_num:{$Think.lang.COMMISSION_NUM}|70,commission_volume:{$Think.lang.COMMISSION_VOLUME}|80" actionlist="removeData:{$Think.lang.REMOVE}:num_iid" action_width="60" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

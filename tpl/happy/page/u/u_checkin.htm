@@ -1,0 +1,288 @@
+<!--{template inc/header}-->
+<script type="text/javascript">var siteurl = '{$_FANWE[site_url]}';</script>
+<script src="/tpl/happy/js/lang.js" type="text/javascript"></script>
+<script src="/tpl/happy/js/ye_dialog.js" type="text/javascript"></script>
+<script src="/tpl/happy/js/loginreg_window.js" type="text/javascript"></script>
+<script src="/tpl/happy/js/zone.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/tpl/css/tweetlist.css" media="all"/>
+<link rel="stylesheet" type="text/css" href="/tpl/css/zone.css" media="all"/>
+<link rel="stylesheet" type="text/css" href="/tpl/happy/css/wbto_signi.css" media="all"/>
+<link rel="stylesheet" type="text/css" href="/tpl/happy/css/ye_dialog.css" media="all"/>
+<div class="fm960" style="margin-top: 10px;">
+<input name="userid" value="{$_FANWE['uid']}" type="hidden" id="userid">
+<!--banner-->
+<div class="wbto_signi">
+<div class="wbto_signi1 l">
+<span id="checkinbuttonhtml"><a onclick="usercheckin();" class="start" href="javascript:void(null);"></a></span>
+</div>
+<div class="wbto_signi2 r fonp">
+<p id="chinkindays" class="tur"></p>
+<p class="tur1">
+今天已有<b>{$tdcount}</b>人签到，并领取积分
+</p>
+</div>
+</div>
+
+<div class="clear10"></div>
+
+<!--签到日期规则-->
+<div class="wbto_signi3">
+<div class="wbto_signi4">
+<span class="wbto_signipos1"></span>
+<span class="wbto_signipos2"></span>
+<span class="wbto_signipos4"></span>
+<!--签到日期-->
+<div id="calenderHTML" class="wbto_signi5 l">
+<!--签到时间-->
+<div class="wbto_signi6">
+<p class="tur fonp l">签到时间表</p>
+<div id="today" class="tur l"><a title="Previous Month" onclick="HS_calender(HS_DateAdd('m',-1,'2012-2-18'),this)" class="l" href="javascript:void(0)"></a><span><b id="FullYear">2012</b>年<b id="Month">3</b>月</span><a title="Next Month" onclick="HS_calender(HS_DateAdd('m',1,'2012-2-18'),this)" class="r text" href="javascript:void(0)"></a></div>
+</div>
+<div class="clear"></div>
+<!--日期表-->
+<div class="wbto_signi7">
+<span class="text" id="week_0">周日</span>
+<span id="week_1">周一</span>
+<span id="week_2">周二</span>
+<span id="week_3">周三</span>
+<span id="week_4">周四</span>
+<span id="week_5">周五</span>
+<span id="week_6">周六</span>
+<ul id="thisMonthDate"></ul>
+</div>
+<div class="clear8"></div>
+<span class="wbto_signi12"></span>
+<div class="clear8"></div>
+<div class="wbto_signi13">
+<p class="tit"><b>每天来签到，领取礼品大奖！</b></p>
+<span class="tit"><p class="text l">签到条件：</p><p class="text1 l">已登录会员每天可签到一次。每月签到{$lianxumonth}次就可获得满勤奖({$lianxumonthjf}积分)！
+</p></span>
+<div class="clear"></div>
+<span class="tit" style="padding-top:10px;"><p class="text l">任务描述：</p><p class="text1 l">1，签到奖励（{$qiandao_jifen}积分）<br>
+2，连续签到{$lianxux}天奖励签到勋章并额外奖励{$lianxuxjf}个积分<br>
+3，连续签到一个月({$lianxumonth}天)即可额外奖励{$lianxumonthjf}个积分
+</p></span>
+</div>
+</div>
+  </ul>
+</div>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+$.post(siteurl+"checkin.php?action=checkin_ajax",{type:1},
+    function(msg) {
+        var stdata = jQuery.parseJSON(msg);
+        if(stdata.ret == 'success'){
+              $("#checkinbuttonhtml").html("<a href=\"javascript:void(null);\" class=\"start\" onclick=\"usercheckin();\"></a>");                    
+         }else{
+              $("#checkinbuttonhtml").html("<a href=\"javascript:void(null);\" class=\"over\"></a>");        
+         } 
+});
+});
+
+function usercheckin(){
+  if(!$("#userid").val()) {
+        location.href = siteurl+"/user.php?action=login&url="+document.URL;
+        return false;
+    }
+  var nows = new Date();
+  $("#checkinbuttonhtml").html("<a href=\"javascript:void(null);\" class=\"over\"></a>");
+  $.post(siteurl+"checkin.php?action=checkin_ajax",{type:2,year:nows.getFullYear(),month:(parseInt(nows.getMonth())+1).toString()},
+        function(msg) {
+            var stdata = jQuery.parseJSON(msg);
+            if(stdata.ret == 'success'){
+                    $("#checkinbuttonhtml").html("<a href=\"javascript:void(null);\" class=\"over\"></a>");    
+                    HS_calender(new Date()); 
+                    tips(stdata.getjifen,stdata.upoints,stdata.tip);                                
+             }else if(stdata.ret == 'nologin'){
+                    ye_msg.open(stdata.tip, 2, 2);
+                    location.href = siteurl+"/user.php?action=login&url="+document.URL;
+                    return false;
+             }else{
+                    ye_msg.open(stdata.tip, 2, 2);
+             } 
+            
+
+    });
+}
+function tips(getjifen,upoints,downstr){
+    var html =  '<table border="0"><tbody><tr><td valign="top" height="auto">'+
+                '<div class="wbto_signi14">'+
+                '<p class="text l"></p>'+
+                '<div class="l"><span class="text">恭喜您成功获得<b>'+getjifen+'</b>积分！</span>'+
+                '<span class="text1">'+
+                '明天再来还可以领取<font style="color:#f00">5</font>积分，别忘记哦~<br>'+
+                '您的积分总计：<font style="color:#f00">'+upoints+'</font> &nbsp;<a href="'+siteurl+'u.php?action=me" target="_blank">查看我的积分</a>'+
+                '</span>'+
+                '</div>'+
+                '<div class="clear"></div>'+
+                '<p style="text-align:center; padding-top:30px;"><b>'+downstr+'</b></p>'+
+                '<p style=" width:123px; height:37px; padding:13px 0 0 135px;"><a class="hand_over" onclick="ye_dialog.close();">'+
+                '<img src="'+siteurl+'tpl/happy/images/wbto_signi4.gif"></a></p>'+
+                '</div>'+
+                '</td></tr></tbody></table>';
+               ye_dialog.openHtml(html, '消息提示', '404', '269');
+}
+
+function tipwindow(str){
+    var html = '<div style="height:auto;" id="ye_dialog_body"><table width="350px" border="0" style="margin-left:17px"><tbody><tr><td valign="top" height="auto">'
+               +'<div id="retbody" style="padding-bottom:10px; text-align:center;">'
+               +'<div><span style="display:inline-block;" class="qr_xh"></span>&amp;nbsp;&amp;nbsp;<span style="margin:auto; display:inline-block; "><font style="margin-top:-20px; float:left; position:relative;">'+str+'</font></span>'
+               +'</div></td></tr>'
+               +'<tr>'
+               +'<td valign="top" style="border-top:1px dashed #cccccc; text-align:center; padding-top:10px;">'
+               +'<input type="button" class="button2" value="确定" onclick="ye_dialog.close();">'
+               +'</td></tr></tbody></table></div>';
+               ye_dialog.openHtml(html, '消息提示', '402', '175');
+}
+function HS_DateAdd(interval,number,date){
+    number = parseInt(number);
+    if (typeof(date)=="string"){var date = new Date(date.split("-")[0],date.split("-")[1],date.split("-")[2])}
+    if (typeof(date)=="object"){var date = date}
+    switch(interval){
+    case "y":return new Date(date.getFullYear()+number,date.getMonth(),date.getDate()); break;
+    case "m":return new Date(date.getFullYear(),date.getMonth()+number,checkDate(date.getFullYear(),date.getMonth()+number,date.getDate())); break;
+    case "d":return new Date(date.getFullYear(),date.getMonth(),date.getDate()+number); break;
+    case "w":return new Date(date.getFullYear(),date.getMonth(),7*number+date.getDate()); break;
+    }
+}
+function checkDate(year,month,date){
+    var enddate = ["31","28","31","30","31","30","31","31","30","31","30","31"];
+    var returnDate = "";
+    if (year%4==0){enddate[1]="29"}
+    if (date>enddate[month]){returnDate = enddate[month]}else{returnDate = date}
+    return returnDate;
+}
+
+function WeekDay(date){
+    var theDate;
+    if (typeof(date)=="string"){theDate = new Date(date.split("-")[0],date.split("-")[1],date.split("-")[2]);}
+    if (typeof(date)=="object"){theDate = date}
+    return theDate.getDay();
+}
+function HS_calender(){
+    var lis = "";
+    var now;
+    var today;
+    if (typeof(arguments[0])=="string"){
+        selectDate = arguments[0].split("-");
+        var year = selectDate[0];
+        var month = parseInt(selectDate[1])-1+"";
+        var date = selectDate[2];
+        now = new Date(year,month,date);
+    }else if (typeof(arguments[0])=="object"){
+        now = arguments[0];
+    }
+    var lastMonthEndDate = HS_DateAdd("d","-1",now.getFullYear()+"-"+now.getMonth()+"-01").getDate();
+    var lastMonthDate = WeekDay(now.getFullYear()+"-"+now.getMonth()+"-01");
+    var thisMonthLastDate = HS_DateAdd("d","-1",now.getFullYear()+"-"+(parseInt(now.getMonth())+1).toString()+"-01");
+    var thisMonthEndDate = thisMonthLastDate.getDate();
+    var thisMonthEndDay = thisMonthLastDate.getDay();
+    var todayObj = new Date();
+    today = todayObj.getFullYear()+"-"+todayObj.getMonth()+"-"+todayObj.getDate();
+    for (i=0; i<lastMonthDate; i++){  // Last Month's Date
+        lis = "<li></li>" + lis;
+        lastMonthEndDate--;
+    }
+    for (i=1; i<=thisMonthEndDate; i++){ // Current Month's Date
+
+        if(today == now.getFullYear()+"-"+now.getMonth()+"-"+i){
+            var todayString = now.getFullYear()+"-"+(parseInt(now.getMonth())+1).toString()+"-"+i;
+            lis += "<li href=\"javascript:void(null);\" onclick=\"usercheckin();\" id='day_"+i+"' class=\"text1\"><font style = \"font-size:25px;\">今天</font></li>";
+        }else{
+            lis += "<li id='day_"+i+"'>"+i+"</li>";
+        }
+        
+    }
+    var j=1;
+    for (i=thisMonthEndDay; i<6; i++){  // Next Month's Date
+        lis += "<li></li>";
+        j++;
+    }
+    var CalenderTitle = "<a href='javascript:void(0)' class='l' onclick=HS_calender(HS_DateAdd('m',-1,'"+now.getFullYear()+"-"+now.getMonth()+"-"+now.getDate()+"'),this) title='Previous Month'></a>";
+    CalenderTitle += "<span><b id=\"FullYear\">"+now.getFullYear()+"</b>年<b id=\"Month\">"+(parseInt(now.getMonth())+1).toString()+"</b>月</span>"; 
+    CalenderTitle += "<a href='javascript:void(0)' class='r text' onclick=HS_calender(HS_DateAdd('m',1,'"+now.getFullYear()+"-"+now.getMonth()+"-"+now.getDate()+"'),this) title='Next Month'></a>";
+    $("#today").html(CalenderTitle);
+    $("#thisMonthDate").html(lis);
+    var month = parseInt(now.getMonth())+1;
+    if(month<10){
+        month="0"+month;
+    }
+    $.post(siteurl+"checkin.php?action=checkintimes",{type:1,year:now.getFullYear(),month:(month).toString()},
+                    function(msg) {
+                        var stdata = jQuery.parseJSON(msg);
+                        if(stdata.ret == 'success'){
+                          var data = stdata.data;
+                          for(i=0;i<data.length;i++){
+                             var checkdayarr = data[i].time.split("-");
+                             var checkday = parseInt(checkdayarr[2], 10) ;
+                             $("#day_"+checkday).addClass("text").removeClass("text1");
+                             $("#day_"+checkday).prepend("<i class=\"wbto_signipos14\"></i>");
+                          }
+                        }
+                });
+    $.post(siteurl+"checkin.php?action=checkintimes",{type:2},
+        function(msg) {
+            var stdata = jQuery.parseJSON(msg);
+             if(stdata.ret == 'success'){
+            if(stdata.lasttimes==0)
+            {
+                $("#chinkindays").html("您本月已经签到<b>"+stdata.checkintimes+"</b>天<br>已领取满勤奖啦！");
+            }
+            else
+            {
+            $("#chinkindays").html("您本月已经签到<b>"+stdata.checkintimes+"</b>天<br>还有<b>"+stdata.lasttimes+"</b>天就可以领取满勤奖");
+            }
+            }
+    });
+    //$("#week_"+now.getDay()).addClass("text").siblings().removeClass("text");
+    
+}
+function _selectThisDay(d){
+    var boxObj = d.parentNode.parentNode.parentNode.parentNode.parentNode;
+        boxObj.targetObj.value = d.title;
+        boxObj.parentNode.removeChild(boxObj);
+}
+function closeCalender(d){
+    var boxObj = d.parentNode.parentNode.parentNode;
+        boxObj.parentNode.removeChild(boxObj);
+}
+
+function CalenderselectYear(obj){
+        var opt = "";
+        var thisYear = obj.innerHTML;
+        for (i=1970; i<=2020; i++){
+            if (i==thisYear){
+                opt += "<option value="+i+" selected>"+i+"</option>";
+            }else{
+                opt += "<option value="+i+">"+i+"</option>";
+            }
+        }
+        opt = "<select onblur='selectThisYear(this)' onchange='selectThisYear(this)' style='font-size:11px'>"+opt+"</select>";
+        obj.parentNode.innerHTML = opt;
+}
+
+function selectThisYear(obj){
+    HS_calender(obj.value+"-"+obj.parentNode.parentNode.getElementsByTagName("span")[1].getElementsByTagName("a")[0].innerHTML+"-1",obj.parentNode);
+}
+
+function CalenderselectMonth(obj){
+        var opt = "";
+        var thisMonth = obj.innerHTML;
+        for (i=1; i<=12; i++){
+            if (i==thisMonth){
+                opt += "<option value="+i+" selected>"+i+"</option>";
+            }else{
+                opt += "<option value="+i+">"+i+"</option>";
+            }
+        }
+        opt = "<select onblur='selectThisMonth(this)' onchange='selectThisMonth(this)' style='font-size:11px'>"+opt+"</select>";
+        obj.parentNode.innerHTML = opt;
+}
+function selectThisMonth(obj){
+    HS_calender(obj.parentNode.parentNode.getElementsByTagName("span")[0].getElementsByTagName("a")[0].innerHTML+"-"+obj.value+"-1",obj.parentNode);
+}
+HS_calender(new Date()); 
+</script>
+<!--{template inc/footer}-->

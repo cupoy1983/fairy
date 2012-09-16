@@ -1,0 +1,51 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="handle-btns">
+	<div style="font-size:14px; padding:10px 0 0 10px;"><strong>{$Think.lang.STATUS}：{$order.status_name}</strong></div>
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.USER_NAME}</th>
+		<td width="200">{$user.user_name}</td>
+		<th>{$Think.lang.CREATE_TIME}</th>
+		<td>{$order.create_time|toDate}</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.MONEY}</th>
+		<td>{$order.money}</td>
+		<th>{$Think.lang.USER_MONEY}</th>
+		<td>{$user.money}</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.IS_PAY}</th>
+		<td>{$order.pay_name}</td>
+		<th>{$Think.lang.PAY_TIME}</th>
+		<td>{$order.pay_time|toDate}</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CONTENT}</th>
+		<td colspan="3">{$order.content}&nbsp;</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.ADM}</th>
+		<td colspan="3"><textarea name="adm" class="textinput areainput" rows="5">{$order.adm}</textarea></td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<if condition="$order.status eq 0">
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="hidden" name="status" value="1" />
+			<input type="hidden" name="id" value="{$order.id}" />
+			</if>
+			<if condition="$order.status eq 1">
+			<input type="submit" class="submit_btn" value="{$Think.lang.CLEAR}" />
+			<input type="hidden" name="status" value="2" />
+			<input type="hidden" name="id" value="{$order.id}" />
+			</if>
+		</td>
+	</tr>
+</table>
+</form>
+<include file="Public:footer" />

@@ -1,0 +1,181 @@
+<?php
+$css_list[0]['url'] = './tpl/css/club.css';
+$js_list[0][] = './tpl/js/club.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+    <div id="content_body">
+        <div class="piece piece_w960">
+            <div class="piece_hd">
+                <b class="hl"></b>
+                <b class="hr"></b>
+            </div>
+            <!--{if $is_apply}-->
+            <div class="piece_bd clearfix gr_set gr_create">
+                <div class="gr_set_top">
+                    <h2>申请创建小组</h2>
+                </div>
+                <div class="gr_set_form">
+                    <form action="{u group/save}" method="post" id="groupForm" enctype="multipart/form-data">
+                        <dl>
+                            <dt>小组名称：</dt>
+                            <dd>
+                                <input class="form_text" type="text" name="name" value="" tooltip="简单明了的表达小组的话题">
+                                <span id="nameDesc" class="desc"><b>最多50个字</b></span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>小组介绍：</dt>
+                            <dd>
+                                <textarea class="form_text" name="content" tooltip="告诉组员们小组内讨论话题的范围"></textarea>
+                                <span id="contentDesc" class="desc"><b>最多1000个字</b></span>
+                            </dd>
+                        </dl>
+						<!--{if $_FANWE['setting']['group_is_check'] == 0}-->
+                        <dl>
+                            <dt>小组分类：</dt>
+                            <dd>
+                                <select name="cid">
+                                    <!--{loop $_FANWE['cache']['forum_category'] $item}-->
+                                    <option value="{$item['id']}">{$item['cate_name']}</option>
+                                    <!--{/loop}-->
+                                </select>
+                                <span class="desc"><b>每个小组有属于自己的分类</b></span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>图标：</dt>
+                            <dd>
+                                <input type="file"  name="icon" size="30" class="input_file" /><span class="desc"><b>图片大小为100*100</b></span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>背景：</dt>
+                            <dd>
+                                <input type="file" name="img" size="30" class="input_file" /><span class="desc"><b>图片大小为960*150</b></span>
+                            </dd>
+                        </dl>
+						<!--{else}-->
+						<dl>
+							<dt>申请理由：</dt>
+							<dd>
+								<textarea class="form_text" name="reason" style="height:80px;"></textarea>
+								<span id="reasonDesc" class="desc"><b>最多100个字</b></span>
+							</dd>
+						</dl>
+						<!--{/if}-->
+                        <dl>
+                            <dt>小组标签：</dt>
+                            <dd>
+                                <input class="form_text" type="text" name="tags" value=""><span class="desc"><b>以空格分隔</b></span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>加入方式：</dt>
+                            <dd>
+                                <label><input type="radio" name="join_way" value="1" class="form_radio">需要小组管理员批准才能加入小组</label><br>
+                                <label><input type="radio" name="join_way" value="0" class="form_radio" checked="true">允许任何人加入小组</label><br>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt></dt>
+                            <dd><label><input type="checkbox" id="agreement" name="agreement" value="1" class="form_radio" checked="true">我已认真阅读并同意<a class="group_disclaimer" href="{u group/agreement}" target="_blank">《免责声明》</a></label></dd>
+                        </dl>
+                        <dl>
+                            <dt></dt>
+                            <dd>
+                                <input type="submit" class="form_sub" id="subApply" value="提交申请">
+								<input type="hidden" name="action" value="save" />
+								<a href="{u group/index}" class="form_cancel">取消</a>
+                            </dd>
+                        </dl>
+                    </form>
+                    <div class="show_notice r10">
+                        <h2 class="friend_notice ">{$_FANWE['setting']['site_name']}友情提示</h2>
+                        <ul class="notice_list">
+                            <li class="clearfix"><span class="list_num">1</span><p class="notice_info">符合以下条件的申请更容易通过审核：<br> 1)小组定位明确、申请理由充分。<br>  2)申请者在{$_FANWE['setting']['site_name']}分享过较多的精彩内容。<br>  3)申请者在{$_FANWE['setting']['site_name']}有较多粉丝和被喜欢数。</p></li>
+                            <li class="clearfix"><span class="list_num">2</span><p class="notice_info">审核未通过的网友不要气馁，请加油在{$_FANWE['setting']['site_name']}分享更多精彩内容。</p> </li>
+                            <li class="clearfix"><span class="list_num">3</span><p class="notice_info">考虑到知识产权保护，单一品牌小组除{$_FANWE['setting']['site_name']}的合作商家外普通网友请勿申请。</p> </li>
+                            <li class="clearfix"><span class="list_num">4</span><p class="notice_info">关于小组，有任何问题，请<!--{getuser $_FANWE['setting']['group_admin_uid'] 0 '2' 'home_at_ta'}-->。</p> </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+			<script type="text/javascript">
+			jQuery(function($){
+				$("#agreement").change(function(){
+					$("#subApply").attr("disabled",!this.checked);
+				});
+				
+				$("#groupForm").submit(function(){
+					if($.trim(this.name.value) == '' || $.trim(this.name.value) == this.name.getAttribute('tooltip'))
+					{
+						$("#nameDesc").html('<b class="error">长度不能为空</b>');
+						return false;
+					}
+					else if($.getStringLength(this.name.value) > 100)
+					{
+						$("#nameDesc").html('<b class="error">最多50个字</b>');
+						return false;
+					}
+					else
+						$("#nameDesc").html('');
+						
+					if($.trim(this.content.value) == '' || $.trim(this.content.value) == this.content.getAttribute('tooltip'))
+					{
+						$("#contentDesc").html('<b class="error">长度不能为空</b>');
+						return false;
+					}
+					else if($.getStringLength(this.content.value) > 2000)
+					{
+						$("#contentDesc").html('<b class="error">最多1000个字</b>');
+						return false;
+					}
+					else
+						$("#contentDesc").html('');
+					
+					<!--{if $_FANWE['setting']['group_is_check'] == 1}-->
+					if($.getStringLength(this.reason.value) > 200)
+					{
+						$("#reasonDesc").html('<b class="error">最多100个字</b>');
+						return false;
+					}
+					else
+						$("#reasonDesc").html('');
+					<!--{/if}-->
+				});
+			});
+			</script>
+            <!--{else}-->
+            <div class="piece piece_w960">
+                <div class="piece_hd">
+                    <b class="hl"></b>
+                    <b class="hr"></b>
+                </div>
+                <div style="height:600px;" class="piece_bd clearfix">
+                    <div style="margin: 0 auto;padding-top:150px;width: 580px;">
+                        <img style="float:left;margin:50px 40px 0 0;" src="./tpl/images/sys_error.png" alt="">
+                        <p style="color: #333333;font-size: 14px;line-height:2;padding-top: 10px; float:left;">
+							哎呀，您目前还不能创建小组呢。真不好意思。<br>
+							在{$_FANWE['setting']['site_name']}创建小组要有两个小要求：<br>                            
+							1：您要拥有{$_FANWE['setting']['group_fans_count']}个及以上粉丝。<br>  
+							2：您要拥有{$_FANWE['setting']['group_share_count']}个及以上分享。<br>			
+							这几个小要求很简单就能达到哦，快快去完成然后再来申请建组吧！<br>	
+							<a style="color:#0099EE;font-size: 14px;line-height:2;" href="{u group/index}">返回 &gt;</a>
+						</p>
+                    </div>
+                </div>
+                <div class="piece_ft">
+                    <b class="fl"></b>
+                    <b class="fr"></b>
+                </div>
+            </div>
+            <!--{/if}-->
+            <div class="piece_ft">
+                <b class="fl"></b>
+                <b class="fr"></b>
+            </div>
+        </div>
+    </div>
+</div>
+<!--{template inc/footer}-->

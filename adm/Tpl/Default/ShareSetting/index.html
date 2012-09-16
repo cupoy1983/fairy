@@ -1,0 +1,97 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="200">{$Think.lang.SHARE_INTERVAL_TIME}</th>
+		<td><input type="text" class="textinput" name="settings[SHARE_INTERVAL_TIME]" size="10" value="{$settings.SHARE_INTERVAL_TIME}" />（{$Think.lang.SECONDS}）</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_CACHE_TIME}</th>
+		<td><input type="text" class="textinput" name="settings[SHARE_CACHE_TIME]" size="10" value="{$settings.SHARE_CACHE_TIME}" />（{$Think.lang.SECONDS}）</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_GOODS_COUNT}</th>
+		<td><input type="text" class="textinput" name="settings[SHARE_GOODS_COUNT]" size="10" value="{$settings.SHARE_GOODS_COUNT}" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_PIC_COUNT}</th>
+		<td><input type="text" class="textinput" name="settings[SHARE_PIC_COUNT]" size="10" value="{$settings.SHARE_PIC_COUNT}" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_IS_TAG}</th>
+		<td>
+			<label><input type="radio" name="settings[SHARE_IS_TAG]" value="1" <if condition='$settings.SHARE_IS_TAG eq 1'>checked="checked"</if> /><span>{$Think.lang.YES}</span></label>&nbsp;
+			<label><input type="radio" name="settings[SHARE_IS_TAG]" value="0" <if condition='$settings.SHARE_IS_TAG eq 0'>checked="checked"</if> /><span>{$Think.lang.NO}</span></label>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_TAG_COUNT}</th>
+		<td><input type="text" class="textinput" name="settings[SHARE_TAG_COUNT]" size="10" value="{$settings.SHARE_TAG_COUNT}" /></td>
+	</tr>
+	<!--<tr>
+		<th>{$Think.lang.SHARE_IS_CATE}</th>
+		<td>
+			<label><input type="radio" name="settings[SHARE_IS_CATE]" value="1" <if condition='$settings.SHARE_IS_CATE eq 1'>checked="checked"</if> /><span>{$Think.lang.YES}</span></label>&nbsp;
+			<label><input type="radio" name="settings[SHARE_IS_CATE]" value="0" <if condition='$settings.SHARE_IS_CATE eq 0'>checked="checked"</if> /><span>{$Think.lang.NO}</span></label>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_IS_CATE_BY_TAGS}</th>
+		<td>
+			<label><input type="radio" name="settings[SHARE_IS_CATE_BY_TAGS]" value="1" <if condition='$settings.SHARE_IS_CATE_BY_TAGS eq 1'>checked="checked"</if> /><span>{$Think.lang.YES}</span></label>&nbsp;
+			<label><input type="radio" name="settings[SHARE_IS_CATE_BY_TAGS]" value="0" <if condition='$settings.SHARE_IS_CATE_BY_TAGS eq 0'>checked="checked"</if> /><span>{$Think.lang.NO}</span></label>
+		</td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td><P>{$Think.lang.SHARE_IS_CATE_BY_TAGS_TIP}</P></td>
+	</tr>-->
+	<tr>
+		<th>{$Think.lang.SHARE_CHECK_TYPE}</th>
+		<td>
+			<select name="settings[SHARE_CHECK_TYPE]">
+				<option value="0" <if condition='$settings.SHARE_CHECK_TYPE eq 0'>selected="selected"</if>>{$Think.lang.SHARE_CHECK_TYPE_0}</option>
+				<option value="1" <if condition='$settings.SHARE_CHECK_TYPE eq 1'>selected="selected"</if>>{$Think.lang.SHARE_CHECK_TYPE_1}</option>
+				<option value="2" <if condition='$settings.SHARE_CHECK_TYPE eq 2'>selected="selected"</if>>{$Think.lang.SHARE_CHECK_TYPE_2}</option>
+				<option value="3" <if condition='$settings.SHARE_CHECK_TYPE eq 3'>selected="selected"</if>>{$Think.lang.SHARE_CHECK_TYPE_3}</option>
+				<option value="4" <if condition='$settings.SHARE_CHECK_TYPE eq 4'>selected="selected"</if>>{$Think.lang.SHARE_CHECK_TYPE_4}</option>
+				<option value="5" <if condition='$settings.SHARE_CHECK_TYPE eq 5'>selected="selected"</if>>{$Think.lang.SHARE_CHECK_TYPE_5}</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td><P>{$Think.lang.SHARE_CHECK_TYPE_TIP}</P></td>
+	</tr>
+	<!--<tr>
+		<th>{$Think.lang.SHARE_GOODS_SHOW_TYPE}</th>
+		<td>
+			<select name="settings[SHARE_GOODS_SHOW_TYPE]">
+				<option value="0" <if condition='$settings.SHARE_GOODS_SHOW_TYPE eq 0'>selected="selected"</if>>{$Think.lang.SHARE_GOODS_SHOW_TYPE_0}</option>
+				<option value="1" <if condition='$settings.SHARE_GOODS_SHOW_TYPE eq 1'>selected="selected"</if>>{$Think.lang.SHARE_GOODS_SHOW_TYPE_1}</option>
+			</select>
+		</td>
+	</tr>-->
+	<tr>
+		<th>&nbsp;</th>
+		<td><P>{$Think.lang.SHARE_GOODS_SHOW_TYPE_TIP}</P></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_PB_LOAD_COUNT}</th>
+		<td><input type="text" class="textinput" name="settings[SHARE_PB_LOAD_COUNT]" size="10" value="{$settings.SHARE_PB_LOAD_COUNT}" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHARE_PB_ITEM_COUNT}</th>
+		<td><input type="text" class="textinput" name="settings[SHARE_PB_ITEM_COUNT]" size="10" value="{$settings.SHARE_PB_ITEM_COUNT}" /></td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<include file="Public:footer" />

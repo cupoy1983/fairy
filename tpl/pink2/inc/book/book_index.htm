@@ -1,0 +1,34 @@
+<div class="i_w_f" id="share_item_{$share['share_id']}">
+	<div class="hd"></div>
+	<div class="bd">
+		<ul class="pic">
+			<!--{loop $share['goods_imgs'] $share_img}-->
+			<li>
+				<a style="width:200px;" href="{$share_img['url']}" target="_blank">
+					<img class="book_img" src="{getimg $share_img['img'] 200 999}" width="200" oldWidth="{$share_img['img_width']}" oldHeight="{$share_img['img_height']}"/>
+				</a>
+				<span class="p"><span>{$share_img['price_format']}</span><i></i></span>
+				<a class="add_to_album_btn" href="javascript:;" style="display: none;" onclick="$.Show_Rel_Album($share_img['id'],'goods');"></a>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		<div class="favorite">
+			<a href="javascript:;" class="favaImg" onclick="$.Fav_Share({$share['share_id']},this,32,'#share_item_{$share['share_id']}');"></a>
+			<div class="favDiv"><a target="_blank" class="favCount SHARE_FAV_COUNT" href="{$share['url']}"  >$share['collect_count']</a></div>
+			<a target="_blank" href="{$share['url']}" class="creply"><b>{$share['comment_count']}</b>评论</a>
+		</div>
+	</div>
+	<div class="who_share">
+		<div class="ws_bd">
+			<!--{getuser $share['uid'] 0 's,24' ',icard avt fl'}-->
+			<p>
+				<span class="t fl"><!--{getuser $share['uid'] 0 '' 'n icard'}--></span>
+				<span class="t fr">{$share['time']}</span>
+				<span class="tkinfo clearfix">
+					{cutstr $share['content'] 200}
+				</span>
+			</p>
+		</div>
+		<div class="ws_ft"></div>
+	</div>
+</div>

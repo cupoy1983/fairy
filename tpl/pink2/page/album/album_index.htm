@@ -1,0 +1,71 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/album.css';
+	$js_list[0] = './tpl/js/album.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960"> 
+	<!--{if !empty($flash_album)}-->
+	<!--{subtemplate page/album/album_flash}-->
+	<!--{/if}-->
+	<!--{if !empty($best_album)}-->
+	<!--{subtemplate page/album/album_base}-->
+	<!--{/if}-->
+</div>
+<div class="fm960"> 
+	<div class="album_subnav">
+		<a href="{u album/index}" class="c">全部</a>
+		<!--{loop $_FANWE['cache']['albums']['category'] $category}-->
+		<span></span>
+		<a href="{$category['url']}">{$category['name']}</a>
+		<!--{/loop}-->
+	</div>
+</div>
+<div class="fm960">
+	<div class="album_sort">
+		<strong>排序：</strong>
+		<a{if $sort == 'new'} class="c"{/if} href="{u album sort=new}">最新</a><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span><a{if $sort == 'hot'} class="c"{/if} href="{u album sort=hot}">最热</a>
+	</div>
+</div>
+<div class="fm960 album_book_list">
+	<ul>
+		<!--{loop $album_list $album}-->
+		<li>
+			<a class="abl_big" target="_blank" href="{$album['url']}"><img original="{getimg $album['img']['img'] 468 468}" scaleType="3" scaleWidth="223" scaleHeight="223" src="./tpl/images/lazyload.gif" class="lazyload"/></a>
+			<div class="abl_smalls">
+				<!--{eval $list_img_counts = array(0,0,0,0);}-->
+				<!--{loop $album['imgs'] $img}-->
+				<!--{if count($list_img_counts) == 0}-->
+				<!--{eval break;}-->
+				<!--{/if}-->
+				<!--{if $img['img'] != $album['img']['img']}-->
+				<a target="_blank" href="{$album['url']}"><img class="lazyload" src="./tpl/images/lazyload.gif" original="{getimg $img['img'] 100 100}" /></a>
+				<!--{eval array_pop($list_img_counts);}-->
+				<!--{/if}-->
+				<!--{/loop}-->
+				<!--{loop $list_img_counts $imgindex}-->
+				<a target="_blank" class="add_img" href="{$album['url']}"><img src="./tpl/images/none_pic.png" /></a>
+				<!--{/loop}-->
+			</div>
+			<a class="abl_mask" href="{$album['url']}">{$album['title']}</a>
+			<a class="abl_title" href="{$album['url']}">{$album['title']}</a>
+			<span class="abl_count" href="{$album['url']}">{$album['img_count']}张</span>
+			<div class="abl_user">
+				<!--{getuser $album['uid'] 0 's,20' 'abl_uimg,lazyload'}-->
+				<!--{getuser $album['uid'] 0 '' 'abl_uname'}-->
+			</div>
+			<!--{eval $index++;}-->
+		</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+<!--{if $pager['page_count'] > 1}-->
+<div class="fm960">
+	<div class="pagination mt30"> 
+		<!--{subtemplate inc/pages}--> 
+	</div>
+</div>
+<!--{/if}-->
+<script type="text/javascript">
+FANWE.NO_COUNTER = true;
+</script>
+<!--{template inc/footer}-->

@@ -1,0 +1,38 @@
+<?php
+	$css_list[0]['url'][] = './tpl/css/tweetlist.css';
+	$css_list[0]['url'][] = './tpl/css/zone.css';
+	$js_list[0] = './tpl/js/zone.js';
+?>
+<!--{template inc/header}-->
+<!--{template inc/u/u_menu}-->
+<div class="wrapper">
+	<div class="zone_left">
+		<!--{if $home_uid == $_FANWE['uid']}-->
+		<!--{template inc/u/u_publish_share}-->
+		<ul class="zone_tab clearfix">
+			<li {if ACTION_NAME == 'me'} class="c"{/if}><a href="{u u/index uid=$home_uid}">全部</a></li>
+			<li {if ACTION_NAME == 'talk'} class="c"{/if}><a href="{u u/talk uid=$home_uid}">我发表的</a></li>
+			<li {if ACTION_NAME == 'atme'} class="c"{/if}><a href="{u u/atme uid=$home_uid}">@我的</a></li>
+			<li {if ACTION_NAME == 'comments'} class="c"{/if}><a href="{u u/comments uid=$home_uid}">评论我的</a></li>
+			<li {if ACTION_NAME == 'all'} class="c"{/if}><a href="{u u/all}">随便逛逛</a></li>
+		</ul>
+		<!--{if ACTION_NAME == 'atme'}-->
+		<div class="zh_cat">
+			<a {if $type == ''}class="c"{/if} href="{u u/atme uid=$home_uid}" style="font-size:12px;">提到我的</a>
+			<span style="font-size:12px;">|</span>
+			<a {if $type == 'faved'}class="c"{/if} href="{u u/atme uid=$home_uid,type=faved}" style="font-size:12px;">喜欢我的</a>
+		</div>
+		<!--{/if}-->
+		<!--{/if}-->
+		<div class="talk_list_box">
+			{$share_list_html}
+		</div>
+	</div>
+	<div class="zone_right">
+		<!--{template inc/u/u_me_list}-->
+	</div>
+	<div class="book_box">
+	
+	</div>
+</div>
+<!--{template inc/footer}-->

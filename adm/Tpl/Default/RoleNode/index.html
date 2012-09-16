@@ -1,0 +1,11 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="addRoleNode" name="addRoleNode" value="{$Think.lang.ADD}" click="addData()" />
+	<fanwe:imageBtn id="editRoleNode" name="editRoleNode" value="{$Think.lang.EDIT}" click="editData(this,'checkList')" />
+	<fanwe:imageBtn id="removeRoleNode" name="removeRoleNode" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList')" />
+</div>
+<fanwe:list id="checkList" style="list" name="node" checkbox="true" action="true" datasource="list" show="id:{$Think.lang.ID}|50,action:{$Think.lang.ACTION}|80:textEdit|id,action_name:{$Think.lang.ACTION_NAME}:textEdit|id,module:{$Think.lang.MODULE}|120:textEdit|id,module_name:{$Think.lang.MODULE_NAME}:textEdit|id,nav_id|getRoleNavName:{$Think.lang.NAV_ID}|100,auth_type|getAuthType:{$Think.lang.AUTH_TYPE}|100,sort:{$Think.lang.SORT}|60:numberEdit|id,log_type|getIsLog=$node:{$Think.lang.IS_LOG}|60,is_show|getStatusImg:{$Think.lang.IS_SHOW}|60:toggleStatus|id,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|id" actionlist="editData:{$Think.lang.EDIT}:id,removeData:{$Think.lang.REMOVE}:id" action_width="100" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

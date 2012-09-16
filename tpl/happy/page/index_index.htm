@@ -1,0 +1,102 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/welcome.css';
+	$js_list[0] = './public/js/jquery.slides.js';	
+	$js_list[1] = './tpl/js/welcome.js';
+	$js_list[2] = './tpl/js/fairy.js';
+?>
+<!--{template inc/header}-->
+<div id="body" class="fm960">
+<!--{dynamic getIndexAdv}-->
+<div class="piece1 mb20" >
+	<div class="piece1_hd"></div>
+	<div class="piece1_bd clearfix">
+			<div class="index_ddl_nav" >
+				<h2>MM们扎堆的小组</h2>
+			</div>
+			<div class="blank9"></div>
+			<div class="index_group_box fl" >
+				<div class="active_group_slide" >
+					<!--{loop $group_list $groups}-->
+					<ul class="active_group_list">
+						<!--{loop $groups $group_item}-->
+						<li>
+							<a target="_blank" href="{u group/detail fid=$group_item['fid']}" class="fl"><img src="{getimg $group_item['icon']['img'] 100 100 1}" class="r5" alt="{$group_item['name']}"></a>
+							<h3 class="ag_t"><a target="_blank" href="{u group/detail fid=$group_item['fid']}" class="glink">{$group_item['name']}</a></h3>
+							<p class="ag_i"><span><b>{$group_item['user_count']}</b>成员</span><span><b>{$group_item['thread_count']}</b>分享</span></p>
+							<p class="ag_d">{cutstr $group_item['content'] 60}</p>
+						</li>
+						<!--{/loop}-->
+
+					</ul>
+					<!--{/loop}-->
+				</div>
+				<div class="active_group_slide_link" >
+					<div class="active_group_slide_btn" >
+						
+					</div>
+					<a href="{u group/index}" target="_blank" class="more" ><div class="arrows" ></div>查看更多小组</a>
+				</div>
+				<script type="text/javascript">
+					jQuery(function($){
+						$(".active_group_slide").carouFredSel({
+							items:1, 
+							auto : true,
+							pauseDuration:3000,
+							pagination: ".active_group_slide_btn",
+							scroll: {
+								fx: "crossfade",
+								pauseOnHover: true
+							}
+						});
+					});
+				</script>
+				<ul class="reco_topic_list clear_in">
+					<!--{loop $topic_list $topic}-->
+					<li>
+						<a target="_blank" href="{u u/index uid=$topic['uid']}"> <img height="32" src="{getimg $topic['group']['icon']['img'] 100 100 1}" alt="{$topic['title']}" class="fl r3"></a>
+						<p class="rt_tt"><a target="_blank" href="{$topic['url']}" class="tlink">{$topic['title']}</a></p>
+						<p class="rt_gt"><a target="_blank" href="{u group/detail fid=$topic['fid']}" class="glink">{$topic['group']['name']}</a></p>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="index_album_box fr" >
+				<div class="index_ddl_nav" >
+					<h2>最新推荐专辑</h2>
+				</div>
+				<ul class="index_album_list" >
+					<!--{loop $best_albums $album}-->
+					<li class="index_album_item" >
+						<ul class="album_img clearfix fl">
+							<!--{eval $img_index = 0;}-->
+							<!--{loop $album['imgs'] $img}-->
+							<!--{if $img_index < 3}-->
+							<li>
+								<a href="{$album['url']}" class="rl5" target="_blank"><img src="{getimg $img['img'] 100 100 1}"/></a>
+							</li>
+							<!--{eval $img_index++;}-->
+							<!--{/if}-->
+							<!--{/loop}-->
+						</ul>
+						<div class="album_info fl">
+							<h4><a target="_blank" href="{$album['url']}" title="{$album['title']}">{cutstr $album['title'] 12}</a></h4>
+							<div class="album_likenum">{$album['collect_count']}</div>
+						</div>
+					</li>
+					<!--{/loop}-->
+				</ul>
+				<h3 class="index_album_title" >MM们心水的专辑</h3>
+				<ul class="album_more_list" >
+					<li><a href="{u album/index}" title="全部">全部</a></li>
+					<!--{loop $_FANWE['cache']['albums']['category'] $category}-->
+					<li><a href="{$category['url']}" title="{$category['name']}">{$category['name']}</a></li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+		</div>
+	<div class="piece1_ft"></div>
+</div>
+
+<!--{dynamic getIndexCateShare}-->
+</div>
+<!--{template inc/footer}-->

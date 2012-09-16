@@ -1,0 +1,87 @@
+<!--{if $_FANWE['uid'] > 0}-->
+<div class="user_info">
+	<a href="{u u/me}" class="ui_user"><img src="{avatar $_FANWE['user']['avatar'] s}" height="24"><b>{$_FANWE['user_name']}</b></a>
+	<span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+	<a href="javascript:;" class="message{if $_FANWE['user_notice']['all'] > 0} h{/if}">{lang message_tip}{if $_FANWE['user_notice']['all'] > 0}({$_FANWE['user_notice']['all']}){/if}</a>
+	<dl class="user_dl">
+		<dd><a href="{u u/album}">我的杂志</a></dd>
+		<dd><a href="{u u/fav uid=$_FANWE['uid']}">我喜欢的</a></dd>
+		<dd><a href="{u invite}" target="_blank">邀请朋友</a></dd>
+		<dd><a href="{u settings/personal}">设置账号</a></dd>
+		<dd><a href="{u user/logout}">退出</a></dd>
+	</dl>
+	<dl class="umsg_dl">
+		<dd><a href="{u u/talk uid=$_FANWE['uid']}">我发表的</a></dd>
+		<dd><a href="{u u/comments uid=$_FANWE['uid']}">评论我的{if $_FANWE['user_notice'][3] >0}<span>({$_FANWE['user_notice'][3]})</span>{/if}</a></dd>
+		<dd><a href="{u u/fans uid=$_FANWE['uid']}">关注我的{if $_FANWE['user_notice'][1] >0}<span>({$_FANWE['user_notice'][1]})</span>{/if}</a></dd>
+		<dd><a href="{u u/atme uid=$_FANWE['uid']}">提到我的{if $_FANWE['user_notice'][4] >0}<span>({$_FANWE['user_notice'][4]})</span>{/if}</a></dd>
+		<dd><a href="{u u/atme uid=$_FANWE['uid'],type=faved}">喜欢我的{if $_FANWE['user_notice'][2] >0}<span>({$_FANWE['user_notice'][2]})</span>{/if}</a></dd>
+		<dd><a href="{u u/message uid=$_FANWE['uid']}">我的信件{if $_FANWE['user_notice'][5] >0}<span>({$_FANWE['user_notice'][5]})</span>{/if}</a></dd>
+		<dd><a href="{u u/notic uid=$_FANWE['uid']}">我的通知{if $_FANWE['user_notice'][6] >0}<span>({$_FANWE['user_notice'][6]})</span>{/if}</a></dd>
+		<dd><a href="{u u/sysmsg uid=$_FANWE['uid']}">系统消息{if $_FANWE['user_notice'][7] >0}<span>({$_FANWE['user_notice'][7]})</span>{/if}</a></dd>
+	</dl>
+</div>
+<script type="text/javascript">
+var USER_DL_TIMEOUT,USER_DL_W = 0,USER_DL_H = 0,UMSG_DL_TIMEOUT,UMSG_DL_W = 0,UMSG_DL_H = 0,UMSG_DL_L = 0;
+jQuery(function($){
+	$("#header .ui_user").hover(function(){
+		$("#header .umsg_dl").hide();
+		clearTimeout(USER_DL_TIMEOUT);
+		var user_dl = $("#header .user_dl");
+		user_dl.css({"visibility":"hidden","display":"block"});
+		if(USER_DL_W == 0)
+			USER_DL_W = user_dl.width();
+		
+		if(USER_DL_H == 0)
+			USER_DL_H = user_dl.height();
+		
+		user_dl.css({"height":"0","width":USER_DL_W,"visibility":"visible"});
+		user_dl.animate({height:USER_DL_H},{easing:"easeInQuad",queue:false,duration:100});
+	},function(){
+		var fun = function(){
+			$("#header .user_dl").hide();
+		};
+		USER_DL_TIMEOUT = setTimeout(fun,500);
+	});
+	
+	$("#header .user_dl").hover(function(){
+		clearTimeout(USER_DL_TIMEOUT);
+	},function(){
+		$("#header .user_dl").hide();
+	});
+	
+	$("#header .message").hover(function(){
+		$("#header .user_dl").hide();
+		clearTimeout(UMSG_DL_TIMEOUT);
+		var umsg_dl = $("#header .umsg_dl");
+		umsg_dl.css({"visibility":"hidden","display":"block"});
+		if(UMSG_DL_W == 0)
+			UMSG_DL_W = umsg_dl.width();
+			
+		if(UMSG_DL_H == 0)
+			UMSG_DL_H = umsg_dl.height();
+			
+		if(UMSG_DL_L == 0)
+			UMSG_DL_L = $(this).position().left + ($(this).width() - UMSG_DL_W) / 2;
+		
+		umsg_dl.css({"height":"0","width":UMSG_DL_W,"left":UMSG_DL_L,"visibility":"visible"});
+		umsg_dl.animate({height:UMSG_DL_H},{easing:"easeInQuad",queue:false,duration:100});
+	},function(){
+		var fun = function(){
+			$("#header .umsg_dl").hide();
+		};
+		UMSG_DL_TIMEOUT = setTimeout(fun,500);
+	});
+	
+	$("#header .umsg_dl").hover(function(){
+		clearTimeout(UMSG_DL_TIMEOUT);
+	},function(){
+		$("#header .umsg_dl").hide();
+	});
+});
+</script>
+<!--{else}-->
+<div class="user_info">
+	<a href="{u user/login}">{lang login}</a><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span><a href="{u user/register}">{lang register}</a>
+</div>
+<!--{/if}-->

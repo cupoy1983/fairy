@@ -1,0 +1,62 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<load href="__TMPL__Static/Js/search.js" />
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/update')}">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="150">{$Think.lang.KEYID}</th>
+		<td><p>{$vo.keyid}</p></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.NAME}</th>
+		<td><input type="text" class="textinput" name="name" id="name" value="{$vo.name}" style="width:400px;" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.URL}</th>
+		<td>
+			<input type="text" class="textinput" name="url" id="url" value="{$vo.url}" style="width:400px;"  />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.TAOKE_URL}</th>
+		<td>
+			<input type="text" class="textinput" name="taoke_url" id="taoke_url" value="{$vo.taoke_url}" style="width:400px;"  />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.PRICE}</th>
+		<td>
+			<input type="text" class="textinput" name="price" id="price" value="{$vo.price}" />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CATE_NAME}</th>
+		<td>
+			<fanwe:select options="cate_list" name="cid" id="cid" textfield="cate_name" valuefield="cate_id" selected="vo['cid']"/>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.GOODS_SHOP}</th>
+		<td>
+			<input type="text" name="search_shop" id="shopKeyword" class="textinput" />&nbsp;
+			<input type="button" name="share_btn" class="formbutton" value="{$Think.lang.SEARCH}" onclick="searchShop('#shopSelect','#shopKeyword')" />&nbsp;
+			<select name="shop_id" id="shopSelect">
+				<option value="0">{$Think.lang.NO_SHOP}</option>
+				<if condition="$shop">
+					<option value="{$shop.shop_id}" selected="selected">{$shop.shop_name}</option>
+				</if>
+			</select>
+		</td>
+	</tr>
+
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<include file="Public:footer" />

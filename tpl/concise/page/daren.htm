@@ -1,0 +1,262 @@
+<?php
+	$css_list[0]['url'] = './tpl/css/daren.css';
+?>
+<!--{subtemplate inc/header}-->
+<div id="body" class="fm960">
+	<div class="piece1 daren_hd mt20">
+        <div class="piece1_hd"></div>
+        <div class="piece1_bd">
+			<div class="hd_img fl">
+				<div class="pic_t_tj" id="pic_t_tj">
+					<ul>
+						<li class="pic_t_tj_f">
+							<a target="_blank" href="{u u/index uid=$today_daren['uid']}">
+								<img alt="" class="r3" src="{getimg $today_daren['index_img'] 400 230 1}">
+							</a>
+							<!--{getuser $today_daren['uid'] 0 '' 'daren_name'}-->
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="daren_interview_history">
+                <div class="d_i_h_title clearfix">
+                    <h2>推荐达人</h2>
+                    <div class="more_button">
+                    	<i></i>
+                    	<a target="_blank" href="{u daren/apply}">我要做达人</a>
+                    </div>
+                </div>
+                <ul class="d_i_h_show">
+					<!--{loop $best_darens $daren}-->
+					<li>
+						<a href="{u u/index uid=$daren['uid']}" target="_blank">
+							<img class="fl avatar r3 icard" src="{getimg $daren['img'] 100 100 1}">
+                        </a>
+                        <div class="d_i_h_info">
+							<!--{getuser $daren['uid'] 0 '' 'uname icard'}-->
+                            <div class="followdiv" style="margin:10px 0;">
+								<!--{getfollow {$daren['uid']} inc/getfollow/daren}-->
+							</div>
+                            <p class="d_i_h_desc">{$daren['reason']}</p>
+                        </div>
+                    </li>
+					<!--{/loop}-->
+				</ul>
+            </div>
+		</div>
+        <div class="piece1_ft"></div>
+    </div>
+	<div class="daren_all mt20">
+        <div class="box_left">
+            <div class="dapei_name mb25">
+                <div class="dapei_hd"></div>
+                <div class="dapei_bd">
+                    <div class="more_button">
+                        <i></i>
+                        <a href="{u daren/look}">查看全部&gt;&gt;</a>
+                    </div>
+                    <h1 class="shaihuo_t">晒货达人</h1>
+                    <ul class="shaihuo_show clearfix mt10">
+						<!--{loop $look_darens_t $daren}-->
+						<li>
+                            <a class="show_pic" href="{u u/index uid=$daren['uid']}" target="_blank"><img src="{getimg $daren['img'] 220 220 1}"></a>
+                            <div class="user_desc r5">
+								<!--{getuser $daren['uid'] 0 'm,48' ',user_pic r3 icard'}-->
+                                <div class="user_r">
+									<!--{getuser $daren['uid'] 0 '' 'icard name_u'}-->
+                                    <div class="followdiv">
+										<!--{getfollow {$daren['uid']} inc/getfollow/daren}-->      
+                                    </div>
+                                    <p>{$daren['content']}</p>
+                                </div>
+                            </div>
+                        </li>
+						<!--{/loop}-->
+					</ul>
+                    <ul class="dapei_else f3">
+						<!--{loop $look_darens_b $daren}-->
+						<li >
+                            <a class="dapei_e_p" href="{u u/index uid=$daren['uid']}" target="_blank"><img class="icard r5" src="{getimg $daren['img'] 100 100 1}" /></a>
+							<!--{getuser $daren['uid'] 0 '' 'dapei_e_n icard'}-->
+                        </li>
+						<!--{/loop}-->
+					</ul>
+                </div>
+                <div class="dapei_ft"></div>
+            </div>
+            <div class="dapei_name mb25">
+                <div class="dapei_hd"></div>
+                <div class="dapei_bd">
+                    <div class="more_button">
+                        <i></i>
+                        <a href="{u daren/dapei}">查看全部&gt;&gt;</a>
+                    </div>
+                    <h1 class="dapei_t">搭配达人</h1>
+                    <ul class="shaihuo_show clearfix mt10">
+						<!--{loop $dapei_darens_t $daren}-->
+						<li>
+                            <a class="show_pic" href="{u u/index uid=$daren['uid']}" target="_blank"><img src="{getimg $daren['img'] 220 220 1}"></a>
+                            <div class="user_desc r5">
+								<!--{getuser $daren['uid'] 0 'm,48' ',user_pic r3 icard'}-->
+                                <div class="user_r">
+									<!--{getuser $daren['uid'] 0 '' 'icard name_u'}-->
+                                    <div class="followdiv">
+										<!--{getfollow {$daren['uid']} inc/getfollow/daren}-->      
+                                    </div>
+                                    <p>{$daren['content']}</p>
+                                </div>
+                            </div>
+                        </li>
+						<!--{/loop}-->
+					</ul>
+                    <ul class="dapei_else f3">
+						<!--{loop $dapei_darens_b $daren}-->
+						<li >
+                            <a class="dapei_e_p" href="{u u/index uid=$daren['uid']}" target="_blank"><img class="icard r5" src="{getimg $daren['img'] 100 100 1}" /></a>
+							<!--{getuser $daren['uid'] 0 '' 'dapei_e_n icard'}-->
+                        </li>
+						<!--{/loop}-->
+					</ul>
+                </div>
+                <div class="dapei_ft"></div>
+            </div>
+            <div class="dapei_name mb25">
+                <div class="dapei_hd"></div>
+                <div class="dapei_bd">
+                    <div class="more_button">
+                    	<i></i>
+                    	<a href="{u daren/group}">查看全部&gt;&gt;</a>
+                    </div>
+                    <h1 class="leader_t">优秀小组长</h1> 
+                    <ul class="shaihuo_show clearfix mt10">
+						<!--{loop $group_darens_t $daren}-->
+						<li>
+                            <a class="show_pic" href="{u u/index uid=$daren['uid']}" target="_blank"><img src="{getimg $daren['img'] 220 220 1}"></a>
+                            <div class="user_desc r5">
+								<!--{getuser $daren['uid'] 0 'm,48' ',user_pic r3 icard'}-->
+                                <div class="user_r">
+									<!--{getuser $daren['uid'] 0 '' 'icard name_u'}-->
+                                    <div class="followdiv">
+										<!--{getfollow {$daren['uid']} inc/getfollow/daren}-->      
+                                    </div>
+                                    <p>{$daren['content']}</p>
+                                </div>
+                            </div>
+                        </li>
+						<!--{/loop}-->
+					</ul>
+                    <ul class="dapei_else f3">
+						<!--{loop $group_darens_b $daren}-->
+						<li >
+                            <a class="dapei_e_p" href="{u u/index uid=$daren['uid']}" target="_blank"><img class="icard r5" src="{getimg $daren['img'] 100 100 1}" /></a>
+							<!--{getuser $daren['uid'] 0 '' 'dapei_e_n icard'}-->
+                        </li>
+						<!--{/loop}-->
+					</ul>
+                </div>
+                <div class="dapei_ft"></div>
+            </div>
+            <div class="dapei_name">
+                <div class="dapei_hd"></div>
+                <div class="dapei_bd">
+                    <div class="more_button">
+                        <i></i>
+                        <a href="{u daren/album}">查看全部&gt;&gt;</a>
+                    </div>
+                    <h1 class="album_t">专辑作家</h1>
+                    <ul class="shaihuo_show clearfix mt10">
+						<!--{loop $album_darens_t $daren}-->
+						<li>
+                            <a class="show_pic" href="{u u/index uid=$daren['uid']}" target="_blank"><img src="{getimg $daren['img'] 220 220 1}"></a>
+                            <div class="user_desc r5">
+								<!--{getuser $daren['uid'] 0 'm,48' ',user_pic r3 icard'}-->
+                                <div class="user_r">
+									<!--{getuser $daren['uid'] 0 '' 'icard name_u'}-->
+                                    <div class="followdiv">
+										<!--{getfollow {$daren['uid']} inc/getfollow/daren}-->      
+                                    </div>
+                                    <p>{$daren['content']}</p>
+                                </div>
+                            </div>
+                        </li>
+						<!--{/loop}-->
+					</ul>
+                    <ul class="dapei_else f3">
+						<!--{loop $album_darens_b $daren}-->
+						<li >
+                            <a class="dapei_e_p" href="{u u/index uid=$daren['uid']}" target="_blank"><img class="icard r5" src="{getimg $daren['img'] 100 100 1}" /></a>
+							<!--{getuser $daren['uid'] 0 '' 'dapei_e_n icard'}-->
+                        </li>
+						<!--{/loop}-->
+					</ul>
+                </div>
+                <div class="dapei_ft"></div>
+            </div>
+        </div>
+        <div class="box_right mb25">
+            <div class="hd"></div>
+            <div class="bd" style="padding-top:0;">
+               <div class="book_daren_nav">
+                    <span>新晋达人</span>
+				</div>
+				<ul class="dapei_daren_list">
+					<!--{loop $new_darens $daren}-->
+					<li>
+						<a href="{u u/index uid=$daren['uid']}" target="_blank"><img class="fl avatar r3 icard" src="{getimg $daren['img'] 100 100 1}" /></a>
+						<div class="daren_info">
+							<!--{getuser $daren['uid'] 0 '' '' 'inc/getuser/daren'}-->
+						</div>
+					</li>
+					<!--{/loop}-->
+				</ul>
+            </div>
+            <div class="ft"></div>
+        </div>
+        <div class="box_right">
+            <div class="hd"></div>
+            <div class="bd" style="padding-top:0;">
+               <div class="book_daren_nav">
+                    <span>达人周排行榜</span>
+				</div>
+                <ul class="dapei_daren_list">
+					<!--{eval $index = 1;}-->
+					<!--{loop $new_darens $daren}-->
+					<li>
+						<a href="{u u/index uid=$daren['uid']}" target="_blank"><img class="fl avatar r3 icard" src="{getimg $daren['img'] 100 100 1}" /></a>
+						<div class="daren_info">
+							<!--{getuser $daren['uid'] 0 '' '' 'inc/getuser/daren'}-->
+						</div>
+						<!--{if $index < 4}-->
+						<span class="top_icon top{$index}"></span>
+						<!--{eval $index++;}-->
+						<!--{/if}-->
+					</li>
+					<!--{/loop}-->
+				</ul>
+            </div>
+            <div class="ft"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+function DarenUpdateUserFollow(obj,result)
+{
+	var parent = $(obj).parent();
+	if(result.status == 1)
+	{
+		parent.html('<span class="followed">已关注</span>');
+	}
+}
+</script>
+<!--{if getIsManage('daren')}-->
+<script type="text/javascript">
+jQuery(function($){
+	$('.d_w_i').hover(function(e){
+		var darenID = this.getAttribute('darenID');
+		if(darenID)
+			$.GetManageMenu('daren',darenID,this,e);
+	},function(){});
+});
+</script>
+<!--{/if}-->
+<!--{subtemplate inc/footer}-->

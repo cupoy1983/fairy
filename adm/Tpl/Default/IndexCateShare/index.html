@@ -1,0 +1,20 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Static/Js/dataList.js"></script>
+<div class="handle-btns">
+	<fanwe:imageBtn id="editData" name="editData" value="{$Think.lang.EDIT}" click="editData(this,'checkList')" />
+	<fanwe:imageBtn id="removeData" name="removeData" value="{$Think.lang.REMOVE}" click="removeData(this,'checkList','share_id')" />
+	<fanwe:linkBtn text="{$Think.lang.CATE_GROUP}" href="{:U('IndexCateGroup/index',array('cate_id'=>$cid))}" />
+</div>
+<fanwe:list 
+	id="checkList" 
+	style="list" 
+	name="item" 
+	pk="share_id" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="share_id:{$Think.lang.SHARE_ID}|80,cate_name:{$Think.lang.CID}|80,group_name:{$Think.lang.INDEX_GROUP}|150,user_name:{$Think.lang.USER}|80,cimg:{$Think.lang.CIMG_ID}|100,share_img:{$Think.lang.SHARE_IMG}|60,name:{$Think.lang.NAME}|~left:textEdit|share_id,url:{$Think.lang.URL}|~left:textEdit|share_id,sort:{$Think.lang.SORT}|80:numberEdit|share_id" 
+	actionlist="editData:{$Think.lang.EDIT}:share_id,removeData:{$Think.lang.REMOVE}:share_id" action_width="80" nosort="cate_name,cimg,share_img,name,url,user_name" />
+<div class="pager">{$page}</div>
+<include file="Public:footer" />

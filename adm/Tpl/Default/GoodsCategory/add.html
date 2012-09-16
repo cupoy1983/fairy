@@ -1,0 +1,74 @@
+<tagLib name="fanwe" />
+<include file="Public:header" />
+<div class="handle-btns">
+	<fanwe:linkBtn text="{$Think.lang.RETURN_LIST}" href="{:U(MODULE_NAME.'/index')}" />
+</div>
+<form method='post' id="form" name="form" action="{:U(MODULE_NAME.'/insert')}" enctype="multipart/form-data">
+<table cellpadding="4" cellspacing="0" border="0" class="table-form">
+	<tr>
+		<th width="180">{$Think.lang.CATE_NAME}</th>
+		<td><input type="text" class="textinput requireinput" name="cate_name" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.PARENT_ID}</th>
+		<td>
+			<fanwe:select id='parent_id' name='parent_id' first='{$Think.lang.ROOT_ID}' textfield='cate_name' valuefield='cate_id' options='cate_list' />
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CATE_CODE}</th>
+		<td><input type="text" class="textinput" name="cate_code" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SHORT_NAME}</th>
+		<td><input type="text" class="textinput" name="short_name"/></td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td>
+			<label><input type="checkbox" name="is_root" value="1"/><span>{$Think.lang.IS_ROOT}</span></label>&nbsp;&nbsp;
+			<label><input type="checkbox" name="is_index" value="1"/><span>{$Think.lang.IS_INDEX}</span></label>
+		</td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td>
+			<p><span>{$Think.lang.IS_ROOT_TIPS}</span></p>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.CATE_ICON}</th>
+		<td><input type="file" class="fileinput" name="cate_icon" size="30" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SORT}</th>
+		<td><input type="text" class="textinput" size="5" name="sort" value="100" /></td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.DESC}</th>
+		<td>
+			<textarea name="desc" class="textinput areainput" rows="3"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SEO_KEYWORDS}</th>
+		<td>
+			<textarea name="seo_keywords" class="textinput areainput" rows="3"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<th>{$Think.lang.SEO_DESC}</th>
+		<td>
+			<textarea name="seo_desc" class="textinput areainput" rows="3"></textarea>
+		</td>
+	</tr>
+	<tr class="act">
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" class="submit_btn" value="{$Think.lang.SUBMIT}" />&nbsp;&nbsp;
+			<input type="reset" class="reset_btn" value="{$Think.lang.RESET}" />
+		</td>
+	</tr>
+</table>
+</form>
+<include file="Public:footer" />
