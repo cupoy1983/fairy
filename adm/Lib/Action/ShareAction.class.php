@@ -137,16 +137,22 @@ class ShareAction extends CommonAction
 				$list[$key] = &$share_ids[$item['share_id']];
 			}
 			
-			$sql = 'SELECT share_id,uid,content,create_time,collect_count,relay_count,comment_count,type,share_data,status,is_index 
+			$sql = 'SELECT share_id,uid,content,create_time,collect_count,relay_count,comment_count,type,share_data,status,is_index,cache_data 
 				FROM '.C("DB_PREFIX").'share WHERE share_id IN ('.implode(',',array_keys($share_ids)).')';
 			$share_list = M()->query($sql);
-			foreach($share_list as $item)
+			foreach($share_list as $k => $item)
 			{
+				$cacheData = stripslashesDeep(unserialize($item['cache_data']));
+				foreach($cacheData['imgs']['all'] as $ik => $img){
+					$img['img'] = substr($img['img'], 1, -4);
+					$item['imgs'] = '<a target='.'"_blank'.'"'. 'href='.'"'.'/note/'.$item['share_id'].'">'.'<img src='.'"'.$img['img'].'_100x100.jpg'.'">'.'</img></a>' ;
+				}
 				$user_ids[$item['uid']] = '';
 				$share_ids[$item['share_id']] = $item;
 				$share_ids[$item['share_id']]['user_name'] = &$user_ids[$item['uid']];
 				$share_ids[$item['share_id']]['cate_name'] = '';
 			}
+			unset($share_list);
 			
 			$sql = 'SELECT uid,user_name FROM '.C("DB_PREFIX").'user WHERE uid IN ('.implode(',',array_keys($user_ids)).')';
 			$user_list = M()->query($sql);

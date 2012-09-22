@@ -33,7 +33,7 @@ if($goods)
 	if($goods['status'] == -1)
 	{
 		$result['status'] = -3;
-		$result['url'] = FU('note/g',array('sid'=>$goods['share_id'],'id'=>$goods['goods_id']));
+		$result['url'] = '/note/'.$goods['share_id'];
 	}
 	elseif($goods['status'] == -2)
 	{

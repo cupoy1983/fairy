@@ -8,7 +8,7 @@ $array = array(
 	'SHARE_CANCEL'	=>	'取消审核分享列表',
 
 
-	'SHARE_CONTENT'	=>	'分享内容',
+	'SHARE_IMG'	=>	'缩略图',
 	'SHARE_DAPEI' => '搭配列表',
 	'SHARE_LOOK' => '晒货列表',
 	

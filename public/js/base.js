@@ -498,9 +498,19 @@ FANWE.UPLOAD_IMAGE_SERVER = '';
 		{
 			alert(LANG.goods_collect_3.replace('%d',SETTING.share_goods_count));
 		}
+		//重发宝贝弹出层 modified by frankie
 		else if(result.status == -3)
 		{
-			alert(LANG.goods_collect_6);
+			$("#duplicate_info a").attr("href", result.url);
+			 $.blockUI({ 
+				 message: $('#duplicate_info'),
+				 css: { 
+			         border: 'none', 
+			         color: '#E71F8D' 
+		        } 
+			 }); 
+			$('.blockOverlay').attr('title','单击关闭').click($.unblockUI);
+			$('#duplicate_info .close').click($.unblockUI);
 		}
 		else if(result.status == -4)
 		{

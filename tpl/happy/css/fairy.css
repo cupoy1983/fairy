@@ -347,3 +347,19 @@ a.nrebtn:hover {
     background-position: left -180px;
 }
 
+/* 重复商品提示 */
+#duplicate_info{
+	display:none;
+	background:url("/tpl/happy/images/bg.jpg") repeat scroll 0 0 transparent;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+ 	opacity: 0.5;
+}
+#duplicate_info .close{
+	cursor:pointer;
+}
+#duplicate_info a span{
+	font-size: 16px; font-weight: bold; width: 180px; padding-top: 40px; text-align: left;
+}
+
+

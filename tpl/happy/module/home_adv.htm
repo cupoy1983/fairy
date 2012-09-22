@@ -32,7 +32,7 @@
 	</script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$.post(SITE_URL+"checkin.php?action=checkin_ajax&XDEBUG_SESSION_START=ECLIPSE_DBGP&KEY=13472003514561",{type:1}, function(msg) {
+			$.post(SITE_URL+"checkin.php?action=checkin_ajax",{type:1}, function(msg) {
 				var stdata = jQuery.parseJSON(msg);
 				if(stdata.ret == 'success'){
 					$("#ischeckid").html("<a href=\"javascript:;\" onclick=\"$.Show_qiandao_Form();\" class=\"pop-right-reg pop-right-qiandao\">签到</a>");

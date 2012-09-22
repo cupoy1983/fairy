@@ -44,7 +44,7 @@
 	checkbox="true" 
 	action="true" 
 	datasource="list" 
-	show="share_id:{$Think.lang.ID}|80,content:{$Think.lang.SHARE_CONTENT}|~left,cate_name:{$Think.lang.SHARE_CATEGORY}|80,user_name:{$Think.lang.USER_NAME}|80,create_time|toDate:{$Think.lang.CREATE_TIME}|100,collect_count:{$Think.lang.COLLECT_COUNT}|50,relay_count:{$Think.lang.RELAY_COUNT}|50,comment_count|getCommentCount=$share['share_id']:{$Think.lang.COMMENT_COUNT}|90,type|getTypeName:{$Think.lang.SHARE_TYPE}|70,share_data|getShareData:{$Think.lang.SHARE_DATA}|70,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|share_id" 
+	show="share_id:{$Think.lang.ID}|80,imgs:{$Think.lang.SHARE_IMG}|100,cate_name:{$Think.lang.SHARE_CATEGORY}|80,user_name:{$Think.lang.USER_NAME}|80,create_time|toDate:{$Think.lang.CREATE_TIME}|100,collect_count:{$Think.lang.COLLECT_COUNT}|50,relay_count:{$Think.lang.RELAY_COUNT}|50,comment_count|getCommentCount=$share['share_id']:{$Think.lang.COMMENT_COUNT}|90,type|getTypeName:{$Think.lang.SHARE_TYPE}|70,share_data|getShareData:{$Think.lang.SHARE_DATA}|70,status|getStatusImg:{$Think.lang.STATUS}|50:toggleStatus|share_id" 
 	actionlist="is_index|getHandlerLink=$share,editData:{$Think.lang.EDIT}:share_id,removeData:{$Think.lang.REMOVE}:share_id" action_width="150" nosort="content,cate_name,user_name,create_time,relay_count,comment_count,type,share_data,status"/>
 <div class="pager">{$page}</div>
 <script type="text/javascript">
